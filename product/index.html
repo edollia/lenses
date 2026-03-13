@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Custom prescription lenses for Ray-Ban Meta AI Glasses. Gen 1 & Gen 2 compatible. Ultra High Index, free coatings, fast turnaround.">
+<title>Prescription Lenses — Ray-Ban Meta AI Glasses | Provocateur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/shared.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+/* ── PAGE-SPECIFIC STYLES ── */
+.page-wrap { position: relative; z-index: 1; }
+
+/* BREADCRUMB */
+.breadcrumb {
+  max-width: 1200px; margin: 0 auto;
+  padding: 1rem clamp(1rem,4vw,2.5rem) 0;
+  font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.04em;
+}
+.breadcrumb a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+.breadcrumb a:hover { color: var(--rose-deep); }
+.breadcrumb span { margin: 0 0.4rem; opacity: 0.5; }
+
+/* PRODUCT GRID */
+.product-wrapper {
+  max-width: 1200px; margin: 0 auto;
+  padding: 1.5rem clamp(1rem,4vw,2.5rem) 4rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,5vw,4rem);
+}
+
+/* GALLERY */
+.gallery { position: sticky; top: calc(var(--nav-h) + 1rem); align-self: start; }
+.gallery-main {
+  width: 100%; aspect-ratio: 1/1;
+  border-radius: 20px; background: var(--white);
+  overflow: hidden; position: relative;
+  box-shadow: 0 6px 32px var(--shadow);
+}
+.gallery-main img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.55s cubic-bezier(0.25,0.46,0.45,0.94);
+  display: block;
+}
+.gallery-main:hover img { transform: scale(1.04); }
+.sale-badge {
+  position: absolute; top: 14px; left: 14px;
+  background: var(--rose-deep); color: white;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
+  padding: 0.28rem 0.7rem; border-radius: 100px; text-transform: uppercase;
+  z-index: 2;
+}
+.gallery-thumbs {
+  display: grid; grid-template-columns: repeat(auto-fill,minmax(60px,1fr));
+  gap: 0.6rem; margin-top: 0.85rem;
+}
+.gallery-thumb {
+  aspect-ratio: 1/1; border-radius: 10px; overflow: hidden;
+  cursor: pointer; border: 2px solid transparent;
+  transition: border-color 0.2s, transform 0.2s;
+  background: var(--white);
+  box-shadow: 0 2px 10px var(--shadow);
+}
+.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gallery-thumb:hover { transform: translateY(-2px); border-color: var(--rose); }
+.gallery-thumb.active { border-color: var(--rose-deep); }
+
+/* PRODUCT INFO */
+.product-info { display: flex; flex-direction: column; }
+
+.product-tag {
+  font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--rose-deep); font-weight: 600; margin-bottom: 0.5rem;
+}
+.product-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.7rem, 3.5vw, 2.5rem); font-weight: 400; line-height: 1.15;
+  color: var(--text); margin-bottom: 0.9rem;
+}
+.product-title em { color: var(--rose-deep); font-style: italic; }
+
+.product-price {
+  display: flex; align-items: baseline; gap: 0.75rem;
+  margin-bottom: 0.5rem; flex-wrap: wrap;
+}
+.price-current {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.1rem; font-weight: 500; color: var(--rose-deep);
+}
+.price-original {
+  font-size: 1rem; color: var(--text-muted); text-decoration: line-through;
+}
+.price-note {
+  font-size: 0.7rem; color: var(--text-muted); font-style: italic;
+}
+.price-save {
+  font-size: 0.7rem; background: rgba(196,104,127,0.1);
+  color: var(--rose-deep); padding: 0.2rem 0.6rem;
+  border-radius: 100px; font-weight: 600; letter-spacing: 0.04em;
+}
+
+.trust-row {
+  display: flex; gap: 0.75rem; margin-bottom: 1.75rem; flex-wrap: wrap;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-size: 0.72rem; color: var(--text-soft);
+  background: var(--white); border: 1px solid var(--border);
+  padding: 0.3rem 0.75rem; border-radius: 100px;
+}
+
+/* DIVIDER + STEP LABELS */
+.form-divider { height: 1px; background: var(--border); margin: 1.25rem 0; }
+.step-label {
+  font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-muted); font-weight: 600; margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.step-num {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--rose-light); color: var(--rose-deep);
+  font-size: 0.62rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+
+/* MODEL */
+.model-grid { display: flex; flex-direction: column; gap: 0.5rem; }
+.model-option {
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.75rem 0.9rem; border: 1.5px solid var(--border);
+  border-radius: 12px; cursor: pointer; transition: all 0.2s;
+  background: rgba(255,250,253,0.55); user-select: none;
+}
+.model-option:hover { border-color: var(--rose); background: rgba(247,197,216,0.12); transform: translateX(2px); }
+.model-option.selected { border-color: var(--rose-deep); background: rgba(196,104,127,0.07); }
+.model-thumb { width: 44px; height: 34px; object-fit: contain; border-radius: 5px; flex-shrink: 0; }
+.model-name { font-size: 0.8rem; font-weight: 600; color: var(--text); }
+.model-size { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.1rem; }
+.model-radio {
+  margin-left: auto; width: 16px; height: 16px;
+  border-radius: 50%; border: 2px solid var(--rose);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.model-option.selected .model-radio::after {
+  content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--rose-deep);
+}
+
+/* LENS TYPE */
+.lens-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+.lens-card {
+  padding: 0.9rem 1rem; border: 1.5px solid var(--border);
+  border-radius: 12px; cursor: pointer; transition: all 0.2s;
+  background: rgba(255,250,253,0.55); position: relative;
+}
+.lens-card:hover { border-color: var(--rose); background: rgba(247,197,216,0.12); }
+.lens-card.selected { border-color: var(--rose-deep); background: rgba(196,104,127,0.07); }
+.lens-card-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 0.3rem; gap: 0.4rem;
+}
+.lens-card-name { font-size: 0.8rem; font-weight: 600; color: var(--text); }
+.lens-card-price { font-size: 0.72rem; color: var(--rose-deep); font-weight: 600; white-space: nowrap; }
+.lens-card-desc { font-size: 0.7rem; color: var(--text-muted); line-height: 1.55; }
+
+/* INFO POPUP */
+.info-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--rose-light); color: var(--rose-deep);
+  font-size: 0.6rem; font-weight: 700; border: none; cursor: pointer;
+  font-style: normal; flex-shrink: 0; transition: background 0.2s;
+  font-family: inherit; line-height: 1; vertical-align: middle; margin-left: 4px;
+}
+.info-btn:hover { background: var(--rose); }
+
+/* MODAL overlay for info popups */
+.info-modal {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  align-items: center; justify-content: center;
+  background: rgba(61,35,48,0.35); backdrop-filter: blur(6px);
+  padding: 1.5rem;
+}
+.info-modal.open { display: flex; }
+.info-modal-box {
+  background: var(--white); border-radius: 20px;
+  padding: 2rem; max-width: 400px; width: 100%;
+  box-shadow: 0 16px 48px var(--shadow-md);
+  position: relative;
+  animation: fadeUp 0.3s ease forwards;
+}
+.info-modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(196,104,127,0.1); border: none; cursor: pointer;
+  font-size: 1rem; color: var(--rose-deep); line-height: 1;
+}
+.info-modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 500; color: var(--text); margin-bottom: 0.75rem;
+}
+.info-modal-body { font-size: 0.82rem; color: var(--text-soft); line-height: 1.7; }
+
+/* COLOR */
+.color-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.color-swatch { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; cursor: pointer; }
+.swatch-dot {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 2px solid transparent; transition: all 0.2s;
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+}
+.swatch-dot img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.color-swatch:hover .swatch-dot { transform: scale(1.1); border-color: var(--rose); }
+.color-swatch.selected .swatch-dot {
+  border-color: var(--rose-deep);
+  box-shadow: 0 0 0 3px rgba(196,104,127,0.2);
+}
+.swatch-label { font-size: 0.65rem; color: var(--text-muted); }
+.color-swatch.selected .swatch-label { color: var(--rose-deep); font-weight: 600; }
+
+/* VISION BUTTONS */
+.vision-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.vision-btn {
+  padding: 0.55rem 1rem; border: 1.5px solid var(--border); border-radius: 100px;
+  font-size: 0.76rem; font-family: 'DM Sans', sans-serif; cursor: pointer;
+  transition: all 0.2s; background: rgba(255,250,253,0.55); color: var(--text-soft);
+  display: inline-flex; align-items: center; gap: 0.35rem; white-space: nowrap;
+}
+.vision-btn:hover { border-color: var(--rose); color: var(--text); }
+.vision-btn.selected { border-color: var(--rose-deep); background: rgba(196,104,127,0.07); color: var(--rose-deep); font-weight: 600; }
+.v-addon { font-size: 0.68rem; opacity: 0.75; }
+
+/* RX FIELDS */
+.rx-eye-label {
+  font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-soft); font-weight: 600; margin-bottom: 0.6rem;
+}
+.rx-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.9rem; }
+.rx-field label {
+  display: flex; align-items: center; gap: 0.2rem;
+  font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 0.28rem;
+}
+.rx-req { color: var(--rose-deep); }
+.rx-field select {
+  width: 100%; padding: 0.5rem 0.65rem;
+  border: 1.5px solid var(--border); border-radius: 9px;
+  background: rgba(255,250,253,0.8) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5'%3E%3Cpath d='M0 0l4.5 5L9 0z' fill='%23b07d8f'/%3E%3C/svg%3E") no-repeat right 0.65rem center;
+  font-family: 'DM Sans', sans-serif; font-size: 0.8rem; color: var(--text);
+  appearance: none; cursor: pointer; transition: border-color 0.2s;
+}
+.rx-field select:focus { outline: none; border-color: var(--rose); }
+
+/* PD */
+.pd-toggle-label {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.78rem; color: var(--text-soft); cursor: pointer; margin-bottom: 0.6rem;
+}
+.pd-toggle-label input { accent-color: var(--rose-deep); width: 14px; height: 14px; }
+.pd-inputs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.pd-field { flex: 1; min-width: 80px; }
+.pd-field label {
+  display: block; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 0.28rem;
+}
+.pd-field input {
+  width: 100%; padding: 0.5rem 0.65rem;
+  border: 1.5px solid var(--border); border-radius: 9px;
+  background: rgba(255,250,253,0.8); font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem; color: var(--text); transition: border-color 0.2s;
+}
+.pd-field input:focus { outline: none; border-color: var(--rose); }
+
+/* ADD */
+.add-grid { display: grid; grid-template-columns: repeat(3,1fr); max-width: 260px; }
+
+/* BLUE LIGHT */
+.toggle-row { display: flex; gap: 0.5rem; }
+.toggle-btn {
+  flex: 1; padding: 0.6rem 0.75rem; border: 1.5px solid var(--border); border-radius: 10px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.76rem; cursor: pointer;
+  transition: all 0.2s; background: rgba(255,250,253,0.55); color: var(--text-soft);
+  text-align: center;
+}
+.toggle-btn:hover { border-color: var(--rose); }
+.toggle-btn.selected { border-color: var(--rose-deep); background: rgba(196,104,127,0.07); color: var(--rose-deep); font-weight: 600; }
+
+/* UPLOAD */
+.upload-zone {
+  border: 2px dashed var(--rose-light); border-radius: 14px;
+  padding: 1.4rem; text-align: center; cursor: pointer;
+  transition: all 0.2s; background: rgba(255,250,253,0.4); position: relative;
+}
+.upload-zone:hover { border-color: var(--rose); background: rgba(247,197,216,0.1); }
+.upload-zone.drag-over { border-color: var(--rose-deep); background: rgba(196,104,127,0.07); }
+.upload-zone input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.upload-icon { font-size: 1.6rem; margin-bottom: 0.35rem; }
+.upload-title { font-size: 0.8rem; color: var(--text); font-weight: 500; margin-bottom: 0.15rem; }
+.upload-sub { font-size: 0.7rem; color: var(--text-muted); }
+.upload-previews {
+  display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.65rem; justify-content: center;
+}
+.preview-chip {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  background: rgba(196,104,127,0.09); border: 1px solid var(--rose-light);
+  border-radius: 100px; padding: 0.22rem 0.65rem;
+  font-size: 0.7rem; color: var(--rose-deep);
+}
+.preview-chip button {
+  background: none; border: none; cursor: pointer; color: var(--rose-deep);
+  font-size: 0.85rem; line-height: 1; padding: 0; opacity: 0.65;
+}
+
+/* CART SECTION */
+.cart-section { margin-top: 1.4rem; }
+.price-summary {
+  display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.85rem;
+}
+.price-summary-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
+.price-total {
+  font-family: 'Cormorant Garamond', serif; font-size: 2rem;
+  font-weight: 500; color: var(--rose-deep);
+}
+.qty-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.9rem; }
+.qty-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
+.qty-ctrl {
+  display: flex; align-items: center;
+  border: 1.5px solid var(--border); border-radius: 100px; overflow: hidden;
+}
+.qty-btn {
+  width: 34px; height: 34px; background: none; border: none; cursor: pointer;
+  font-size: 1.05rem; color: var(--text-soft); transition: background 0.2s; font-family: inherit;
+}
+.qty-btn:hover { background: rgba(247,197,216,0.3); }
+.qty-val { width: 36px; text-align: center; font-size: 0.85rem; font-weight: 600; color: var(--text); }
+
+.progressive-check {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  padding: 0.7rem 0.9rem; margin-bottom: 0.85rem;
+  background: rgba(232,160,187,0.1); border: 1px solid var(--rose-light);
+  border-radius: 10px; font-size: 0.73rem; color: var(--text-soft); line-height: 1.5;
+}
+.progressive-check input { accent-color: var(--rose-deep); margin-top: 2px; flex-shrink: 0; }
+
+/* HOW TO READ */
+.how-to-read {
+  margin: 3rem auto; max-width: 1200px;
+  padding: 0 clamp(1rem,4vw,2.5rem);
+  position: relative; z-index: 1;
+}
+.how-to-read h3 {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400;
+  color: var(--text); margin-bottom: 1rem; text-align: center;
+}
+.how-to-read h3 em { color: var(--rose-deep); font-style: italic; }
+.how-to-img-wrap {
+  border-radius: 18px; overflow: hidden;
+  box-shadow: 0 6px 30px var(--shadow);
+  border: 1px solid var(--border);
+  background: var(--white);
+}
+.how-to-img-wrap img { width: 100%; height: auto; display: block; }
+
+/* FEATURES */
+.features-strip {
+  background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 1.4rem clamp(1rem,4vw,2.5rem);
+  display: flex; justify-content: center; gap: clamp(1.5rem,4vw,3rem);
+  flex-wrap: wrap; position: relative; z-index: 1;
+}
+.feature-item {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.76rem; color: var(--text-soft); white-space: nowrap;
+}
+
+/* DESCRIPTION */
+.product-desc {
+  max-width: 1200px; margin: 0 auto;
+  padding: 3rem clamp(1rem,4vw,2.5rem) 4rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,5vw,4rem);
+  position: relative; z-index: 1;
+}
+.desc-heading {
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(1.6rem,3vw,2.2rem);
+  font-weight: 400; line-height: 1.25; margin-bottom: 1.4rem;
+}
+.desc-heading em { color: var(--rose-deep); font-style: italic; }
+.desc-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.desc-list li {
+  display: flex; align-items: flex-start; gap: 0.7rem;
+  font-size: 0.82rem; line-height: 1.65; color: var(--text-soft);
+}
+.desc-list li::before { content: '✦'; color: var(--rose-deep); font-size: 0.55rem; margin-top: 0.38rem; flex-shrink: 0; }
+.feature-cards { display: flex; flex-direction: column; gap: 0.85rem; }
+.feat-card {
+  padding: 1.1rem 1.3rem; background: var(--white);
+  border: 1px solid var(--border); border-radius: 14px; transition: all 0.2s;
+}
+.feat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 22px var(--shadow); }
+.feat-card h4 { font-size: 0.8rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
+.feat-card p { font-size: 0.76rem; color: var(--text-muted); line-height: 1.65; }
+
+/* LOADING */
+#loadingOverlay {
+  position: fixed; inset: 0; z-index: 999;
+  background: var(--bg); display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1rem;
+  transition: opacity 0.5s;
+}
+#loadingOverlay.hidden { opacity: 0; pointer-events: none; }
+.loader-logo { font-family: 'Cormorant Garamond',serif; font-size: 2rem; color: var(--text); }
+.loader-ring {
+  width: 36px; height: 36px; border: 2px solid var(--rose-light);
+  border-top-color: var(--rose-deep); border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* RESPONSIVE */
+@media (max-width: 860px) {
+  .product-wrapper { grid-template-columns: 1fr; gap: 2rem; }
+  .gallery { position: static; }
+  .product-desc { grid-template-columns: 1fr; gap: 2rem; }
+  .lens-type-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 540px) {
+  .rx-grid { grid-template-columns: 1fr 1fr; }
+  .rx-grid .rx-field:last-child { grid-column: span 2; }
+  .vision-btn { font-size: 0.72rem; padding: 0.5rem 0.75rem; }
+  .gallery-thumbs { grid-template-columns: repeat(4, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div id="loadingOverlay">
+  <div class="loader-logo">✦ provocateur</div>
+  <div class="loader-ring"></div>
+</div>
+
+<!-- Background blobs -->
+<div class="bg-blob-1"></div>
+<div class="bg-blob-2"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">pro<span>vocateur</span></a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/shop/" class="active">Shop</a></li>
+    <li><a href="/about/">About</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-cart-btn" onclick="openCart()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Cart <span class="nav-cart-count"></span>
+      <span class="cart-badge">0</span>
+    </button>
+    <button class="hamburger" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">Home</a>
+  <a href="/shop/">Shop</a>
+  <a href="/about/">About</a>
+  <a href="/faq/">FAQ</a>
+  <a href="/contact/">Contact</a>
+</div>
+
+<!-- CART OVERLAY + SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>Your Cart 🌸</h3>
+    <button class="cart-close" onclick="closeCart()">×</button>
+  </div>
+  <div id="cartBody"></div>
+  <div id="cartFooter">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-val" id="cartTotal">$0.00</span>
+    </div>
+    <button class="btn-primary" onclick="openCheckoutModal()" style="margin-bottom:0.75rem;">Proceed to Checkout ✦</button>
+    <div class="cart-checkout-note">
+      After placing your order, we'll personally reach out to confirm details.<br>Payment via <strong>CashApp · Venmo · Zelle · PayPal</strong>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="info-modal" id="checkoutModal" onclick="closeCheckoutModal(event)">
+  <div class="info-modal-box" style="max-width:480px;">
+    <button class="info-modal-close" onclick="closeCheckoutModal()">×</button>
+    <div id="checkoutForm">
+      <div class="info-modal-title">Almost there! 🌸</div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.25rem;line-height:1.6;">Enter your contact info and we'll reach out to confirm your order before you pay.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;">
+        <div>
+          <label style="display:block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:0.3rem;">First Name <span style="color:var(--rose-deep);">*</span></label>
+          <input id="co_first" type="text" placeholder="Jane" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text);background:rgba(254,231,241,0.3);transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:0.3rem;">Last Name <span style="color:var(--rose-deep);">*</span></label>
+          <input id="co_last" type="text" placeholder="Smith" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text);background:rgba(254,231,241,0.3);transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+      </div>
+      <div style="margin-bottom:0.75rem;">
+        <label style="display:block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:0.3rem;">Phone Number <span style="color:var(--rose-deep);">*</span></label>
+        <input id="co_phone" type="tel" placeholder="(555) 000-0000" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text);background:rgba(254,231,241,0.3);transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div style="margin-bottom:1.25rem;">
+        <label style="display:block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:0.3rem;">Email <span style="color:var(--rose-deep);">*</span></label>
+        <input id="co_email" type="email" placeholder="you@example.com" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text);background:rgba(254,231,241,0.3);transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div id="checkoutError" style="display:none;font-size:0.75rem;color:var(--rose-deep);margin-bottom:0.75rem;padding:0.5rem 0.75rem;background:rgba(196,104,127,0.08);border-radius:8px;"></div>
+      <button class="btn-primary" id="placeOrderBtn" onclick="placeOrder()">Place Order ✦</button>
+      <p style="font-size:0.7rem;color:var(--text-muted);text-align:center;margin-top:0.75rem;line-height:1.6;">We'll contact you to confirm everything before any payment is collected.</p>
+    </div>
+    <div id="checkoutSuccess" style="display:none;text-align:center;padding:1rem 0;">
+      <div style="font-size:3rem;margin-bottom:1rem;">🌸</div>
+      <div class="info-modal-title">Order Received!</div>
+      <p style="font-size:0.82rem;color:var(--text-soft);line-height:1.7;margin-top:0.5rem;">Thank you! We'll reach out to you shortly at the number and email you provided to confirm your order details. Payment will be collected after confirmation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- INFO MODAL -->
+<div class="info-modal" id="infoModal" onclick="closeInfoModal(event)">
+  <div class="info-modal-box">
+    <button class="info-modal-close" onclick="closeInfoModal()">×</button>
+    <div class="info-modal-title" id="infoModalTitle"></div>
+    <div class="info-modal-body" id="infoModalBody"></div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span>
+    <a href="/shop/">Meta Glasses</a><span>/</span>
+    Prescription Lenses
+  </div>
+
+  <!-- PRODUCT -->
+  <div class="product-wrapper">
+
+    <!-- GALLERY -->
+    <div class="gallery">
+      <div class="gallery-main">
+        <span class="sale-badge">Sale</span>
+        <img id="mainImg" src="/pics/main.png" alt="Prescription Lenses for Ray-Ban Meta AI Glasses" loading="eager">
+      </div>
+      <div class="gallery-thumbs">
+        <div class="gallery-thumb active" onclick="setImg(this,'pics/main.png')">
+          <img src="/pics/main.png" alt="Main view" loading="lazy">
+        </div>
+        <div class="gallery-thumb" onclick="setImg(this,'pics/clear.jpeg')">
+          <img src="/pics/clear.jpeg" alt="Clear lenses" loading="lazy">
+        </div>
+        <div class="gallery-thumb" onclick="setImg(this,'pics/gray.jpeg')">
+          <img src="/pics/gray.jpeg" alt="Gray tint" loading="lazy">
+        </div>
+        <div class="gallery-thumb" onclick="setImg(this,'pics/brown.jpeg')">
+          <img src="/pics/brown.jpeg" alt="Brown tint" loading="lazy">
+        </div>
+        <div class="gallery-thumb" onclick="setImg(this,'pics/blue.jpeg')">
+          <img src="/pics/blue.jpeg" alt="Blue tint" loading="lazy">
+        </div>
+        <div class="gallery-thumb" onclick="setImg(this,'pics/green.jpeg')">
+          <img src="/pics/green.jpeg" alt="Green tint" loading="lazy">
+        </div>
+        <div class="gallery-thumb" onclick="setImg(this,'pics/pink.jpeg')">
+          <img src="/pics/pink.jpeg" alt="Pink tint" loading="lazy">
+        </div>
+        <div class="gallery-thumb" onclick="setImg(this,'pics/purple.jpeg')">
+          <img src="/pics/purple.jpeg" alt="Purple tint" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT INFO -->
+    <div class="product-info">
+
+      <div class="product-tag fade-up delay-1">Ray-Ban Meta AI Glasses</div>
+      <h1 class="product-title fade-up delay-2">Custom Prescription <em>Lenses</em></h1>
+
+      <div class="product-price fade-up delay-2">
+        <span class="price-current" id="displayPrice">$79.99</span>
+        <span class="price-original">$179.00</span>
+        <span class="price-save">Save $99</span>
+      </div>
+      <p class="price-note fade-up delay-2" style="margin-bottom:1rem;font-size:0.72rem;color:var(--text-muted);">* Discounted — starting price for clear single vision lenses</p>
+
+      <div class="trust-row fade-up delay-3">
+        <div class="trust-item">✦ Gen 1 &amp; Gen 2</div>
+        <div class="trust-item">✦ 1–4 Day Production</div>
+        <div class="trust-item">✦ Ultra High Index</div>
+        <div class="trust-item">✦ Free Coatings</div>
+      </div>
+
+      <!-- STEP 1: MODEL -->
+      <div class="form-divider"></div>
+      <div class="step-label"><span class="step-num">1</span> Select Model</div>
+      <div class="model-grid" id="modelGrid">
+        <div class="model-option selected" data-model="Wayfarer M (50-22)" onclick="selectModel(this)">
+          <img class="model-thumb" src="/pics/Wayfarer - M size (50-22).png" alt="Wayfarer M" onerror="this.style.display='none'">
+          <div><div class="model-name">Wayfarer — M</div><div class="model-size">50-22 · RW4006</div></div>
+          <div class="model-radio"></div>
+        </div>
+        <div class="model-option" data-model="Wayfarer L (53-22)" onclick="selectModel(this)">
+          <img class="model-thumb" src="/pics/Wayfarer - L size (53-22).png" alt="Wayfarer L" onerror="this.style.display='none'">
+          <div><div class="model-name">Wayfarer — L</div><div class="model-size">53-22 · RW4008</div></div>
+          <div class="model-radio"></div>
+        </div>
+        <div class="model-option" data-model="Skyler (52-20)" onclick="selectModel(this)">
+          <img class="model-thumb" src="/pics/Skyler - (52-20).png" alt="Skyler" onerror="this.style.display='none'">
+          <div><div class="model-name">Skyler</div><div class="model-size">52-20 · RW4010</div></div>
+          <div class="model-radio"></div>
+        </div>
+        <div class="model-option" data-model="Headliner LBF (51-23)" onclick="selectModel(this)">
+          <img class="model-thumb" src="/pics/Low Bridge Fit Headliner - (51-23).png" alt="LBF Headliner" onerror="this.style.display='none'">
+          <div><div class="model-name">Headliner LBF</div><div class="model-size">51-23 · RW4009F</div></div>
+          <div class="model-radio"></div>
+        </div>
+        <div class="model-option" data-model="Headliner (50-23)" onclick="selectModel(this)">
+          <img class="model-thumb" src="/pics/Headliner - (50-23).png" alt="Headliner" onerror="this.style.display='none'">
+          <div><div class="model-name">Headliner</div><div class="model-size">50-23 · RW4009</div></div>
+          <div class="model-radio"></div>
+        </div>
+      </div>
+
+      <!-- STEP 2: LENS TYPE -->
+      <div class="form-divider"></div>
+      <div class="step-label"><span class="step-num">2</span> Lens Type</div>
+      <div class="lens-type-grid" id="lensTypeGrid">
+        <div class="lens-card selected" data-type="Clear" data-price="0" onclick="selectLensType(this)">
+          <div class="lens-card-header">
+            <span class="lens-card-name">Clear</span>
+            <span class="lens-card-price">Included</span>
+          </div>
+          <div class="lens-card-desc">Maximum light transmission for indoor &amp; low-light clarity.</div>
+        </div>
+        <div class="lens-card" data-type="Photochromic" data-price="50" onclick="selectLensType(this)">
+          <div class="lens-card-header">
+            <span class="lens-card-name">
+              Photochromic
+              <button class="info-btn" onclick="event.stopPropagation(); openInfo('Photochromic Lenses', 'Photochromic lenses automatically darken when exposed to UV light outdoors and return to clear indoors. They adapt seamlessly to changing light conditions, providing comfort and UV protection without needing to swap glasses. Ideal for daily wear and driving.')">i</button>
+            </span>
+            <span class="lens-card-price">+$50</span>
+          </div>
+          <div class="lens-card-desc">Auto-darken in sunlight, clear indoors. Full UV protection.</div>
+        </div>
+        <div class="lens-card" data-type="Tinted" data-price="25" onclick="selectLensType(this)">
+          <div class="lens-card-header">
+            <span class="lens-card-name">
+              Tinted
+              <button class="info-btn" onclick="event.stopPropagation(); openInfo('Tinted Lenses', 'Tinted lenses are permanently colored and reduce overall light transmission, cutting glare and adding a stylish aesthetic. Available in Grey, Brown, Blue, Green, Pink, and Purple. Great for fashion use and outdoor activities in consistent light conditions.')">i</button>
+            </span>
+            <span class="lens-card-price">+$25</span>
+          </div>
+          <div class="lens-card-desc">Permanently colored — style meets comfort. Choose your tint below.</div>
+        </div>
+        <div class="lens-card" data-type="Polarised" data-price="50" onclick="selectLensType(this)">
+          <div class="lens-card-header">
+            <span class="lens-card-name">
+              Polarised
+              <button class="info-btn" onclick="event.stopPropagation(); openInfo('Polarised Lenses', 'Polarised lenses contain a special filter that blocks intense reflected light (glare) from horizontal surfaces like water, roads, and snow. They dramatically improve visual comfort and clarity outdoors, and provide full UV400 protection. The gold standard for driving and water activities.')">i</button>
+            </span>
+            <span class="lens-card-price">+$50</span>
+          </div>
+          <div class="lens-card-desc">Eliminates glare from reflective surfaces. UV400. Choose your tint below.</div>
+        </div>
+      </div>
+
+      <!-- COLOR (tinted / polarised only) -->
+      <div id="colorSection" style="display:none; margin-top:0.75rem;">
+        <div class="step-label" style="margin-bottom:0.55rem;"><span style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);font-weight:600;">Tint Color</span></div>
+        <div class="color-row" id="colorRow">
+          <div class="color-swatch selected" data-color="Grey" onclick="selectColor(this)">
+            <div class="swatch-dot"><img src="/pics/gray.jpeg" alt="Grey" onerror="this.parentElement.style.background='#9e9e9e'"></div>
+            <span class="swatch-label">Grey</span>
+          </div>
+          <div class="color-swatch" data-color="Brown" onclick="selectColor(this)">
+            <div class="swatch-dot"><img src="/pics/brown.jpeg" alt="Brown" onerror="this.parentElement.style.background='#8B6452'"></div>
+            <span class="swatch-label">Brown</span>
+          </div>
+          <div class="color-swatch" data-color="Blue" onclick="selectColor(this)">
+            <div class="swatch-dot"><img src="/pics/blue.jpeg" alt="Blue" onerror="this.parentElement.style.background='#5B8DB8'"></div>
+            <span class="swatch-label">Blue</span>
+          </div>
+          <div class="color-swatch" data-color="Green" onclick="selectColor(this)">
+            <div class="swatch-dot"><img src="/pics/green.jpeg" alt="Green" onerror="this.parentElement.style.background='#6B9E6B'"></div>
+            <span class="swatch-label">Green</span>
+          </div>
+          <div class="color-swatch" data-color="Pink" onclick="selectColor(this)">
+            <div class="swatch-dot"><img src="/pics/pink.jpeg" alt="Pink" onerror="this.parentElement.style.background='#E8A0BB'"></div>
+            <span class="swatch-label">Pink</span>
+          </div>
+          <div class="color-swatch" data-color="Purple" onclick="selectColor(this)">
+            <div class="swatch-dot"><img src="/pics/purple.jpeg" alt="Purple" onerror="this.parentElement.style.background='#9B7AB5'"></div>
+            <span class="swatch-label">Purple</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: VISION -->
+      <div class="form-divider"></div>
+      <div class="step-label"><span class="step-num">3</span> Lens Vision</div>
+      <div class="vision-row" id="visionGrid">
+        <button class="vision-btn selected" data-vision="Single Vision" data-price="0" onclick="selectVision(this)">Single Vision</button>
+        <button class="vision-btn" data-vision="Progressive" data-price="50" onclick="selectVision(this)">
+          Progressives <span class="v-addon">+$50</span>
+          <button class="info-btn" style="pointer-events:all;" onclick="event.stopPropagation(); openInfo('Progressive Lenses', 'Progressive (no-line bifocal) lenses offer seamless vision correction for near, intermediate, and far distances in one lens — no visible line. Essential for presbyopia (difficulty reading up close). Due to their precision, these require 1–2 weeks manufacturing time.')">i</button>
+        </button>
+        <button class="vision-btn" data-vision="Non-Prescription" data-price="-35" onclick="selectVision(this)">Non-Prescription <span class="v-addon">−$35</span></button>
+      </div>
+
+      <!-- RX FIELDS -->
+      <div id="rxFields">
+        <div class="form-divider"></div>
+
+        <!-- Right Eye -->
+        <div class="rx-eye-label">Right Eye / O.D.</div>
+        <div class="rx-grid">
+          <div class="rx-field">
+            <label>SPH <span class="rx-req">*</span>
+              <button class="info-btn" onclick="openInfo('Sphere (SPH)','The Sphere value indicates the overall strength of your lens prescription. A (+) plus sign means you are farsighted (hyperopia). A (−) minus sign means you are nearsighted (myopia). This is the most important value on your prescription.')">i</button>
+            </label>
+            <select id="r_sph"></select>
+          </div>
+          <div class="rx-field">
+            <label>CYL
+              <button class="info-btn" onclick="openInfo('Cylinder (CYL)','The Cylinder value corrects astigmatism — an irregular curvature of your eye. It can be positive (+) or negative (−). If you do not have astigmatism, this field will be blank or 0.00 on your prescription.')">i</button>
+            </label>
+            <select id="r_cyl"></select>
+          </div>
+          <div class="rx-field">
+            <label>AXIS
+              <button class="info-btn" onclick="openInfo('Axis','The Axis describes the orientation of the astigmatism correction, measured in degrees from 0 to 180. It is only required if your CYL value is non-zero. Leave at 0 if you have no astigmatism.')">i</button>
+            </label>
+            <select id="r_axis"></select>
+          </div>
+        </div>
+
+        <!-- Left Eye -->
+        <div class="rx-eye-label">Left Eye / O.S.</div>
+        <div class="rx-grid">
+          <div class="rx-field"><label>SPH <span class="rx-req">*</span></label><select id="l_sph"></select></div>
+          <div class="rx-field"><label>CYL</label><select id="l_cyl"></select></div>
+          <div class="rx-field"><label>AXIS</label><select id="l_axis"></select></div>
+        </div>
+
+        <!-- PD -->
+        <div class="form-divider"></div>
+        <div class="step-label" style="margin-bottom:0.5rem;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);font-weight:600;">
+          Pupillary Distance (PD)
+          <button class="info-btn" onclick="openInfo('Pupillary Distance (PD)', 'PD is the distance in millimeters between the centers of your pupils. It ensures your prescription is centered correctly in the lens. Most prescriptions include a single number (e.g. 63mm) or two separate values for each eye (e.g. Right 31.5, Left 31.5). If your prescription does not include a PD, use the free GlassesON app or ask your optometrist.')">i</button>
+        </div>
+        <label class="pd-toggle-label">
+          <input type="checkbox" id="separatePD" onchange="toggleSeparatePD()">
+          I have separate PD measurements (two values)
+        </label>
+        <div class="pd-inputs">
+          <div class="pd-field" id="pdSingleWrap">
+            <label>PD (mm)</label>
+            <input type="number" id="pd_single" placeholder="e.g. 63" min="50" max="80" step="0.5">
+          </div>
+          <div class="pd-field" id="pdRightWrap" style="display:none;">
+            <label>Right PD</label>
+            <input type="number" id="pd_right" placeholder="e.g. 31.5" min="24" max="42" step="0.5">
+          </div>
+          <div class="pd-field" id="pdLeftWrap" style="display:none;">
+            <label>Left PD</label>
+            <input type="number" id="pd_left" placeholder="e.g. 31.5" min="24" max="42" step="0.5">
+          </div>
+        </div>
+
+        <!-- ADD — only shown for Progressive -->
+        <div id="addSection" style="display:none;">
+          <div class="form-divider"></div>
+          <div class="step-label" style="margin-bottom:0.5rem;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);font-weight:600;">
+            ADD Value <span style="color:var(--rose-deep);">*</span>
+            <button class="info-btn" onclick="openInfo('ADD Value', 'The ADD (Addition) value is the extra magnifying power added for near vision in progressive lenses. It is always a positive number, typically between +0.75 and +3.50. Required for Progressive lenses.')">i</button>
+          </div>
+          <div class="rx-grid add-grid" style="max-width:200px;">
+            <div class="rx-field"><label>ADD</label><select id="add_val"></select></div>
+          </div>
+        </div>
+      </div><!-- /rxFields -->
+
+      <!-- BLUE LIGHT -->
+      <div class="form-divider"></div>
+      <div class="step-label" style="margin-bottom:0.5rem;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);font-weight:600;">
+        Blue Light Filter
+        <button class="info-btn" onclick="openInfo('Blue Light Filter (+$25)', 'Our blue light filter blocks high-energy visible (HEV) blue light emitted by screens, LEDs, and digital devices. Research shows prolonged exposure can cause digital eye strain, dry eyes, headaches, and disrupted sleep cycles. Adding this filter is especially recommended for smart glasses users who wear them throughout the day.')">i</button>
+        <span style="color:var(--rose-deep);margin-left:4px;">+$25</span>
+      </div>
+      <div class="toggle-row">
+        <button class="toggle-btn" id="blueYes" onclick="selectBlueLight('yes')">✦ Yes, protect my eyes</button>
+        <button class="toggle-btn selected" id="blueNo" onclick="selectBlueLight('no')">No thanks</button>
+      </div>
+
+      <!-- UPLOAD -->
+      <div class="form-divider"></div>
+      <div class="step-label" style="margin-bottom:0.5rem;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);font-weight:600;">Upload Prescription <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></div>
+      <div class="upload-zone" id="uploadZone">
+        <!-- Hidden file input — triggered by button below -->
+        <input type="file" id="prescFile" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none;" onchange="handleFiles(event)">
+        <div class="upload-icon">🌸</div>
+        <div class="upload-title">Upload your prescription</div>
+        <div class="upload-sub" style="margin-bottom:0.75rem;">PDF · JPG · PNG — max 5MB each</div>
+        <!-- Explicit button works perfectly on iOS, Android, and desktop -->
+        <button type="button" onclick="document.getElementById('prescFile').click()" style="
+          padding:0.5rem 1.25rem; border-radius:100px;
+          border:1.5px solid var(--rose); background:rgba(196,104,127,0.07);
+          font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:600;
+          color:var(--rose-deep); cursor:pointer; transition:all 0.2s;
+        " onmouseover="this.style.background='rgba(196,104,127,0.15)'"
+           onmouseout="this.style.background='rgba(196,104,127,0.07)'">
+          📎 Choose File(s)
+        </button>
+        <div class="upload-previews" id="uploadPreviews" style="margin-top:0.65rem;"></div>
+        <!-- Upload status indicator -->
+        <div id="uploadStatus" style="display:none;font-size:0.72rem;margin-top:0.5rem;"></div>
+      </div>
+
+      <!-- ADD TO CART -->
+      <div class="cart-section">
+        <div class="price-summary">
+          <span class="price-summary-label">Total</span>
+          <span class="price-total" id="priceTotal">$79.99</span>
+        </div>
+        <div class="qty-row">
+          <span class="qty-label">Qty</span>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <span class="qty-val" id="qtyVal">1</span>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+        <div class="progressive-check" id="progressiveNotice" style="display:none;">
+          <input type="checkbox" id="progressiveAgree">
+          <span>I understand progressive lens production takes 1–2 weeks (excluding shipping time).</span>
+        </div>
+        <button class="btn-primary" id="addToCartBtn" onclick="addToCart()">
+          Add to Cart — <span id="btnPriceLabel">$79.99</span>
+        </button>
+        <p style="font-size:0.7rem;color:var(--text-muted);text-align:center;margin-top:0.75rem;line-height:1.6;">
+          After placing your order, we'll confirm via message and arrange payment by<br>
+          <strong style="color:var(--text-soft);">CashApp · Venmo · Zelle · PayPal</strong>
+        </p>
+      </div>
+
+    </div><!-- /product-info -->
+  </div><!-- /product-wrapper -->
+
+  <!-- FEATURES STRIP -->
+  <div class="features-strip">
+    <div class="feature-item">🌿 <span><strong>Ultra High Index</strong> — slimmer, lighter</span></div>
+    <div class="feature-item">✨ <span><strong>Free coatings</strong> included on every lens</span></div>
+    <div class="feature-item">⚡ <span><strong>1–4 day</strong> production time</span></div>
+    <div class="feature-item">📦 <span>Case &amp; <strong>microfiber cloth</strong> included</span></div>
+  </div>
+
+  <!-- DESCRIPTION -->
+  <div class="product-desc">
+    <div>
+      <h2 class="desc-heading">See Clearly,<br>Stay <em>Connected.</em></h2>
+      <ul class="desc-list">
+        <li>Precision-crafted to your exact optical prescription, engineered for a perfect fit with Ray-Ban Meta frames</li>
+        <li>Compatible with both Gen 1 and Gen 2 Ray-Ban Meta models — zero frame modification needed</li>
+        <li>Ultra High Index lenses for a slimmer, lighter, cleaner look that complements the smart glasses aesthetic</li>
+        <li>Lightweight, impact-resistant materials balanced for all-day comfort during extended wear</li>
+        <li>Every order includes premium anti-glare, scratch-resistant &amp; UV protection coatings at no extra cost</li>
+        <li>Keep your original Ray-Ban Meta frames — we replace only the lenses, fully preserving AI features &amp; camera</li>
+        <li>Ray-Ban Meta Glasses/Frames are not included — lenses only</li>
+      </ul>
+    </div>
+    <div class="feature-cards">
+      <div class="feat-card">
+        <h4>🌙 Blue Light Protection</h4>
+        <p>Our filter blocks harmful HEV blue light from screens, reducing digital eye strain, dry eyes, and improving your natural sleep cycle — especially important for all-day smart glasses use.</p>
+      </div>
+      <div class="feat-card">
+        <h4>💎 Premium Coatings — Free</h4>
+        <p>Every lens ships with anti-reflective coating, scratch-resistant hardening, and full UV400 protection as standard. No hidden add-ons — included in every order.</p>
+      </div>
+      <div class="feat-card">
+        <h4>🚀 Fast Turnaround</h4>
+        <p>Single vision, tinted, and polarised lenses are ready in 1–4 business days. Progressive lenses take 1–2 weeks due to the precision craftsmanship required.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW TO READ YOUR PRESCRIPTION -->
+  <div class="how-to-read">
+    <h3>How to Read Your <em>Prescription</em></h3>
+    <div class="how-to-img-wrap">
+      <img src="/pics/how-to-read.jpg" alt="How to read your eye prescription guide" loading="lazy">
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="nav-logo">pro<span style="color:var(--rose-light);font-style:italic;">vocateur</span></a>
+      <p>Custom prescription lenses for the future of smart eyewear. Precision-crafted for Ray-Ban Meta AI Glasses.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Shop</h5>
+      <a href="/product/">Ray-Ban Meta Lenses</a>
+      <a href="/shop/">All Products</a>
+    </div>
+    <div class="footer-col">
+      <h5>Info</h5>
+      <a href="/about/">About Us</a>
+      <a href="/faq/">FAQ</a>
+      <a href="/contact/">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h5>Payment</h5>
+      <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.78rem;color:rgba(255,255,255,0.5);">
+        <span>CashApp</span><span>Venmo</span><span>Zelle</span><span>PayPal</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Provocateur. All rights reserved.</span>
+    <div class="footer-payment">
+      <span class="pay-chip">CashApp</span>
+      <span class="pay-chip">Venmo</span>
+      <span class="pay-chip">Zelle</span>
+      <span class="pay-chip">PayPal</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/shared.js"></script>
+<script>
+/* ── SUPABASE ── */
+const SUPABASE_URL = 'https://dleejyuwymvkjmixdspk.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_Tl1uh6OQPpuJdZRedjAMEA__eHkMG9p';
+let sb = null;
+try { sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch(e){ console.warn('Supabase init failed:', e); }
+
+/* ── STATE ── */
+const BASE = 79.99;
+const state = {
+  model: 'Wayfarer M (50-22)', lensType: 'Clear', lensPrice: 0,
+  color: 'Grey', vision: 'Single Vision', visionPrice: 0,
+  blueLight: 'no', qty: 1, files: [], uploadedUrls: []
+};
+
+/* ── INIT ── */
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loadingOverlay').classList.add('hidden'), 550);
+});
+
+// Populate selects
+function range(start, end, step) {
+  const vals = [];
+  for (let v = start; v <= end + 0.001; v += step)
+    vals.push(parseFloat(v.toFixed(2)));
+  return vals;
+}
+function populateSel(id, vals, fmt) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = vals.map(v => `<option value="${v}">${fmt ? fmt(v) : v}</option>`).join('');
+}
+const fmtRx = v => (v >= 0 ? '+' : '') + parseFloat(v).toFixed(2);
+const sphRange = range(-15, 15, 0.25);
+const cylRange = range(-8, 8, 0.25);
+const axisRange = Array.from({length:181},(_,i)=>i);
+const addRange = ['N/A',...range(0.75,4,0.25).map(v => '+'+v.toFixed(2))];
+
+['r_sph','l_sph'].forEach(id => populateSel(id, sphRange, fmtRx));
+['r_cyl','l_cyl'].forEach(id => populateSel(id, cylRange, fmtRx));
+['r_axis','l_axis'].forEach(id => populateSel(id, axisRange));
+document.getElementById('add_val').innerHTML = addRange.map(v=>`<option>${v}</option>`).join('');
+
+['r_sph','l_sph'].forEach(id => { const el=document.getElementById(id); if(el) el.value = '0'; });
+['r_cyl','l_cyl'].forEach(id => { const el=document.getElementById(id); if(el) el.value = '0'; });
+
+// Live price update when any rx value changes
+['r_sph','r_cyl','l_sph','l_cyl'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('change', updatePrice);
+});
+
+/* ── GALLERY ── */
+function setImg(thumb, src) {
+  document.getElementById('mainImg').src = src;
+  document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+  thumb.classList.add('active');
+}
+
+/* ── MODEL ── */
+function selectModel(el) {
+  document.querySelectorAll('.model-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  state.model = el.dataset.model;
+}
+
+/* ── LENS TYPE ── */
+function selectLensType(el) {
+  document.querySelectorAll('.lens-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.lensType = el.dataset.type;
+  state.lensPrice = parseFloat(el.dataset.price);
+  const showColor = ['Tinted','Polarised','Photochromic'].includes(state.lensType);
+  document.getElementById('colorSection').style.display = showColor ? 'block' : 'none';
+  updatePrice();
+}
+
+/* ── COLOR ── */
+function selectColor(el) {
+  document.querySelectorAll('.color-swatch').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.color = el.dataset.color;
+  // Switch gallery main image to matching color
+  const imgMap = {Grey:'pics/gray.jpeg',Brown:'pics/brown.jpeg',Blue:'pics/blue.jpeg',Green:'pics/green.jpeg',Pink:'pics/pink.jpeg',Purple:'pics/purple.jpeg'};
+  if (imgMap[state.color]) {
+    document.getElementById('mainImg').src = imgMap[state.color];
+  }
+}
+
+/* ── VISION ── */
+function selectVision(el) {
+  document.querySelectorAll('.vision-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  state.vision = el.dataset.vision;
+  state.visionPrice = parseFloat(el.dataset.price);
+  const isNonRx = state.vision === 'Non-Prescription';
+  const isProgressive = state.vision === 'Progressive';
+  document.getElementById('rxFields').style.display = isNonRx ? 'none' : 'block';
+  document.getElementById('progressiveNotice').style.display = isProgressive ? 'flex' : 'none';
+  document.getElementById('addSection').style.display = isProgressive ? 'block' : 'none';
+  updatePrice();
+}
+
+/* ── PD ── */
+function toggleSeparatePD() {
+  const sep = document.getElementById('separatePD').checked;
+  document.getElementById('pdSingleWrap').style.display = sep ? 'none' : 'block';
+  document.getElementById('pdRightWrap').style.display = sep ? 'block' : 'none';
+  document.getElementById('pdLeftWrap').style.display = sep ? 'block' : 'none';
+}
+
+/* ── BLUE LIGHT ── */
+function selectBlueLight(val) {
+  state.blueLight = val;
+  document.getElementById('blueYes').classList.toggle('selected', val === 'yes');
+  document.getElementById('blueNo').classList.toggle('selected', val === 'no');
+  updatePrice();
+}
+
+/* ── RX SURCHARGE ──
+   Rule: if a value is -3.00 or lower → +$4.00 flat,
+   then +$0.50 for every additional 0.25 step below -3.00.
+   Examples: -3.00 → +$4.00 | -3.25 → +$4.50 | -3.50 → +$5.00 | -4.00 → +$6.00 | -5.00 → +$8.00
+   Applies independently to R SPH, R CYL, L SPH, L CYL.
+   Positive values and values above -3.00 → $0 surcharge.
+*/
+function rxSurcharge(val) {
+  const v = parseFloat(val);
+  if (isNaN(v) || v > -3.00) return 0;
+  // At exactly -3.00: $4.00 flat. Each 0.25 step below adds $0.50.
+  // Examples: -3.00 → $4.00 | -3.25 → $4.50 | -3.50 → $5.00 | -4.00 → $6.00 | -5.00 → $8.00
+  const stepsBelow = Math.round((-3.00 - v) / 0.25);
+  return parseFloat((4.00 + stepsBelow * 0.50).toFixed(2));
+}
+
+function getRxSurchargeTotal() {
+  // Only apply when prescription fields are visible
+  if (state.vision === 'Non-Prescription') return 0;
+  const ids = ['r_sph', 'r_cyl', 'l_sph', 'l_cyl'];
+  return ids.reduce((sum, id) => {
+    const el = document.getElementById(id);
+    return sum + (el ? rxSurcharge(el.value) : 0);
+  }, 0);
+}
+
+/* ── PRICE ── */
+function updatePrice() {
+  const blueExtra   = state.blueLight === 'yes' ? 25 : 0;
+  const rxExtra     = getRxSurchargeTotal();
+  const unitPrice   = BASE + state.lensPrice + state.visionPrice + blueExtra + rxExtra;
+  const totalPrice  = unitPrice * state.qty;
+
+  document.getElementById('priceTotal').textContent    = '$' + totalPrice.toFixed(2);
+  document.getElementById('btnPriceLabel').textContent = '$' + totalPrice.toFixed(2);
+  document.getElementById('displayPrice').textContent  = '$' + unitPrice.toFixed(2);
+
+  // Show a subtle rx surcharge note if applicable
+  let note = document.getElementById('rxSurchargeNote');
+  if (!note) {
+    note = document.createElement('p');
+    note.id = 'rxSurchargeNote';
+    note.style.cssText = 'font-size:0.7rem;color:var(--text-muted);margin-top:0.35rem;font-style:italic;';
+    document.getElementById('priceTotal').parentNode.after(note);
+  }
+  if (rxExtra > 0) {
+    note.textContent = `Includes $${rxExtra.toFixed(2)} high-prescription surcharge`;
+  } else {
+    note.textContent = '';
+  }
+}
+
+/* ── QTY ── */
+function changeQty(d) {
+  state.qty = Math.max(1, Math.min(10, state.qty + d));
+  document.getElementById('qtyVal').textContent = state.qty;
+  updatePrice();
+}
+
+/* ── FILE UPLOAD ──────────────────────────────────────────────
+   - Files upload to Supabase Storage IMMEDIATELY on selection
+   - Uploaded URLs stored in state.uploadedUrls (used at checkout)
+   - state.files kept for display/removal tracking
+   - Works on iOS Safari, Android Chrome, and all desktop browsers
+*/
+function setUploadStatus(msg, isError) {
+  const el = document.getElementById('uploadStatus');
+  if (!msg) { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  el.style.color = isError ? 'var(--rose-deep)' : 'var(--text-muted)';
+  el.textContent = msg;
+}
+
+async function uploadFileToSupabase(file) {
+  if (!sb) return null; // no supabase configured — skip silently
+  const ext = file.name.split('.').pop();
+  const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  const { data, error } = await sb.storage
+    .from('prescriptions')
+    .upload(path, file, { upsert: false });
+  if (error) { console.warn('Upload error:', error.message); return null; }
+  return data.path;
+}
+
+async function handleFiles(e) {
+  const newFiles = Array.from(e.target.files);
+  if (!newFiles.length) return;
+
+  // Filter out duplicates
+  const toAdd = newFiles.filter(f => !state.files.find(x => x.name === f.name));
+  if (!toAdd.length) return;
+
+  setUploadStatus('Uploading…', false);
+
+  for (const file of toAdd) {
+    // Size check — 5MB
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadStatus(`"${file.name}" is too large (max 5MB). Skipped.`, true);
+      continue;
+    }
+    state.files.push(file);
+    renderPreviews();
+
+    const path = await uploadFileToSupabase(file);
+    if (path) {
+      state.uploadedUrls.push(path);
+      setUploadStatus(`✓ ${state.files.length} file${state.files.length > 1 ? 's' : ''} uploaded successfully`, false);
+    } else if (!sb) {
+      // No Supabase yet — just show file as queued
+      setUploadStatus(`✓ ${state.files.length} file${state.files.length > 1 ? 's' : ''} ready`, false);
+    } else {
+      setUploadStatus(`Upload failed for "${file.name}". Try again.`, true);
+      state.files = state.files.filter(x => x.name !== file.name);
+      renderPreviews();
+    }
+  }
+
+  // Reset input so same file can be re-selected if needed
+  e.target.value = '';
+}
+
+function removeFile(i) {
+  const removed = state.files.splice(i, 1)[0];
+  // Also remove from uploadedUrls by index alignment (best effort)
+  if (state.uploadedUrls[i]) state.uploadedUrls.splice(i, 1);
+  if (state.files.length === 0) setUploadStatus('', false);
+  else setUploadStatus(`✓ ${state.files.length} file${state.files.length > 1 ? 's' : ''} ready`, false);
+  renderPreviews();
+}
+
+function renderPreviews() {
+  document.getElementById('uploadPreviews').innerHTML = state.files.map((f, i) =>
+    `<div class="preview-chip">
+      🌸 ${f.name.length > 18 ? f.name.slice(0,16)+'…' : f.name}
+      <button onclick="removeFile(${i})">×</button>
+    </div>`
+  ).join('');
+}
+
+// Desktop drag & drop (ignored gracefully on mobile)
+const zone = document.getElementById('uploadZone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e => {
+  e.preventDefault(); zone.classList.remove('drag-over');
+  // Simulate a file input change event with dropped files
+  const dt = e.dataTransfer;
+  if (!dt.files.length) return;
+  // Manually trigger handleFiles with a fake event
+  handleFiles({ target: { files: dt.files, value: '' } });
+});
+
+/* ── INFO MODAL ── */
+function openInfo(title, body) {
+  document.getElementById('infoModalTitle').textContent = title;
+  document.getElementById('infoModalBody').textContent = body;
+  document.getElementById('infoModal').classList.add('open');
+}
+function closeInfoModal(e) {
+  if (!e || e.target === document.getElementById('infoModal') || e.currentTarget === document.querySelector('.info-modal-close')) {
+    document.getElementById('infoModal').classList.remove('open');
+  }
+}
+
+/* ── VALIDATE PD ── */
+function validatePD() {
+  if (state.vision === 'Non-Prescription') return true;
+  const sep = document.getElementById('separatePD').checked;
+  if (sep) {
+    const r = document.getElementById('pd_right').value.trim();
+    const l = document.getElementById('pd_left').value.trim();
+    if (!r || !l) return false;
+  } else {
+    const s = document.getElementById('pd_single').value.trim();
+    if (!s) return false;
+  }
+  return true;
+}
+
+/* ── ADD TO CART ── */
+async function addToCart() {
+  if (state.vision === 'Progressive') {
+    if (!document.getElementById('progressiveAgree').checked) {
+      showToast('Please confirm', 'Check the progressive production time notice above.');
+      return;
+    }
+  }
+  if (!validatePD()) {
+    showToast('PD is required', 'Please enter your pupillary distance above.');
+    // Highlight PD field
+    const pdEl = document.getElementById('separatePD').checked
+      ? document.getElementById('pd_right')
+      : document.getElementById('pd_single');
+    if (pdEl) { pdEl.style.borderColor = 'var(--rose-deep)'; pdEl.focus(); setTimeout(() => pdEl.style.borderColor = '', 2500); }
+    return;
+  }
+
+  const btn = document.getElementById('addToCartBtn');
+  btn.disabled = true;
+  btn.textContent = 'Adding…';
+
+  const blueExtra = state.blueLight === 'yes' ? 25 : 0;
+  const rxExtra   = getRxSurchargeTotal();
+  const unitPrice = BASE + state.lensPrice + state.visionPrice + blueExtra + rxExtra;
+
+  const sep = document.getElementById('separatePD')?.checked;
+  const orderData = {
+    model: state.model,
+    lens_type: state.lensType,
+    lens_color: ['Tinted','Polarised','Photochromic'].includes(state.lensType) ? state.color : null,
+    vision: state.vision,
+    blue_light: state.blueLight === 'yes',
+    qty: state.qty,
+    unit_price: unitPrice,
+    total_price: unitPrice * state.qty,
+    rx_surcharge: rxExtra,
+    r_sph: document.getElementById('r_sph')?.value,
+    r_cyl: document.getElementById('r_cyl')?.value,
+    r_axis: document.getElementById('r_axis')?.value,
+    l_sph: document.getElementById('l_sph')?.value,
+    l_cyl: document.getElementById('l_cyl')?.value,
+    l_axis: document.getElementById('l_axis')?.value,
+    pd: sep ? null : document.getElementById('pd_single')?.value,
+    pd_right: sep ? document.getElementById('pd_right')?.value : null,
+    pd_left: sep ? document.getElementById('pd_left')?.value : null,
+    add_value: state.vision === 'Progressive' ? document.getElementById('add_val')?.value : null,
+    files: state.files.map(f=>f.name),
+    created_at: new Date().toISOString()
+  };
+
+  // Save pending order to be submitted on checkout
+  window._pendingOrder = orderData;
+
+  Cart.add({
+    name: 'Ray-Ban Meta Prescription Lenses',
+    model: state.model,
+    lensType: state.lensType + (state.blueLight === 'yes' ? ' + Blue Light' : ''),
+    vision: state.vision,
+    price: unitPrice,
+    qty: state.qty,
+    orderData
+  });
+
+  btn.disabled = false;
+  btn.innerHTML = 'Add to Cart — <span id="btnPriceLabel">$' + (unitPrice * state.qty).toFixed(2) + '</span>';
+  showToast('Added to cart! 🌸', state.model + ' · ' + state.lensType);
+}
+
+/* ── CHECKOUT MODAL ── */
+function openCheckoutModal() {
+  if (Cart.items.length === 0) { showToast('Your cart is empty', 'Add a product first.'); return; }
+  closeCart();
+  document.getElementById('checkoutForm').style.display = 'block';
+  document.getElementById('checkoutSuccess').style.display = 'none';
+  document.getElementById('checkoutModal').classList.add('open');
+}
+function closeCheckoutModal(e) {
+  if (!e || e.target === document.getElementById('checkoutModal')) {
+    document.getElementById('checkoutModal').classList.remove('open');
+  }
+}
+
+async function placeOrder() {
+  const first = document.getElementById('co_first').value.trim();
+  const last  = document.getElementById('co_last').value.trim();
+  const phone = document.getElementById('co_phone').value.trim();
+  const email = document.getElementById('co_email').value.trim();
+  const errEl = document.getElementById('checkoutError');
+
+  if (!first || !last || !phone || !email) {
+    errEl.textContent = 'Please fill in all fields — name, phone, and email are required.';
+    errEl.style.display = 'block'; return;
+  }
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!emailOk) {
+    errEl.textContent = 'Please enter a valid email address.';
+    errEl.style.display = 'block'; return;
+  }
+  errEl.style.display = 'none';
+
+  const btn = document.getElementById('placeOrderBtn');
+  btn.disabled = true; btn.textContent = 'Placing order…';
+
+  if (sb) {
+    try {
+      // Files are already uploaded — just attach the stored paths
+      const fullOrderForDB = {
+        customer_first:  first,
+        customer_last:   last,
+        customer_phone:  phone,
+        customer_email:  email,
+        cart_total:      Cart.total(),
+        cart_items:      JSON.stringify(Cart.items.map(i => ({
+          model: i.model, lens_type: i.lensType, vision: i.vision, price: i.price, qty: i.qty
+        }))),
+        // Spread all prescription fields from pending order
+        ...(window._pendingOrder || {}),
+        // Overwrite files with real uploaded URLs
+        files: state.uploadedUrls.length ? state.uploadedUrls.join(',') : null,
+        created_at: new Date().toISOString()
+      };
+      // Remove non-DB fields
+      delete fullOrderForDB.order_details;
+
+      const { error } = await sb.from('orders').insert([fullOrderForDB]);
+      if (error) console.warn('Supabase insert error:', error.message);
+    } catch(err) { console.warn('Supabase:', err); }
+  } else {
+    console.log('📦 New order (no Supabase):', { first, last, phone, email, order: window._pendingOrder, files: state.uploadedUrls });
+  }
+
+  // Clear cart
+  Cart.items = []; Cart.save();
+
+  btn.disabled = false;
+  document.getElementById('checkoutForm').style.display = 'none';
+  document.getElementById('checkoutSuccess').style.display = 'block';
+}
+
+updatePrice();
+</script>
+</body>
+</html>

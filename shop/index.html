@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop — Provocateur</title>
+<link rel="stylesheet" href="/shared.css">
+<style>
+.page-wrap { position: relative; z-index: 1; }
+.shop-hero {
+  max-width: 1200px; margin: 0 auto;
+  padding: 4rem clamp(1rem,4vw,2.5rem) 2rem;
+  text-align: center;
+}
+.shop-hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem,6vw,4rem); font-weight: 400; color: var(--text);
+  margin-bottom: 0.75rem;
+}
+.shop-hero h1 em { color: var(--rose-deep); font-style: italic; }
+.shop-hero p { font-size: 0.9rem; color: var(--text-soft); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+.shop-grid {
+  max-width: 1200px; margin: 3rem auto 5rem;
+  padding: 0 clamp(1rem,4vw,2.5rem);
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;
+}
+.product-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden; text-decoration: none;
+  transition: all 0.25s; display: flex; flex-direction: column;
+}
+.product-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px var(--shadow-md); }
+.product-card-img {
+  width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--bg2); position: relative;
+}
+.product-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
+.product-card:hover .product-card-img img { transform: scale(1.06); }
+.product-card-badge {
+  position: absolute; top: 12px; left: 12px;
+  background: var(--rose-deep); color: white;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
+  padding: 0.25rem 0.6rem; border-radius: 100px; text-transform: uppercase;
+}
+.product-card-coming {
+  position: absolute; inset: 0; background: rgba(254,231,241,0.75);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--rose-deep);
+  backdrop-filter: blur(3px);
+}
+.product-card-info { padding: 1.25rem 1.4rem; flex: 1; display: flex; flex-direction: column; }
+.product-card-category { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; margin-bottom: 0.3rem; }
+.product-card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--text); margin-bottom: 0.4rem; }
+.product-card-desc { font-size: 0.76rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.9rem; flex: 1; }
+.product-card-footer { display: flex; align-items: center; justify-content: space-between; }
+.product-card-price { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 500; color: var(--rose-deep); }
+.product-card-orig { font-size: 0.8rem; color: var(--text-muted); text-decoration: line-through; margin-left: 0.4rem; }
+.product-card-arrow { font-size: 0.8rem; color: var(--rose-deep); font-weight: 600; letter-spacing: 0.06em; }
+
+.coming-soon-note {
+  text-align: center; padding: 0 clamp(1rem,4vw,2.5rem) 4rem;
+  font-size: 0.8rem; color: var(--text-muted); position: relative; z-index: 1;
+}
+</style>
+</head>
+<body>
+<div class="bg-blob-1"></div><div class="bg-blob-2"></div>
+<nav>
+  <a href="/" class="nav-logo">pro<span>vocateur</span></a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/shop/" class="active">Shop</a></li>
+    <li><a href="/about/">About</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-cart-btn" onclick="openCart()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Cart <span class="nav-cart-count"></span><span class="cart-badge">0</span>
+    </button>
+    <button class="hamburger" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">Home</a><a href="/shop/">Shop</a><a href="/about/">About</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a>
+</div>
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header"><h3>Your Cart 🌸</h3><button class="cart-close" onclick="closeCart()">×</button></div>
+  <div id="cartBody"></div>
+  <div id="cartFooter">
+    <div class="cart-total-row"><span class="cart-total-label">Total</span><span class="cart-total-val" id="cartTotal">$0.00</span></div>
+    <div class="cart-checkout-note">We'll reach out to confirm &amp; arrange payment via<br><strong>CashApp · Venmo · Zelle · PayPal</strong></div>
+  </div>
+</div>
+
+<div class="page-wrap">
+  <div class="shop-hero">
+    <h1>Our <em>Products</em></h1>
+    <p>Prescription lenses crafted for smart glasses. More frame options coming soon.</p>
+  </div>
+
+  <div class="shop-grid">
+    <!-- ACTIVE PRODUCT -->
+    <a href="/product/" class="product-card">
+      <div class="product-card-img">
+        <img src="/pics/main.png" alt="Ray-Ban Meta Prescription Lenses" loading="lazy">
+        <span class="product-card-badge">Sale</span>
+      </div>
+      <div class="product-card-info">
+        <div class="product-card-category">Ray-Ban Meta</div>
+        <div class="product-card-name">Prescription Lenses for Ray-Ban Meta AI Glasses</div>
+        <div class="product-card-desc">Custom lenses for all 5 Meta frame models. Clear, photochromic, tinted &amp; polarised options. Gen 1 &amp; Gen 2 compatible.</div>
+        <div class="product-card-footer">
+          <span><span class="product-card-price">$79.99</span><span class="product-card-orig">$179</span></span>
+          <span class="product-card-arrow">Shop →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- COMING SOON PLACEHOLDERS -->
+    <div class="product-card" style="cursor:default;">
+      <div class="product-card-img">
+        <img src="/pics/clear.jpeg" alt="Coming soon" loading="lazy" style="filter:blur(3px);">
+        <div class="product-card-coming">Coming Soon</div>
+      </div>
+      <div class="product-card-info">
+        <div class="product-card-category">More Glasses</div>
+        <div class="product-card-name">More Frames Coming</div>
+        <div class="product-card-desc">We're expanding to additional smart glasses frames. Stay tuned — more options are on the way.</div>
+        <div class="product-card-footer">
+          <span style="font-size:0.78rem;color:var(--text-muted);">Notify me when available</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="coming-soon-note">✦ More frame models are being added. <a href="/contact/" style="color:var(--rose-deep);">Contact us</a> if you need lenses for a different frame.</p>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand"><a href="/" class="nav-logo">pro<span style="color:var(--rose-light);font-style:italic;">vocateur</span></a><p>Custom prescription lenses for smart eyewear.</p></div>
+    <div class="footer-col"><h5>Shop</h5><a href="/product/">Ray-Ban Meta Lenses</a></div>
+    <div class="footer-col"><h5>Info</h5><a href="/about/">About</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a></div>
+    <div class="footer-col"><h5>Payment</h5><span style="font-size:0.78rem;color:rgba(255,255,255,0.5);">CashApp · Venmo · Zelle · PayPal</span></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Provocateur.</span><div class="footer-payment"><span class="pay-chip">CashApp</span><span class="pay-chip">Venmo</span><span class="pay-chip">Zelle</span><span class="pay-chip">PayPal</span></div></div>
+</footer>
+<script src="/shared.js"></script>
+</body>
+</html>
