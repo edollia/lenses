@@ -559,28 +559,28 @@
         <img id="mainImg" src="/pics/main.jpg" alt="Prescription Lenses for Ray-Ban Meta AI Glasses" loading="eager">
       </div>
       <div class="gallery-thumbs">
-        <div class="gallery-thumb active" onclick="setImg(this,'pics/main.png')">
+        <div class="gallery-thumb active" onclick="setImg(this,'/pics/main.jpg')">
           <img src="/pics/main.jpg" alt="Main view" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'pics/clear.jpeg')">
+        <div class="gallery-thumb" onclick="setImg(this,'/pics/clear.jpg')">
           <img src="/pics/clear.jpg" alt="Clear lenses" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'pics/gray.jpeg')">
+        <div class="gallery-thumb" onclick="setImg(this,'/pics/gray.jpg')">
           <img src="/pics/gray.jpg" alt="Gray tint" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'pics/brown.jpeg')">
+        <div class="gallery-thumb" onclick="setImg(this,'/pics/brown.jpg')">
           <img src="/pics/brown.jpg" alt="Brown tint" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'pics/blue.jpeg')">
+        <div class="gallery-thumb" onclick="setImg(this,'/pics/blue.jpg')">
           <img src="/pics/blue.jpg" alt="Blue tint" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'pics/green.jpeg')">
+        <div class="gallery-thumb" onclick="setImg(this,'/pics/green.jpg')">
           <img src="/pics/green.jpg" alt="Green tint" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'pics/pink.jpeg')">
+        <div class="gallery-thumb" onclick="setImg(this,'/pics/pink.jpg')">
           <img src="/pics/pink.jpg" alt="Pink tint" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'pics/purple.jpeg')">
+        <div class="gallery-thumb" onclick="setImg(this,'/pics/purple.jpg')">
           <img src="/pics/purple.jpg" alt="Purple tint" loading="lazy">
         </div>
       </div>
@@ -1030,7 +1030,7 @@ function selectColor(el) {
   el.classList.add('selected');
   state.color = el.dataset.color;
   // Switch gallery main image to matching color
-  const imgMap = {Grey:'pics/gray.jpeg',Brown:'pics/brown.jpeg',Blue:'pics/blue.jpeg',Green:'pics/green.jpeg',Pink:'pics/pink.jpeg',Purple:'pics/purple.jpeg'};
+  const imgMap = {Grey:'/pics/gray.jpg',Brown:'/pics/brown.jpg',Blue:'/pics/blue.jpg',Green:'/pics/green.jpg',Pink:'/pics/pink.jpg',Purple:'/pics/purple.jpg'};
   if (imgMap[state.color]) {
     document.getElementById('mainImg').src = imgMap[state.color];
   }
