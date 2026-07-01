@@ -20,7 +20,8 @@
 <meta name="twitter:image" content="https://provocateur.us/pics/main.jpg">
 <title>Prescription Lenses for Ray-Ban Meta AI Glasses | Provocateur</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="1254x1254">
+<link rel="apple-touch-icon" href="/favicon.png">
 <link rel="stylesheet" href="/shared.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script type="application/ld+json">
@@ -1792,6 +1793,16 @@ async function addToCart() {
 /* ── CHECKOUT MODAL ── */
 function openCheckoutModal() {
   if (Cart.items.length === 0) { showToast('Your cart is empty', 'Add a product first.'); return; }
+  if (state.uploading > 0) {
+    showToast('Upload in progress', 'Please wait for your prescription file to finish uploading.');
+    flashField(document.getElementById('uploadZone'));
+    return;
+  }
+  if (state.files.length > 0 || state.uploadedUrls.length > 0) {
+    showToast('Prescription not attached', 'Click Add to Cart after uploading so the file stays with the order.');
+    flashField(document.getElementById('uploadZone'));
+    return;
+  }
   closeCart();
   document.getElementById('checkoutForm').style.display = 'block';
   document.getElementById('checkoutSuccess').style.display = 'none';

@@ -112,6 +112,17 @@ function ensureCheckoutAction(footer) {
   action.onclick = startCheckout;
 }
 
+function cartPrescriptionFiles(item) {
+  const data = item?.orderData || {};
+  const details = Array.isArray(data.uploaded_file_details) ? data.uploaded_file_details : [];
+  if (details.length) return details.map(file => file?.name).filter(Boolean);
+  if (Array.isArray(data.files) && data.files.length) return data.files.filter(Boolean);
+  if (Array.isArray(data.uploaded_files) && data.uploaded_files.length) {
+    return data.uploaded_files.map(path => String(path).split('_').slice(2).join('_') || 'Prescription file');
+  }
+  return [];
+}
+
 function renderCartSidebar() {
   const body = document.getElementById('cartBody');
   const footer = document.getElementById('cartFooter');
@@ -156,11 +167,18 @@ function renderCartSidebar() {
     meta.className = 'cart-item-meta';
     meta.textContent = [item.model, item.lensType, item.vision].filter(Boolean).join(' · ');
 
+    const files = cartPrescriptionFiles(item);
+    const fileMeta = document.createElement('div');
+    fileMeta.className = 'cart-item-files';
+    fileMeta.textContent = files.length
+      ? `Prescription attached: ${files.join(', ')}`
+      : 'No prescription file attached';
+
     const price = document.createElement('div');
     price.className = 'cart-item-price';
     price.textContent = '$' + (((Number(item.price) || 0) * (Number(item.qty) || 0)).toFixed(2));
 
-    info.append(name, meta, price);
+    info.append(name, meta, fileMeta, price);
 
     const remove = document.createElement('button');
     remove.type = 'button';

@@ -28,3 +28,5 @@ In an order row, check the `files` column. It shows:
 `original-file-name -> storage-file-path`
 
 Then open Storage -> `prescriptions`, search/open that storage path, and download the file. The bucket is private on purpose so buyer prescriptions are not public.
+
+If an order has no file path in `orders.files`, the buyer did not have an uploaded prescription attached to the cart item at checkout. On the site, open the cart before checkout and confirm it says `Prescription attached: filename`.
