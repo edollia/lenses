@@ -272,6 +272,13 @@
   font-size: 0.8rem; color: var(--text); transition: border-color 0.2s;
 }
 .pd-field input:focus { outline: none; border-color: var(--rose); }
+.rx-guide-link {
+  margin-top: 0.65rem;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+.rx-guide-link a { color: var(--rose-deep); font-weight: 600; text-decoration: none; }
+.rx-guide-link a:hover { text-decoration: underline; }
 
 /* ADD */
 .add-grid { display: grid; grid-template-columns: repeat(3,1fr); max-width: 260px; }
@@ -790,6 +797,7 @@
             <input type="number" id="pd_left" placeholder="e.g. 31.5" min="24" max="42" step="0.5">
           </div>
         </div>
+        <p class="rx-guide-link">Need help reading your prescription? <a href="#prescriptionGuide">View the guide below</a>.</p>
 
         <!-- ADD — only shown for Progressive -->
         <div id="addSection" style="display:none;">
@@ -870,6 +878,14 @@
     </div><!-- /product-info -->
   </div><!-- /product-wrapper -->
 
+  <!-- HOW TO READ YOUR PRESCRIPTION -->
+  <div class="how-to-read" id="prescriptionGuide">
+    <h3>How to Read Your <em>Prescription</em></h3>
+    <div class="how-to-img-wrap">
+      <img src="/pics/how-to-read.jpg" alt="How to read your eye prescription guide" loading="eager" decoding="async">
+    </div>
+  </div>
+
   <!-- FEATURES STRIP -->
   <div class="features-strip">
     <div class="feature-item">🌿 <span><strong>Ultra High Index</strong> — slimmer, lighter</span></div>
@@ -905,14 +921,6 @@
         <h4>🚀 Fast Turnaround</h4>
         <p>Single vision, tinted, and polarised lenses are ready in 1–4 business days. Progressive lenses take 1–2 weeks due to the precision craftsmanship required.</p>
       </div>
-    </div>
-  </div>
-
-  <!-- HOW TO READ YOUR PRESCRIPTION -->
-  <div class="how-to-read">
-    <h3>How to Read Your <em>Prescription</em></h3>
-    <div class="how-to-img-wrap">
-      <img src="/pics/how-to-read.jpg" alt="How to read your eye prescription guide" loading="lazy">
     </div>
   </div>
 
