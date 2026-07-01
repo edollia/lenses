@@ -22,8 +22,12 @@ const Cart = {
   },
 
   remove(id) {
+    const removed = this.items.find(i => String(i.id) === String(id));
     this.items = this.items.filter(i => String(i.id) !== String(id));
     this.save();
+    if (removed) {
+      window.dispatchEvent(new CustomEvent('cart:item-remove', { detail: { item: removed } }));
+    }
   },
 
   total() {
@@ -180,8 +184,40 @@ function renderCartSidebar() {
   }
 }
 
+function initButtonDefaults() {
+  document.querySelectorAll('button:not([type])').forEach(btn => {
+    if (!btn.closest('form')) btn.type = 'button';
+  });
+  document.querySelectorAll('.cart-close').forEach(btn => {
+    if (!btn.getAttribute('aria-label')) btn.setAttribute('aria-label', 'Close cart');
+  });
+  document.querySelectorAll('.info-modal-close').forEach(btn => {
+    if (!btn.getAttribute('aria-label')) btn.setAttribute('aria-label', 'Close dialog');
+  });
+}
+
+function initKeyboardActivators() {
+  document.querySelectorAll('.gallery-thumb, .model-option, .lens-card, .color-swatch').forEach(el => {
+    if (el.tagName === 'BUTTON' || el.tagName === 'A') return;
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        el.click();
+      }
+    });
+  });
+}
+
+function closeOpenModals() {
+  document.querySelectorAll('.info-modal.open').forEach(modal => modal.classList.remove('open'));
+}
+
+let toastTimer = null;
+
 // Toast notification
-function showToast(msg, sub) {
+function showToast(msg, sub, options = {}) {
   let toast = document.getElementById('globalToast');
   if (!toast) {
     toast = document.createElement('div');
@@ -193,13 +229,20 @@ function showToast(msg, sub) {
   document.getElementById('toastMsg').textContent = msg;
   document.getElementById('toastSub').textContent = sub || '';
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4500);
+  clearTimeout(toastTimer);
+  const duration = Number(options.duration) || 3000;
+  toastTimer = setTimeout(() => toast.classList.remove('show'), duration);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   Cart.load();
   initMobileNav();
+  initButtonDefaults();
+  initKeyboardActivators();
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeCart();
+    if (e.key === 'Escape') {
+      closeCart();
+      closeOpenModals();
+    }
   });
 });

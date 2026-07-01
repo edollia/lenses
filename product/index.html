@@ -65,6 +65,34 @@
 .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .gallery-thumb:hover { transform: translateY(-2px); border-color: var(--rose); }
 .gallery-thumb.active { border-color: var(--rose-deep); }
+.gallery-thumb:focus-visible,
+.model-option:focus-visible,
+.lens-card:focus-visible,
+.color-swatch:focus-visible,
+.vision-btn:focus-visible,
+.toggle-btn:focus-visible,
+.qty-btn:focus-visible,
+.info-btn:focus-visible,
+.info-modal-close:focus-visible {
+  outline: 3px solid rgba(196,104,127,0.35);
+  outline-offset: 3px;
+}
+.validation-focus {
+  border-radius: 12px;
+  outline: 3px solid rgba(196,104,127,0.32);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 6px rgba(247,197,216,0.2);
+  animation: validationPulse 0.7s ease-in-out 2;
+}
+.rx-field.validation-focus select,
+.pd-field.validation-focus input,
+.progressive-check.validation-focus {
+  border-color: var(--rose-deep) !important;
+}
+@keyframes validationPulse {
+  0%, 100% { box-shadow: 0 0 0 6px rgba(247,197,216,0.18); }
+  50% { box-shadow: 0 0 0 9px rgba(196,104,127,0.28); }
+}
 
 /* PRODUCT INFO */
 .product-info { display: flex; flex-direction: column; }
@@ -352,6 +380,7 @@
   border-radius: 10px; font-size: 0.73rem; color: var(--text-soft); line-height: 1.5;
 }
 .progressive-check input { accent-color: var(--rose-deep); margin-top: 2px; flex-shrink: 0; }
+.progressive-check label { cursor: pointer; }
 
 /* HOW TO READ */
 .how-to-read {
@@ -464,12 +493,12 @@
     <li><a href="/contact/">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <button class="nav-cart-btn" onclick="openCart()">
+    <button type="button" class="nav-cart-btn" onclick="openCart()">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
       Cart <span class="nav-cart-count"></span>
       <span class="cart-badge">0</span>
     </button>
-    <button class="hamburger" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false">
+    <button type="button" class="hamburger" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -489,7 +518,7 @@
 <div class="cart-sidebar" id="cartSidebar">
   <div class="cart-header">
     <h3>Your Cart 🌸</h3>
-    <button class="cart-close" onclick="closeCart()">×</button>
+    <button type="button" class="cart-close" onclick="closeCart()" aria-label="Close cart">×</button>
   </div>
   <div id="cartBody"></div>
   <div id="cartFooter">
@@ -497,7 +526,7 @@
       <span class="cart-total-label">Total</span>
       <span class="cart-total-val" id="cartTotal">$0.00</span>
     </div>
-    <button class="btn-primary" onclick="openCheckoutModal()" style="margin-bottom:0.75rem;">Proceed to Checkout ✦</button>
+    <button type="button" class="btn-primary" onclick="openCheckoutModal()" style="margin-bottom:0.75rem;">Proceed to Checkout ✦</button>
     <div class="cart-checkout-note">
       After placing your order, we'll personally reach out to confirm details.<br>Payment via <strong>CashApp · Venmo · Zelle · PayPal</strong>
     </div>
@@ -507,32 +536,32 @@
 <!-- CHECKOUT MODAL -->
 <div class="info-modal" id="checkoutModal" onclick="closeCheckoutModal(event)">
   <div class="info-modal-box" style="max-width:480px;">
-    <button class="info-modal-close" onclick="closeCheckoutModal()">×</button>
-    <div id="checkoutForm">
+    <button type="button" class="info-modal-close" onclick="closeCheckoutModal()" aria-label="Close checkout">×</button>
+    <form id="checkoutForm" onsubmit="placeOrder(event)" novalidate>
       <div class="info-modal-title">Almost there! 🌸</div>
       <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.25rem;line-height:1.6;">Enter your contact info and we'll reach out to confirm your order before you pay.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;">
         <div>
-          <label style="display:block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:0.3rem;">First Name <span style="color:var(--rose-deep);">*</span></label>
-          <input id="co_first" type="text" placeholder="Jane" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text);background:rgba(254,231,241,0.3);transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
+          <label for="co_first" style="display:block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:0.3rem;">First Name <span style="color:var(--rose-deep);">*</span></label>
+          <input id="co_first" name="first_name" type="text" autocomplete="given-name" required placeholder="Jane" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text);background:rgba(254,231,241,0.3);transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
         </div>
         <div>
-          <label style="display:block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:0.3rem;">Last Name <span style="color:var(--rose-deep);">*</span></label>
-          <input id="co_last" type="text" placeholder="Smith" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text);background:rgba(254,231,241,0.3);transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
+          <label for="co_last" style="display:block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:0.3rem;">Last Name <span style="color:var(--rose-deep);">*</span></label>
+          <input id="co_last" name="last_name" type="text" autocomplete="family-name" required placeholder="Smith" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text);background:rgba(254,231,241,0.3);transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
         </div>
       </div>
       <div style="margin-bottom:0.75rem;">
-        <label style="display:block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:0.3rem;">Phone Number <span style="color:var(--rose-deep);">*</span></label>
-        <input id="co_phone" type="tel" placeholder="(555) 000-0000" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text);background:rgba(254,231,241,0.3);transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
+        <label for="co_phone" style="display:block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:0.3rem;">Phone Number <span style="color:var(--rose-deep);">*</span></label>
+        <input id="co_phone" name="phone" type="tel" autocomplete="tel" required placeholder="(555) 000-0000" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text);background:rgba(254,231,241,0.3);transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
       </div>
       <div style="margin-bottom:1.25rem;">
-        <label style="display:block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:0.3rem;">Email <span style="color:var(--rose-deep);">*</span></label>
-        <input id="co_email" type="email" placeholder="you@example.com" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text);background:rgba(254,231,241,0.3);transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
+        <label for="co_email" style="display:block;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:0.3rem;">Email <span style="color:var(--rose-deep);">*</span></label>
+        <input id="co_email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--text);background:rgba(254,231,241,0.3);transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
       </div>
       <div id="checkoutError" style="display:none;font-size:0.75rem;color:var(--rose-deep);margin-bottom:0.75rem;padding:0.5rem 0.75rem;background:rgba(196,104,127,0.08);border-radius:8px;"></div>
-      <button class="btn-primary" id="placeOrderBtn" onclick="placeOrder()">Place Order ✦</button>
+      <button type="submit" class="btn-primary" id="placeOrderBtn">Place Order ✦</button>
       <p style="font-size:0.7rem;color:var(--text-muted);text-align:center;margin-top:0.75rem;line-height:1.6;">We'll contact you to confirm everything before any payment is collected.</p>
-    </div>
+    </form>
     <div id="checkoutSuccess" style="display:none;text-align:center;padding:1rem 0;">
       <div style="font-size:3rem;margin-bottom:1rem;">🌸</div>
       <div class="info-modal-title">Order Received!</div>
@@ -544,7 +573,7 @@
 <!-- INFO MODAL -->
 <div class="info-modal" id="infoModal" onclick="closeInfoModal(event)">
   <div class="info-modal-box">
-    <button class="info-modal-close" onclick="closeInfoModal()">×</button>
+    <button type="button" class="info-modal-close" onclick="closeInfoModal()" aria-label="Close dialog">×</button>
     <div class="info-modal-title" id="infoModalTitle"></div>
     <div class="info-modal-body" id="infoModalBody"></div>
   </div>
@@ -569,28 +598,28 @@
         <img id="mainImg" src="/pics/main.jpg" alt="Prescription Lenses for Ray-Ban Meta AI Glasses" loading="eager">
       </div>
       <div class="gallery-thumbs">
-        <div class="gallery-thumb active" onclick="setImg(this,'/pics/main.jpg')">
+        <div class="gallery-thumb active" role="button" tabindex="0" onclick="setImg(this,'/pics/main.jpg')">
           <img src="/pics/main.jpg" alt="Main view" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'/pics/clear.jpg')">
+        <div class="gallery-thumb" role="button" tabindex="0" onclick="setImg(this,'/pics/clear.jpg')">
           <img src="/pics/clear.jpg" alt="Clear lenses" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'/pics/gray.jpg')">
+        <div class="gallery-thumb" role="button" tabindex="0" onclick="setImg(this,'/pics/gray.jpg')">
           <img src="/pics/gray.jpg" alt="Gray tint" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'/pics/brown.jpg')">
+        <div class="gallery-thumb" role="button" tabindex="0" onclick="setImg(this,'/pics/brown.jpg')">
           <img src="/pics/brown.jpg" alt="Brown tint" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'/pics/blue.jpg')">
+        <div class="gallery-thumb" role="button" tabindex="0" onclick="setImg(this,'/pics/blue.jpg')">
           <img src="/pics/blue.jpg" alt="Blue tint" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'/pics/green.jpg')">
+        <div class="gallery-thumb" role="button" tabindex="0" onclick="setImg(this,'/pics/green.jpg')">
           <img src="/pics/green.jpg" alt="Green tint" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'/pics/pink.jpg')">
+        <div class="gallery-thumb" role="button" tabindex="0" onclick="setImg(this,'/pics/pink.jpg')">
           <img src="/pics/pink.jpg" alt="Pink tint" loading="lazy">
         </div>
-        <div class="gallery-thumb" onclick="setImg(this,'/pics/purple.jpg')">
+        <div class="gallery-thumb" role="button" tabindex="0" onclick="setImg(this,'/pics/purple.jpg')">
           <img src="/pics/purple.jpg" alt="Purple tint" loading="lazy">
         </div>
       </div>
@@ -607,7 +636,7 @@
         <span class="price-original">$179.00</span>
         <span class="price-save">Save $99.01</span>
       </div>
-      <p class="price-note fade-up delay-2" style="margin-bottom:1rem;font-size:0.72rem;color:var(--text-muted);">* Discounted — starting price for clear single vision lenses</p>
+      <p class="price-note fade-up delay-2" style="margin-bottom:1rem;font-size:0.72rem;color:var(--text-muted);">* Prescription lenses start at the clear single vision price; non-prescription lenses start at $44.99.</p>
 
       <div class="trust-row fade-up delay-3">
         <div class="trust-item">✦ Gen 1 &amp; Gen 2</div>
@@ -620,27 +649,27 @@
       <div class="form-divider"></div>
       <div class="step-label"><span class="step-num">1</span> Select Model</div>
       <div class="model-grid" id="modelGrid">
-        <div class="model-option selected" data-model="Wayfarer M (50-22)" onclick="selectModel(this)">
+        <div class="model-option selected" role="button" tabindex="0" data-model="Wayfarer M (50-22)" onclick="selectModel(this)">
           <img class="model-thumb" src="/pics/Wayfarer_-_M_size_50-22.jpg" alt="Wayfarer M">
           <div><div class="model-name">Wayfarer — M</div><div class="model-size">50-22 · RW4006</div></div>
           <div class="model-radio"></div>
         </div>
-        <div class="model-option" data-model="Wayfarer L (53-22)" onclick="selectModel(this)">
+        <div class="model-option" role="button" tabindex="0" data-model="Wayfarer L (53-22)" onclick="selectModel(this)">
           <img class="model-thumb" src="/pics/Wayfarer_-_L_size_53-22.jpg" alt="Wayfarer L">
           <div><div class="model-name">Wayfarer — L</div><div class="model-size">53-22 · RW4008</div></div>
           <div class="model-radio"></div>
         </div>
-        <div class="model-option" data-model="Skyler (52-20)" onclick="selectModel(this)">
+        <div class="model-option" role="button" tabindex="0" data-model="Skyler (52-20)" onclick="selectModel(this)">
           <img class="model-thumb" src="/pics/Skyler_-_52-20.jpg" alt="Skyler">
           <div><div class="model-name">Skyler</div><div class="model-size">52-20 · RW4010</div></div>
           <div class="model-radio"></div>
         </div>
-        <div class="model-option" data-model="Headliner LBF (51-23)" onclick="selectModel(this)">
+        <div class="model-option" role="button" tabindex="0" data-model="Headliner LBF (51-23)" onclick="selectModel(this)">
           <img class="model-thumb" src="/pics/Low_Bridge_Fit_Headliner_-_51-23.jpg" alt="LBF Headliner">
           <div><div class="model-name">Headliner LBF</div><div class="model-size">51-23 · RW4009F</div></div>
           <div class="model-radio"></div>
         </div>
-        <div class="model-option" data-model="Headliner (50-23)" onclick="selectModel(this)">
+        <div class="model-option" role="button" tabindex="0" data-model="Headliner (50-23)" onclick="selectModel(this)">
           <img class="model-thumb" src="/pics/Headliner_-_50-23.jpg" alt="Headliner">
           <div><div class="model-name">Headliner</div><div class="model-size">50-23 · RW4009</div></div>
           <div class="model-radio"></div>
@@ -651,14 +680,14 @@
       <div class="form-divider"></div>
       <div class="step-label"><span class="step-num">2</span> Lens Type</div>
       <div class="lens-type-grid" id="lensTypeGrid">
-        <div class="lens-card selected" data-type="Clear" data-price="0" onclick="selectLensType(this)">
+        <div class="lens-card selected" role="button" tabindex="0" data-type="Clear" data-price="0" onclick="selectLensType(this)">
           <div class="lens-card-header">
             <span class="lens-card-name">Clear</span>
             <span class="lens-card-price">Included</span>
           </div>
           <div class="lens-card-desc">Maximum light transmission for indoor &amp; low-light clarity.</div>
         </div>
-        <div class="lens-card" data-type="Photochromic" data-price="50" onclick="selectLensType(this)">
+        <div class="lens-card" role="button" tabindex="0" data-type="Photochromic" data-price="50" onclick="selectLensType(this)">
           <div class="lens-card-header">
             <div class="lens-card-name" style="display:flex;align-items:center;gap:0.25rem;">
               Photochromic
@@ -668,7 +697,7 @@
           </div>
           <div class="lens-card-desc">Auto-darken in sunlight, clear indoors. Full UV protection.</div>
         </div>
-        <div class="lens-card" data-type="Tinted" data-price="25" onclick="selectLensType(this)">
+        <div class="lens-card" role="button" tabindex="0" data-type="Tinted" data-price="25" onclick="selectLensType(this)">
           <div class="lens-card-header">
             <div class="lens-card-name" style="display:flex;align-items:center;gap:0.25rem;">
               Tinted
@@ -678,7 +707,7 @@
           </div>
           <div class="lens-card-desc">Permanently colored — style meets comfort. Choose your tint below.</div>
         </div>
-        <div class="lens-card" data-type="Polarised" data-price="50" onclick="selectLensType(this)">
+        <div class="lens-card" role="button" tabindex="0" data-type="Polarised" data-price="50" onclick="selectLensType(this)">
           <div class="lens-card-header">
             <div class="lens-card-name" style="display:flex;align-items:center;gap:0.25rem;">
               Polarised
@@ -694,27 +723,27 @@
       <div id="colorSection" style="display:none; margin-top:0.75rem;">
         <div class="step-label" style="margin-bottom:0.55rem;"><span style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);font-weight:600;">Tint Color</span></div>
         <div class="color-row" id="colorRow">
-          <div class="color-swatch selected" data-color="Grey" onclick="selectColor(this)">
+          <div class="color-swatch selected" role="button" tabindex="0" data-color="Grey" onclick="selectColor(this)">
             <div class="swatch-dot"><img src="/pics/gray.jpg" alt="Grey" onerror="this.parentElement.style.background='#9e9e9e'"></div>
             <span class="swatch-label">Grey</span>
           </div>
-          <div class="color-swatch" data-color="Brown" onclick="selectColor(this)">
+          <div class="color-swatch" role="button" tabindex="0" data-color="Brown" onclick="selectColor(this)">
             <div class="swatch-dot"><img src="/pics/brown.jpg" alt="Brown" onerror="this.parentElement.style.background='#8B6452'"></div>
             <span class="swatch-label">Brown</span>
           </div>
-          <div class="color-swatch" data-color="Blue" onclick="selectColor(this)">
+          <div class="color-swatch" role="button" tabindex="0" data-color="Blue" onclick="selectColor(this)">
             <div class="swatch-dot"><img src="/pics/blue.jpg" alt="Blue" onerror="this.parentElement.style.background='#5B8DB8'"></div>
             <span class="swatch-label">Blue</span>
           </div>
-          <div class="color-swatch" data-color="Green" onclick="selectColor(this)">
+          <div class="color-swatch" role="button" tabindex="0" data-color="Green" onclick="selectColor(this)">
             <div class="swatch-dot"><img src="/pics/green.jpg" alt="Green" onerror="this.parentElement.style.background='#6B9E6B'"></div>
             <span class="swatch-label">Green</span>
           </div>
-          <div class="color-swatch" data-color="Pink" onclick="selectColor(this)">
+          <div class="color-swatch" role="button" tabindex="0" data-color="Pink" onclick="selectColor(this)">
             <div class="swatch-dot"><img src="/pics/pink.jpg" alt="Pink" onerror="this.parentElement.style.background='#E8A0BB'"></div>
             <span class="swatch-label">Pink</span>
           </div>
-          <div class="color-swatch" data-color="Purple" onclick="selectColor(this)">
+          <div class="color-swatch" role="button" tabindex="0" data-color="Purple" onclick="selectColor(this)">
             <div class="swatch-dot"><img src="/pics/purple.jpg" alt="Purple" onerror="this.parentElement.style.background='#9B7AB5'"></div>
             <span class="swatch-label">Purple</span>
           </div>
@@ -725,14 +754,14 @@
       <div class="form-divider"></div>
       <div class="step-label"><span class="step-num">3</span> Lens Vision</div>
       <div class="vision-row" id="visionGrid">
-        <button class="vision-btn selected" data-vision="Single Vision" data-price="0" onclick="selectVision(this)">Single Vision</button>
+        <button type="button" class="vision-btn selected" data-vision="Single Vision" data-price="0" onclick="selectVision(this)">Single Vision</button>
         <div style="display:inline-flex;align-items:center;gap:0.2rem;">
-          <button class="vision-btn" data-vision="Progressive" data-price="50" onclick="selectVision(this)">
+          <button type="button" class="vision-btn" data-vision="Progressive" data-price="50" onclick="selectVision(this)">
             Progressives <span class="v-addon">+$50</span>
           </button>
           <button type="button" class="info-btn" onclick="openInfo('Progressive Lenses', 'Progressive (no-line bifocal) lenses offer seamless vision correction for near, intermediate, and far distances in one lens — no visible line. Essential for presbyopia (difficulty reading up close). Due to their precision, these require 1–2 weeks manufacturing time.')">i</button>
         </div>
-        <button class="vision-btn" data-vision="Non-Prescription" data-price="-35" onclick="selectVision(this)">Non-Prescription <span class="v-addon">−$35</span></button>
+        <button type="button" class="vision-btn" data-vision="Non-Prescription" data-price="-35" onclick="selectVision(this)">Non-Prescription <span class="v-addon">−$35</span></button>
       </div>
 
       <!-- RX FIELDS -->
@@ -744,21 +773,21 @@
         <div class="rx-grid">
           <div class="rx-field">
             <div class="rx-label-row">
-              <label>SPH <span class="rx-req">*</span></label>
+              <label for="r_sph">SPH <span class="rx-req">*</span></label>
               <button type="button" class="info-btn" onclick="openInfo('Sphere (SPH)','The Sphere value indicates the overall strength of your lens prescription. A (+) plus sign means you are farsighted (hyperopia). A (−) minus sign means you are nearsighted (myopia). This is the most important value on your prescription.')">i</button>
             </div>
             <select id="r_sph"></select>
           </div>
           <div class="rx-field">
             <div class="rx-label-row">
-              <label>CYL</label>
+              <label for="r_cyl">CYL</label>
               <button type="button" class="info-btn" onclick="openInfo('Cylinder (CYL)','The Cylinder value corrects astigmatism — an irregular curvature of your eye. It can be positive (+) or negative (−). If you do not have astigmatism, this field will be blank or 0.00 on your prescription.')">i</button>
             </div>
             <select id="r_cyl"></select>
           </div>
           <div class="rx-field">
             <div class="rx-label-row">
-              <label>AXIS</label>
+              <label for="r_axis">AXIS</label>
               <button type="button" class="info-btn" onclick="openInfo('Axis','The Axis describes the orientation of the astigmatism correction, measured in degrees from 0 to 180. It is only required if your CYL value is non-zero. Leave at 0 if you have no astigmatism.')">i</button>
             </div>
             <select id="r_axis"></select>
@@ -768,16 +797,16 @@
         <!-- Left Eye -->
         <div class="rx-eye-label">Left Eye / O.S.</div>
         <div class="rx-grid">
-          <div class="rx-field"><label>SPH <span class="rx-req">*</span></label><select id="l_sph"></select></div>
-          <div class="rx-field"><label>CYL</label><select id="l_cyl"></select></div>
-          <div class="rx-field"><label>AXIS</label><select id="l_axis"></select></div>
+          <div class="rx-field"><label for="l_sph">SPH <span class="rx-req">*</span></label><select id="l_sph"></select></div>
+          <div class="rx-field"><label for="l_cyl">CYL</label><select id="l_cyl"></select></div>
+          <div class="rx-field"><label for="l_axis">AXIS</label><select id="l_axis"></select></div>
         </div>
 
         <!-- PD -->
         <div class="form-divider"></div>
         <div class="step-label" style="margin-bottom:0.5rem;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);font-weight:600;">
           Pupillary Distance (PD)
-          <button class="info-btn" onclick="openInfo('Pupillary Distance (PD)', 'PD is the distance in millimeters between the centers of your pupils. It ensures your prescription is centered correctly in the lens. Most prescriptions include a single number (e.g. 63mm) or two separate values for each eye (e.g. Right 31.5, Left 31.5). If your prescription does not include a PD, use the free GlassesON app or ask your optometrist.')">i</button>
+          <button type="button" class="info-btn" onclick="openInfo('Pupillary Distance (PD)', 'PD is the distance in millimeters between the centers of your pupils. It ensures your prescription is centered correctly in the lens. Most prescriptions include a single number (e.g. 63mm) or two separate values for each eye (e.g. Right 31.5, Left 31.5). If your prescription does not include a PD, use the free GlassesON app or ask your optometrist.')">i</button>
         </div>
         <label class="pd-toggle-label">
           <input type="checkbox" id="separatePD" onchange="toggleSeparatePD()">
@@ -785,15 +814,15 @@
         </label>
         <div class="pd-inputs">
           <div class="pd-field" id="pdSingleWrap">
-            <label>PD (mm)</label>
+            <label for="pd_single">PD (mm)</label>
             <input type="number" id="pd_single" placeholder="e.g. 63" min="50" max="80" step="0.5">
           </div>
           <div class="pd-field" id="pdRightWrap" style="display:none;">
-            <label>Right PD</label>
+            <label for="pd_right">Right PD</label>
             <input type="number" id="pd_right" placeholder="e.g. 31.5" min="24" max="42" step="0.5">
           </div>
           <div class="pd-field" id="pdLeftWrap" style="display:none;">
-            <label>Left PD</label>
+            <label for="pd_left">Left PD</label>
             <input type="number" id="pd_left" placeholder="e.g. 31.5" min="24" max="42" step="0.5">
           </div>
         </div>
@@ -804,10 +833,10 @@
           <div class="form-divider"></div>
           <div class="step-label" style="margin-bottom:0.5rem;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);font-weight:600;">
             ADD Value <span style="color:var(--rose-deep);">*</span>
-            <button class="info-btn" onclick="openInfo('ADD Value', 'The ADD (Addition) value is the extra magnifying power added for near vision in progressive lenses. It is always a positive number, typically between +0.75 and +3.50. Required for Progressive lenses.')">i</button>
+            <button type="button" class="info-btn" onclick="openInfo('ADD Value', 'The ADD (Addition) value is the extra magnifying power added for near vision in progressive lenses. It is always a positive number, typically between +0.75 and +3.50. Required for Progressive lenses.')">i</button>
           </div>
           <div class="rx-grid add-grid" style="max-width:200px;">
-            <div class="rx-field"><label>ADD</label><select id="add_val"></select></div>
+            <div class="rx-field"><label for="add_val">ADD</label><select id="add_val"></select></div>
           </div>
         </div>
       </div><!-- /rxFields -->
@@ -816,12 +845,12 @@
       <div class="form-divider"></div>
       <div class="step-label" style="margin-bottom:0.5rem;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);font-weight:600;">
         Blue Light Filter
-        <button class="info-btn" onclick="openInfo('Blue Light Filter (+$25)', 'Our blue light filter blocks high-energy visible (HEV) blue light emitted by screens, LEDs, and digital devices. Research shows prolonged exposure can cause digital eye strain, dry eyes, headaches, and disrupted sleep cycles. Adding this filter is especially recommended for smart glasses users who wear them throughout the day.')">i</button>
+        <button type="button" class="info-btn" onclick="openInfo('Blue Light Filter (+$25)', 'Our blue light filter blocks high-energy visible (HEV) blue light emitted by screens, LEDs, and digital devices. Research shows prolonged exposure can cause digital eye strain, dry eyes, headaches, and disrupted sleep cycles. Adding this filter is especially recommended for smart glasses users who wear them throughout the day.')">i</button>
         <span style="color:var(--rose-deep);margin-left:4px;">+$25</span>
       </div>
       <div class="toggle-row">
-        <button class="toggle-btn" id="blueYes" onclick="selectBlueLight('yes')">✦ Yes, protect my eyes</button>
-        <button class="toggle-btn selected" id="blueNo" onclick="selectBlueLight('no')">No thanks</button>
+        <button type="button" class="toggle-btn" id="blueYes" onclick="selectBlueLight('yes')">✦ Yes, protect my eyes</button>
+        <button type="button" class="toggle-btn selected" id="blueNo" onclick="selectBlueLight('no')">No thanks</button>
       </div>
 
       <!-- UPLOAD -->
@@ -857,16 +886,16 @@
         <div class="qty-row">
           <span class="qty-label">Qty</span>
           <div class="qty-ctrl">
-            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
             <span class="qty-val" id="qtyVal">1</span>
-            <button class="qty-btn" onclick="changeQty(1)">+</button>
+            <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
           </div>
         </div>
         <div class="progressive-check" id="progressiveNotice" style="display:none;">
           <input type="checkbox" id="progressiveAgree">
-          <span>I understand progressive lens production takes 1–2 weeks (excluding shipping time).</span>
+          <label for="progressiveAgree">I understand progressive lens production takes 1–2 weeks (excluding shipping time).</label>
         </div>
-        <button class="btn-primary" id="addToCartBtn" onclick="addToCart()">
+        <button type="button" class="btn-primary" id="addToCartBtn" onclick="addToCart()">
           Add to Cart — <span id="btnPriceLabel">$79.99</span>
         </button>
         <p style="font-size:0.7rem;color:var(--text-muted);text-align:center;margin-top:0.75rem;line-height:1.6;">
@@ -953,12 +982,6 @@
   </div>
   <div class="footer-bottom">
     <span>© 2026 Provocateur. All rights reserved.</span>
-    <div class="footer-payment">
-      <span class="pay-chip">CashApp</span>
-      <span class="pay-chip">Venmo</span>
-      <span class="pay-chip">Zelle</span>
-      <span class="pay-chip">PayPal</span>
-    </div>
   </div>
 </footer>
 
@@ -979,9 +1002,14 @@ const state = {
 };
 
 /* ── INIT ── */
-window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('loadingOverlay').classList.add('hidden'), 550);
-});
+function hideLoadingOverlay(delay = 0) {
+  const overlay = document.getElementById('loadingOverlay');
+  if (!overlay || overlay.classList.contains('hidden')) return;
+  setTimeout(() => overlay.classList.add('hidden'), delay);
+}
+window.addEventListener('load', () => hideLoadingOverlay(550));
+window.addEventListener('DOMContentLoaded', () => hideLoadingOverlay(1800));
+setTimeout(hideLoadingOverlay, 4500);
 
 // Populate selects
 function range(start, end, step) {
@@ -1017,40 +1045,92 @@ document.getElementById('add_val').innerHTML =
 });
 
 /* ── GALLERY ── */
+const IMAGE_BY_COLOR = {
+  Grey: '/pics/gray.jpg',
+  Brown: '/pics/brown.jpg',
+  Blue: '/pics/blue.jpg',
+  Green: '/pics/green.jpg',
+  Pink: '/pics/pink.jpg',
+  Purple: '/pics/purple.jpg'
+};
+
+function syncGalleryActive(src) {
+  document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+    const img = thumb.querySelector('img');
+    const active = img?.getAttribute('src') === src;
+    thumb.classList.toggle('active', active);
+    thumb.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+}
+
+function setMainImage(src) {
+  const main = document.getElementById('mainImg');
+  if (main) main.src = src;
+  syncGalleryActive(src);
+}
+
+function syncLensImage() {
+  if (['Tinted','Polarised'].includes(state.lensType)) {
+    setMainImage(IMAGE_BY_COLOR[state.color] || IMAGE_BY_COLOR.Grey);
+  } else {
+    setMainImage('/pics/clear.jpg');
+  }
+}
+
 function setImg(thumb, src) {
-  document.getElementById('mainImg').src = src;
-  document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
-  thumb.classList.add('active');
+  setMainImage(src);
+  if (thumb) {
+    document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+  }
 }
 
 /* ── MODEL ── */
 function selectModel(el) {
-  document.querySelectorAll('.model-option').forEach(o => o.classList.remove('selected'));
+  document.querySelectorAll('.model-option').forEach(o => {
+    const selected = o === el;
+    o.classList.toggle('selected', selected);
+    o.setAttribute('aria-pressed', selected ? 'true' : 'false');
+  });
   el.classList.add('selected');
   state.model = el.dataset.model;
 }
 
 /* ── LENS TYPE ── */
 function selectLensType(el) {
-  document.querySelectorAll('.lens-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.lens-card').forEach(c => {
+    const selected = c === el;
+    c.classList.toggle('selected', selected);
+    c.setAttribute('aria-pressed', selected ? 'true' : 'false');
+  });
   el.classList.add('selected');
   state.lensType = el.dataset.type;
   state.lensPrice = parseFloat(el.dataset.price);
   const showColor = ['Tinted','Polarised'].includes(state.lensType);
   document.getElementById('colorSection').style.display = showColor ? 'block' : 'none';
+  syncLensImage();
   updatePrice();
 }
 
 /* ── COLOR ── */
 function selectColor(el) {
-  document.querySelectorAll('.color-swatch').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.color-swatch').forEach(c => {
+    const selected = c === el;
+    c.classList.toggle('selected', selected);
+    c.setAttribute('aria-pressed', selected ? 'true' : 'false');
+  });
   el.classList.add('selected');
   state.color = el.dataset.color;
-  // Switch gallery main image to matching color
-  const imgMap = {Grey:'/pics/gray.jpg',Brown:'/pics/brown.jpg',Blue:'/pics/blue.jpg',Green:'/pics/green.jpg',Pink:'/pics/pink.jpg',Purple:'/pics/purple.jpg'};
-  if (imgMap[state.color]) {
-    document.getElementById('mainImg').src = imgMap[state.color];
-  }
+  syncLensImage();
+}
+
+function syncInitialSelectionState() {
+  document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+    thumb.setAttribute('aria-pressed', thumb.classList.contains('active') ? 'true' : 'false');
+  });
+  document.querySelectorAll('.model-option, .lens-card, .color-swatch').forEach(option => {
+    option.setAttribute('aria-pressed', option.classList.contains('selected') ? 'true' : 'false');
+  });
 }
 
 /* ── VISION ── */
@@ -1117,7 +1197,8 @@ function updatePrice() {
   const totalPrice  = unitPrice * state.qty;
 
   document.getElementById('priceTotal').textContent    = '$' + totalPrice.toFixed(2);
-  document.getElementById('btnPriceLabel').textContent = '$' + totalPrice.toFixed(2);
+  const btnPriceLabel = document.getElementById('btnPriceLabel');
+  if (btnPriceLabel) btnPriceLabel.textContent = '$' + totalPrice.toFixed(2);
   document.getElementById('displayPrice').textContent  = '$' + unitPrice.toFixed(2);
 
   // Show a subtle rx surcharge note if applicable
@@ -1142,7 +1223,18 @@ function changeQty(d) {
   updatePrice();
 }
 
+function resetAddToCartButton(totalPrice) {
+  const btn = document.getElementById('addToCartBtn');
+  btn.textContent = 'Add to Cart — ';
+  const price = document.createElement('span');
+  price.id = 'btnPriceLabel';
+  price.textContent = '$' + totalPrice.toFixed(2);
+  btn.appendChild(price);
+}
+
 /* ── FILE UPLOAD ────────────────────────────────────────────── */
+const ALLOWED_UPLOAD_EXTENSIONS = new Set(['pdf', 'jpg', 'jpeg', 'png']);
+
 function setUploadStatus(msg, isError) {
   const el = document.getElementById('uploadStatus');
   if (!msg) { el.style.display = 'none'; return; }
@@ -1153,7 +1245,7 @@ function setUploadStatus(msg, isError) {
 
 async function uploadFileToSupabase(file) {
   if (!sb) throw new Error('Upload service is unavailable.');
-  const ext = file.name.split('.').pop();
+  const ext = file.name.split('.').pop().toLowerCase();
   const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
   const { data, error } = await sb.storage
     .from('prescriptions')
@@ -1173,11 +1265,19 @@ async function handleFiles(e) {
 
   // Filter out duplicates
   const toAdd = newFiles.filter(f => !state.files.find(x => x.name === f.name));
-  if (!toAdd.length) return;
+  if (!toAdd.length) {
+    e.target.value = '';
+    return;
+  }
 
   setUploadStatus('Uploading…', false);
 
   for (const file of toAdd) {
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (!ALLOWED_UPLOAD_EXTENSIONS.has(ext)) {
+      setUploadStatus(`"${file.name}" is not a supported file type. Use PDF, JPG, or PNG.`, true);
+      continue;
+    }
     // Size check — 5MB
     if (file.size > 5 * 1024 * 1024) {
       setUploadStatus(`"${file.name}" is too large (max 5MB). Skipped.`, true);
@@ -1189,6 +1289,10 @@ async function handleFiles(e) {
 
     try {
       const path = await uploadFileToSupabase(file);
+      if (!state.files.find(x => x.name === file.name)) {
+        await sb.storage.from('prescriptions').remove([path]);
+        continue;
+      }
       state.uploadedUrls.push({ name: file.name, path });
       setUploadStatus(`✓ ${state.files.length} file${state.files.length > 1 ? 's' : ''} uploaded successfully`, false);
     } catch (err) {
@@ -1243,6 +1347,17 @@ function renderPreviews() {
   });
 }
 
+async function removeUploadedFiles(paths) {
+  if (!sb || !Array.isArray(paths) || paths.length === 0) return;
+  const { error } = await sb.storage.from('prescriptions').remove(paths);
+  if (error) console.warn('Cart upload cleanup error:', error.message);
+}
+
+window.addEventListener('cart:item-remove', event => {
+  const paths = event.detail?.item?.orderData?.uploaded_files;
+  removeUploadedFiles(paths);
+});
+
 // Desktop drag & drop (ignored gracefully on mobile)
 const zone = document.getElementById('uploadZone');
 zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
@@ -1263,21 +1378,30 @@ function openInfo(title, body) {
   document.getElementById('infoModal').classList.add('open');
 }
 function closeInfoModal(e) {
-  if (!e || e.target === document.getElementById('infoModal') || e.currentTarget === document.querySelector('.info-modal-close')) {
+  if (!e || e.target === document.getElementById('infoModal') || e.target.closest?.('.info-modal-close')) {
     document.getElementById('infoModal').classList.remove('open');
   }
 }
 
 function flashField(el) {
   if (!el) return;
-  el.style.borderColor = 'var(--rose-deep)';
-  el.focus();
-  setTimeout(() => { el.style.borderColor = ''; }, 2500);
+  const target = el.closest('.progressive-check, .rx-field, .pd-field, .toggle-row, .vision-row, .upload-zone') || el;
+  target.classList.remove('validation-focus');
+  void target.offsetWidth;
+  target.classList.add('validation-focus');
+  if (typeof target.scrollIntoView === 'function') {
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  setTimeout(() => {
+    try { el.focus({ preventScroll: true }); }
+    catch { el.focus(); }
+  }, 350);
+  setTimeout(() => target.classList.remove('validation-focus'), 2400);
 }
 
 function showValidationError(title, message, el) {
-  showToast(title, message);
   flashField(el);
+  showToast(title, message, { duration: 2800 });
   return false;
 }
 
@@ -1339,7 +1463,7 @@ function validateProgressive() {
     return showValidationError('ADD value required', 'Select the ADD value from your prescription.', add);
   }
   if (!document.getElementById('progressiveAgree').checked) {
-    return showValidationError('Please confirm', 'Check the progressive production time notice above.', document.getElementById('progressiveAgree'));
+    return showValidationError('Please confirm', 'Check the highlighted progressive production time notice.', document.getElementById('progressiveAgree'));
   }
   return true;
 }
@@ -1408,7 +1532,7 @@ async function addToCart() {
   setUploadStatus('', false);
 
   btn.disabled = false;
-  btn.innerHTML = 'Add to Cart — <span id="btnPriceLabel">$' + (unitPrice * state.qty).toFixed(2) + '</span>';
+  resetAddToCartButton(unitPrice * state.qty);
   showToast('Added to cart! 🌸', state.model + ' · ' + state.lensType);
 }
 
@@ -1420,9 +1544,10 @@ function openCheckoutModal() {
   document.getElementById('checkoutSuccess').style.display = 'none';
   document.getElementById('checkoutError').style.display = 'none';
   document.getElementById('checkoutModal').classList.add('open');
+  setTimeout(() => document.getElementById('co_first')?.focus(), 0);
 }
 function closeCheckoutModal(e) {
-  if (!e || e.target === document.getElementById('checkoutModal')) {
+  if (!e || e.target === document.getElementById('checkoutModal') || e.target.closest?.('.info-modal-close')) {
     document.getElementById('checkoutModal').classList.remove('open');
   }
 }
@@ -1444,11 +1569,12 @@ function cartSummary() {
   }));
 }
 
-function orderRowForDb(item, customer, summary, submittedAt) {
+function orderRowForDb(item, customer, summary, submittedAt, checkoutId) {
   const data = item.orderData || {};
   const uploaded = Array.isArray(data.uploaded_files) ? data.uploaded_files : [];
   const namedFiles = Array.isArray(data.files) ? data.files : [];
   return {
+    checkout_id: checkoutId,
     customer_first: customer.first,
     customer_last: customer.last,
     customer_phone: customer.phone,
@@ -1479,7 +1605,8 @@ function orderRowForDb(item, customer, summary, submittedAt) {
   };
 }
 
-async function placeOrder() {
+async function placeOrder(e) {
+  if (e) e.preventDefault();
   const first = document.getElementById('co_first').value.trim();
   const last  = document.getElementById('co_last').value.trim();
   const phone = document.getElementById('co_phone').value.trim();
@@ -1505,9 +1632,10 @@ async function placeOrder() {
 
   try {
     const submittedAt = new Date().toISOString();
+    const checkoutId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
     const summary = cartSummary();
     const customer = { first, last, phone, email };
-    const rows = Cart.items.map(item => orderRowForDb(item, customer, summary, submittedAt));
+    const rows = Cart.items.map(item => orderRowForDb(item, customer, summary, submittedAt, checkoutId));
     const { error } = await sb.from('orders').insert(rows);
     if (error) throw error;
 
@@ -1531,6 +1659,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+syncInitialSelectionState();
 updatePrice();
 </script>
 </body>

@@ -46,17 +46,17 @@
     <li><a href="/about/">About</a></li><li><a href="/faq/" class="active">FAQ</a></li><li><a href="/contact/">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <button class="nav-cart-btn" onclick="openCart()">
+    <button type="button" class="nav-cart-btn" onclick="openCart()">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
       Cart<span class="nav-cart-count"></span><span class="cart-badge">0</span>
     </button>
-    <button class="hamburger" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button type="button" class="hamburger" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu"><a href="/">Home</a><a href="/shop/">Shop</a><a href="/about/">About</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a></div>
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
-  <div class="cart-header"><h3>Your Cart 🌸</h3><button class="cart-close" onclick="closeCart()">×</button></div>
+  <div class="cart-header"><h3>Your Cart 🌸</h3><button type="button" class="cart-close" onclick="closeCart()" aria-label="Close cart">×</button></div>
   <div id="cartBody"></div>
   <div id="cartFooter"><div class="cart-total-row"><span class="cart-total-label">Total</span><span class="cart-total-val" id="cartTotal">$0.00</span></div><div class="cart-checkout-note">Payment via<br><strong>CashApp · Venmo · Zelle · PayPal</strong></div></div>
 </div>
@@ -69,30 +69,30 @@
 
   <div class="faq-section">
     <h2>Ordering &amp; Compatibility</h2>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Which Ray-Ban Meta models are compatible? <span class="faq-icon">+</span></button><div class="faq-a">We currently support all 5 Ray-Ban Meta frame models: Wayfarer M (50-22), Wayfarer L (53-22), Skyler (52-20), Low Bridge Fit Headliner (51-23), and Headliner (50-23). Both Generation 1 and Generation 2 frames are compatible.</div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Do I need to send in my glasses? <span class="faq-icon">+</span></button><div class="faq-a">No! You keep your frames. We craft replacement lenses based on your prescription values and frame model. Once your lenses are ready, we ship them directly to you and you (or an optician) can install them.</div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Are the frames included? <span class="faq-icon">+</span></button><div class="faq-a">No — Provocateur sells prescription lenses only. The Ray-Ban Meta Glasses frames are not included. You purchase your frames separately through Ray-Ban or Meta, and we provide the custom prescription lenses.</div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I know which model I have? <span class="faq-icon">+</span></button><div class="faq-a">Check the inside of your temple arm — the model number (e.g. RW4006, RW4008) is usually printed there. You can also check your Ray-Ban Meta packaging or the Ray-Ban website. If you're unsure, <a href="/contact/">contact us</a> and we'll help.</div></div>
+    <div class="faq-item"><button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Which Ray-Ban Meta models are compatible? <span class="faq-icon">+</span></button><div class="faq-a">We currently support all 5 Ray-Ban Meta frame models: Wayfarer M (50-22), Wayfarer L (53-22), Skyler (52-20), Low Bridge Fit Headliner (51-23), and Headliner (50-23). Both Generation 1 and Generation 2 frames are compatible.</div></div>
+    <div class="faq-item"><button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Do I need to send in my glasses? <span class="faq-icon">+</span></button><div class="faq-a">No! You keep your frames. We craft replacement lenses based on your prescription values and frame model. Once your lenses are ready, we ship them directly to you and you (or an optician) can install them.</div></div>
+    <div class="faq-item"><button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Are the frames included? <span class="faq-icon">+</span></button><div class="faq-a">No — Provocateur sells prescription lenses only. The Ray-Ban Meta Glasses frames are not included. You purchase your frames separately through Ray-Ban or Meta, and we provide the custom prescription lenses.</div></div>
+    <div class="faq-item"><button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">How do I know which model I have? <span class="faq-icon">+</span></button><div class="faq-a">Check the inside of your temple arm — the model number (e.g. RW4006, RW4008) is usually printed there. You can also check your Ray-Ban Meta packaging or the Ray-Ban website. If you're unsure, <a href="/contact/">contact us</a> and we'll help.</div></div>
   </div>
 
   <div class="faq-section">
     <h2>Your Prescription</h2>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Where do I find my prescription? <span class="faq-icon">+</span></button><div class="faq-a">Your prescription is provided after an eye exam by your optometrist or ophthalmologist. It will include SPH (sphere), CYL (cylinder), AXIS, and usually a PD (pupillary distance). If you can't find your prescription, contact your eye doctor — you're legally entitled to a copy.</div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What if my prescription doesn't include a PD? <span class="faq-icon">+</span></button><div class="faq-a">Some prescriptions don't include PD. You can ask your optometrist to measure it, or use the free GlassesON app on your smartphone to measure it yourself at home. Alternatively, <a href="/contact/">contact us</a> and we can guide you through the process.</div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Do I have to upload my prescription? <span class="faq-icon">+</span></button><div class="faq-a">No — uploading your prescription is optional. You can enter all your values manually in the form. However, uploading a copy helps us verify your values and may prevent any errors, so we do recommend it if you have it handy.</div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What prescription ranges do you support? <span class="faq-icon">+</span></button><div class="faq-a">We support SPH from -15.00 to +15.00, CYL from -8.00 to +8.00, AXIS from 0 to 180, and ADD from +0.75 to +4.00. If your prescription falls outside these ranges, please <a href="/contact/">contact us</a> for a custom quote.</div></div>
+    <div class="faq-item"><button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Where do I find my prescription? <span class="faq-icon">+</span></button><div class="faq-a">Your prescription is provided after an eye exam by your optometrist or ophthalmologist. It will include SPH (sphere), CYL (cylinder), AXIS, and usually a PD (pupillary distance). If you can't find your prescription, contact your eye doctor — you're legally entitled to a copy.</div></div>
+    <div class="faq-item"><button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What if my prescription doesn't include a PD? <span class="faq-icon">+</span></button><div class="faq-a">Some prescriptions don't include PD. You can ask your optometrist to measure it, or use the free GlassesON app on your smartphone to measure it yourself at home. Alternatively, <a href="/contact/">contact us</a> and we can guide you through the process.</div></div>
+    <div class="faq-item"><button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Do I have to upload my prescription? <span class="faq-icon">+</span></button><div class="faq-a">No — uploading your prescription is optional. You can enter all your values manually in the form. However, uploading a copy helps us verify your values and may prevent any errors, so we do recommend it if you have it handy.</div></div>
+    <div class="faq-item"><button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What prescription ranges do you support? <span class="faq-icon">+</span></button><div class="faq-a">We support SPH from -15.00 to +15.00, CYL from -8.00 to +8.00, AXIS from 0 to 180, and ADD from +0.75 to +4.00. If your prescription falls outside these ranges, please <a href="/contact/">contact us</a> for a custom quote.</div></div>
   </div>
 
   <div class="faq-section">
     <h2>Production &amp; Shipping</h2>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How long does production take? <span class="faq-icon">+</span></button><div class="faq-a">Clear, tinted, and polarised single vision lenses are produced in 1–4 business days. Photochromic lenses take 3–5 business days. Progressive lenses require 1–2 weeks due to the precision craftsmanship involved. Shipping time is additional.</div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What's included in my order? <span class="faq-icon">+</span></button><div class="faq-a">Every order includes your pair of custom prescription lenses with premium anti-glare, scratch-resistant, and UV400 coatings, plus a storage case and a premium microfiber cleaning cloth.</div></div>
+    <div class="faq-item"><button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">How long does production take? <span class="faq-icon">+</span></button><div class="faq-a">Clear, tinted, and polarised single vision lenses are produced in 1–4 business days. Photochromic lenses take 3–5 business days. Progressive lenses require 1–2 weeks due to the precision craftsmanship involved. Shipping time is additional.</div></div>
+    <div class="faq-item"><button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What's included in my order? <span class="faq-icon">+</span></button><div class="faq-a">Every order includes your pair of custom prescription lenses with premium anti-glare, scratch-resistant, and UV400 coatings, plus a storage case and a premium microfiber cleaning cloth.</div></div>
   </div>
 
   <div class="faq-section">
     <h2>Payment</h2>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I pay? <span class="faq-icon">+</span></button><div class="faq-a">After you submit your order, we'll reach out to confirm all your details and send you a payment link or handle. We accept CashApp, Venmo, Zelle, and PayPal. We don't process card payments directly on the site at this time.</div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">When will I be charged? <span class="faq-icon">+</span></button><div class="faq-a">You won't be charged until we've confirmed your order details are correct and you've approved everything. We'll reach out after you submit your order to verify and process payment before we begin production.</div></div>
+    <div class="faq-item"><button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">How do I pay? <span class="faq-icon">+</span></button><div class="faq-a">After you submit your order, we'll reach out to confirm all your details and send you a payment link or handle. We accept CashApp, Venmo, Zelle, and PayPal. We don't process card payments directly on the site at this time.</div></div>
+    <div class="faq-item"><button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">When will I be charged? <span class="faq-icon">+</span></button><div class="faq-a">You won't be charged until we've confirmed your order details are correct and you've approved everything. We'll reach out after you submit your order to verify and process payment before we begin production.</div></div>
   </div>
 
   <div style="text-align:center;margin-top:3rem;padding:2rem;background:var(--white);border:1px solid var(--border);border-radius:18px;">
@@ -115,9 +115,27 @@
 function toggleFaq(btn) {
   const ans = btn.nextElementSibling;
   const isOpen = btn.classList.contains('open');
-  document.querySelectorAll('.faq-q.open').forEach(b => { b.classList.remove('open'); b.nextElementSibling.classList.remove('open'); });
-  if (!isOpen) { btn.classList.add('open'); ans.classList.add('open'); }
+  document.querySelectorAll('.faq-q.open').forEach(b => {
+    b.classList.remove('open');
+    b.setAttribute('aria-expanded', 'false');
+    b.nextElementSibling.classList.remove('open');
+  });
+  if (!isOpen) {
+    btn.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    ans.classList.add('open');
+  }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.faq-q').forEach((btn, index) => {
+    const ans = btn.nextElementSibling;
+    const ansId = ans.id || `faq-answer-${index + 1}`;
+    ans.id = ansId;
+    btn.setAttribute('aria-controls', ansId);
+    btn.setAttribute('aria-expanded', btn.classList.contains('open') ? 'true' : 'false');
+  });
+});
 </script>
 </body>
 </html>

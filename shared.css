@@ -87,6 +87,15 @@ nav {
   transition: all 0.2s; position: relative;
 }
 .nav-cart-btn:hover { border-color: var(--rose); color: var(--text); }
+.nav-cart-btn:focus-visible,
+.hamburger:focus-visible,
+.cart-close:focus-visible,
+.cart-item-remove:focus-visible,
+.btn-primary:focus-visible,
+.btn-outline:focus-visible {
+  outline: 3px solid rgba(196,104,127,0.35);
+  outline-offset: 3px;
+}
 .cart-badge {
   display: none; align-items: center; justify-content: center;
   width: 18px; height: 18px; border-radius: 50%;
@@ -289,14 +298,6 @@ footer {
   font-size: 0.72rem; color: rgba(255,255,255,0.3);
   flex-wrap: wrap; gap: 0.5rem;
 }
-.footer-payment { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-.pay-chip {
-  padding: 0.2rem 0.6rem; border-radius: 6px;
-  background: rgba(255,255,255,0.08);
-  font-size: 0.7rem; color: rgba(255,255,255,0.5);
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
 @media (max-width: 768px) {
   .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
 }

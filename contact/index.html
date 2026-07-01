@@ -52,17 +52,17 @@
     <li><a href="/contact/" class="active">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <button class="nav-cart-btn" onclick="openCart()">
+    <button type="button" class="nav-cart-btn" onclick="openCart()">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
       Cart<span class="nav-cart-count"></span><span class="cart-badge">0</span>
     </button>
-    <button class="hamburger" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button type="button" class="hamburger" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu"><a href="/">Home</a><a href="/shop/">Shop</a><a href="/about/">About</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a></div>
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
-  <div class="cart-header"><h3>Your Cart 🌸</h3><button class="cart-close" onclick="closeCart()">×</button></div>
+  <div class="cart-header"><h3>Your Cart 🌸</h3><button type="button" class="cart-close" onclick="closeCart()" aria-label="Close cart">×</button></div>
   <div id="cartBody"></div>
   <div id="cartFooter"><div class="cart-total-row"><span class="cart-total-label">Total</span><span class="cart-total-val" id="cartTotal">$0.00</span></div><div class="cart-checkout-note">Payment via<br><strong>CashApp · Venmo · Zelle · PayPal</strong></div></div>
 </div>
@@ -101,15 +101,15 @@
 
     <div class="contact-form">
       <h3>Send us a Message</h3>
-      <div id="contactFormBody">
+      <form id="contactFormBody" onsubmit="submitContact(event)" novalidate>
         <div class="form-row">
-          <div class="form-group"><label>First Name</label><input type="text" id="cf_first" placeholder="Jane"></div>
-          <div class="form-group"><label>Last Name</label><input type="text" id="cf_last" placeholder="Smith"></div>
+          <div class="form-group"><label for="cf_first">First Name</label><input type="text" id="cf_first" name="first_name" autocomplete="given-name" required placeholder="Jane"></div>
+          <div class="form-group"><label for="cf_last">Last Name</label><input type="text" id="cf_last" name="last_name" autocomplete="family-name" placeholder="Smith"></div>
         </div>
-        <div class="form-group"><label>Email</label><input type="email" id="cf_email" placeholder="you@example.com"></div>
+        <div class="form-group"><label for="cf_email">Email</label><input type="email" id="cf_email" name="email" autocomplete="email" required placeholder="you@example.com"></div>
         <div class="form-group">
-          <label>Topic</label>
-          <select id="cf_topic">
+          <label for="cf_topic">Topic</label>
+          <select id="cf_topic" name="topic">
             <option value="">Select a topic…</option>
             <option>Order question</option>
             <option>Prescription help</option>
@@ -118,9 +118,9 @@
             <option>Something else</option>
           </select>
         </div>
-        <div class="form-group"><label>Message</label><textarea id="cf_msg" rows="5" placeholder="Tell us how we can help…"></textarea></div>
-        <button class="btn-primary" onclick="submitContact()">Send Message ✦</button>
-      </div>
+        <div class="form-group"><label for="cf_msg">Message</label><textarea id="cf_msg" name="message" rows="5" required placeholder="Tell us how we can help…"></textarea></div>
+        <button type="submit" class="btn-primary">Send Message ✦</button>
+      </form>
       <div class="form-success" id="formSuccess">
         <div class="success-icon">🌸</div>
         <h4>Message Sent!</h4>
@@ -147,7 +147,8 @@ const SUPABASE_ANON_KEY = 'sb_publishable_Tl1uh6OQPpuJdZRedjAMEA__eHkMG9p';
 let sb = null;
 try { sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch(e){ console.warn('Supabase init:', e); }
 
-async function submitContact() {
+async function submitContact(e) {
+  if (e) e.preventDefault();
   const first = document.getElementById('cf_first').value.trim();
   const last  = document.getElementById('cf_last').value.trim();
   const email = document.getElementById('cf_email').value.trim();
@@ -193,6 +194,40 @@ async function submitContact() {
     btn.textContent = 'Send Message ✦';
   }
 }
+
+async function removeUploadedFiles(paths) {
+  if (!sb || !Array.isArray(paths) || paths.length === 0) return;
+  const { error } = await sb.storage.from('prescriptions').remove(paths);
+  if (error) console.warn('Cart upload cleanup error:', error.message);
+}
+
+window.addEventListener('cart:item-remove', event => {
+  const paths = event.detail?.item?.orderData?.uploaded_files;
+  removeUploadedFiles(paths);
+});
+
+function initContactPrefill() {
+  const params = new URLSearchParams(window.location.search);
+  const topic = params.get('topic');
+  const message = params.get('message');
+  if (!topic && !message) return;
+
+  const topicEl = document.getElementById('cf_topic');
+  if (topic && topicEl) {
+    const match = Array.from(topicEl.options).find(option => option.value === topic || option.textContent === topic);
+    if (match) topicEl.value = match.value;
+  }
+  if (message) document.getElementById('cf_msg').value = message;
+
+  const form = document.getElementById('contactFormBody');
+  form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => {
+    try { document.getElementById('cf_first').focus({ preventScroll: true }); }
+    catch { document.getElementById('cf_first').focus(); }
+  }, 350);
+}
+
+document.addEventListener('DOMContentLoaded', initContactPrefill);
 </script>
 </body>
 </html>
