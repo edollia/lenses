@@ -400,12 +400,59 @@
 }
 .upload-zone:hover { border-color: var(--rose); background: rgba(247,197,216,0.1); }
 .upload-zone.drag-over { border-color: var(--rose-deep); background: rgba(196,104,127,0.07); }
+.upload-zone.uploading {
+  border-style: solid;
+  border-color: var(--rose);
+  background: rgba(247,197,216,0.12);
+}
+.upload-zone.has-upload {
+  border-style: solid;
+  border-color: rgba(63,127,91,0.48);
+  background: rgba(255,250,253,0.72);
+  box-shadow: 0 8px 24px rgba(63,127,91,0.08);
+}
+.upload-zone.has-error {
+  border-style: solid;
+  border-color: var(--rose-deep);
+  background: rgba(196,104,127,0.08);
+}
 .upload-zone input[type="file"] {
   position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
 }
-.upload-icon { font-size: 1.6rem; margin-bottom: 0.35rem; }
+.upload-icon {
+  font-size: 1.6rem; margin: 0 auto 0.35rem;
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.upload-zone.has-upload .upload-icon {
+  background: rgba(63,127,91,0.12);
+  color: #3f7f5b;
+  transform: scale(1.04);
+}
 .upload-title { font-size: 0.8rem; color: var(--text); font-weight: 500; margin-bottom: 0.15rem; }
 .upload-sub { font-size: 0.7rem; color: var(--text-muted); }
+.upload-picker-btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: 100px;
+  border: 1.5px solid var(--rose);
+  background: rgba(196,104,127,0.07);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--rose-deep);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.upload-picker-btn:hover {
+  background: rgba(196,104,127,0.15);
+  border-color: var(--rose-deep);
+  transform: translateY(-1px);
+}
+.upload-picker-btn:focus-visible {
+  outline: 3px solid rgba(196,104,127,0.35);
+  outline-offset: 3px;
+}
 .upload-previews {
   display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.65rem; justify-content: center;
 }
@@ -415,10 +462,77 @@
   border-radius: 100px; padding: 0.22rem 0.65rem;
   font-size: 0.7rem; color: var(--rose-deep);
 }
+.preview-chip.is-uploaded {
+  background: rgba(63,127,91,0.09);
+  border-color: rgba(63,127,91,0.35);
+  color: #3f7f5b;
+}
+.preview-chip.is-uploading { color: var(--text-soft); }
+.preview-state {
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  opacity: 0.78;
+}
 .preview-chip button {
   background: none; border: none; cursor: pointer; color: var(--rose-deep);
   font-size: 0.85rem; line-height: 1; padding: 0; opacity: 0.65;
 }
+.preview-chip.is-uploaded button { color: #3f7f5b; }
+.upload-status {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: min(100%, 360px);
+  margin: 0.7rem auto 0;
+  padding: 0.62rem 0.85rem;
+  border-radius: 12px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.upload-status.is-visible { display: flex; }
+.upload-status.success {
+  color: #3f7f5b;
+  background: rgba(63,127,91,0.1);
+  border: 1px solid rgba(63,127,91,0.24);
+}
+.upload-status.uploading {
+  color: var(--rose-deep);
+  background: rgba(196,104,127,0.08);
+  border: 1px solid var(--border);
+}
+.upload-status.error {
+  color: var(--rose-deep);
+  background: rgba(196,104,127,0.1);
+  border: 1px solid rgba(196,104,127,0.28);
+}
+.upload-status::before {
+  content: "";
+  width: 18px; height: 18px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+.upload-status.success::before {
+  content: "✓";
+  background: #3f7f5b;
+  color: white;
+}
+.upload-status.uploading::before {
+  border: 2px solid rgba(196,104,127,0.25);
+  border-top-color: var(--rose-deep);
+  animation: uploadSpin 0.8s linear infinite;
+}
+.upload-status.error::before {
+  content: "!";
+  background: var(--rose-deep);
+  color: white;
+}
+@keyframes uploadSpin { to { transform: rotate(360deg); } }
 
 /* CART SECTION */
 .cart-section { margin-top: 1.4rem; }
@@ -929,22 +1043,16 @@
       <div class="upload-zone" id="uploadZone">
         <!-- Hidden file input — triggered by button below -->
         <input type="file" id="prescFile" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none;" onchange="handleFiles(event)">
-        <div class="upload-icon">🌸</div>
-        <div class="upload-title">Upload your prescription</div>
-        <div class="upload-sub" style="margin-bottom:0.75rem;">PDF · JPG · PNG — max 5MB each</div>
+        <div class="upload-icon" id="uploadIcon">🌸</div>
+        <div class="upload-title" id="uploadTitle">Upload your prescription</div>
+        <div class="upload-sub" id="uploadSub" style="margin-bottom:0.75rem;">PDF · JPG · PNG — max 5MB each</div>
         <!-- Explicit button works perfectly on iOS, Android, and desktop -->
-        <button type="button" onclick="document.getElementById('prescFile').click()" style="
-          padding:0.5rem 1.25rem; border-radius:100px;
-          border:1.5px solid var(--rose); background:rgba(196,104,127,0.07);
-          font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:600;
-          color:var(--rose-deep); cursor:pointer; transition:all 0.2s;
-        " onmouseover="this.style.background='rgba(196,104,127,0.15)'"
-           onmouseout="this.style.background='rgba(196,104,127,0.07)'">
+        <button type="button" class="upload-picker-btn" onclick="document.getElementById('prescFile').click()">
           📎 Choose File(s)
         </button>
-        <div class="upload-previews" id="uploadPreviews" style="margin-top:0.65rem;"></div>
+        <div class="upload-previews" id="uploadPreviews"></div>
         <!-- Upload status indicator -->
-        <div id="uploadStatus" style="display:none;font-size:0.72rem;margin-top:0.5rem;"></div>
+        <div id="uploadStatus" class="upload-status" role="status" aria-live="polite"></div>
       </div>
 
       <!-- ADD TO CART -->
@@ -981,7 +1089,7 @@
   <div class="how-to-read" id="prescriptionGuide">
     <h3>How to Read Your <em>Prescription</em></h3>
     <div class="how-to-img-wrap">
-      <img src="/pics/how-to-read.jpg" alt="How to read your eye prescription guide" loading="eager" decoding="async">
+      <img src="/pics/how-to-read.png" alt="How to read your eye prescription guide" loading="eager" decoding="async">
     </div>
   </div>
 
@@ -1305,18 +1413,87 @@ function resetAddToCartButton(totalPrice) {
 /* ── FILE UPLOAD ────────────────────────────────────────────── */
 const ALLOWED_UPLOAD_EXTENSIONS = new Set(['pdf', 'jpg', 'jpeg', 'png']);
 
-function setUploadStatus(msg, isError) {
+function updateUploadShell() {
+  const zone = document.getElementById('uploadZone');
+  const icon = document.getElementById('uploadIcon');
+  const title = document.getElementById('uploadTitle');
+  const sub = document.getElementById('uploadSub');
+  if (!zone || !icon || !title || !sub) return;
+
+  const uploadedCount = state.uploadedUrls.length;
+  const selectedCount = state.files.length;
+  const isUploading = state.uploading > 0;
+
+  zone.classList.toggle('uploading', isUploading);
+  zone.classList.toggle('has-upload', uploadedCount > 0 && !isUploading);
+
+  if (isUploading) {
+    icon.textContent = '↻';
+    title.textContent = 'Uploading prescription...';
+    sub.textContent = 'Please wait before adding to cart';
+  } else if (uploadedCount > 0) {
+    icon.textContent = '✓';
+    title.textContent = uploadedCount === 1 ? 'Prescription uploaded' : 'Prescriptions uploaded';
+    sub.textContent = `${uploadedCount} file${uploadedCount > 1 ? 's' : ''} saved and ready for checkout`;
+  } else if (selectedCount > 0) {
+    icon.textContent = '📎';
+    title.textContent = 'Prescription selected';
+    sub.textContent = `${selectedCount} file${selectedCount > 1 ? 's' : ''} waiting to upload`;
+  } else {
+    icon.textContent = '🌸';
+    title.textContent = 'Upload your prescription';
+    sub.textContent = 'PDF · JPG · PNG — max 5MB each';
+  }
+}
+
+function setUploadStatus(msg, isError, statusType = 'success') {
   const el = document.getElementById('uploadStatus');
-  if (!msg) { el.style.display = 'none'; return; }
-  el.style.display = 'block';
-  el.style.color = isError ? 'var(--rose-deep)' : 'var(--text-muted)';
+  const zone = document.getElementById('uploadZone');
+  if (!el) return;
+
+  el.className = 'upload-status';
+  zone?.classList.remove('has-error');
+  if (!msg) {
+    updateUploadShell();
+    return;
+  }
+
+  el.classList.add('is-visible', isError ? 'error' : statusType);
+  if (isError) zone?.classList.add('has-error');
   el.textContent = msg;
+  updateUploadShell();
+}
+
+function getUploadedStatusText() {
+  const count = state.uploadedUrls.length;
+  return `${count} file${count > 1 ? 's' : ''} uploaded and ready for checkout.`;
+}
+
+function refreshUploadStatus() {
+  if (state.files.length === 0) {
+    setUploadStatus('', false);
+  } else if (state.uploading > 0) {
+    setUploadStatus('Uploading prescription...', false, 'uploading');
+  } else if (state.uploadedUrls.length > 0) {
+    setUploadStatus(getUploadedStatusText(), false, 'success');
+  }
+}
+
+function safeStorageFileName(name) {
+  const fallback = 'prescription';
+  const cleaned = String(name || fallback)
+    .normalize('NFKD')
+    .replace(/[^\w.\-]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^[-.]+|[-.]+$/g, '')
+    .slice(0, 90);
+  return cleaned || fallback;
 }
 
 async function uploadFileToSupabase(file) {
   if (!sb) throw new Error('Upload service is unavailable.');
-  const ext = file.name.split('.').pop().toLowerCase();
-  const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  const safeName = safeStorageFileName(file.name);
+  const path = `${Date.now()}_${Math.random().toString(36).slice(2)}_${safeName}`;
   const { data, error } = await sb.storage
     .from('prescriptions')
     .upload(path, file, { upsert: false });
@@ -1340,8 +1517,6 @@ async function handleFiles(e) {
     return;
   }
 
-  setUploadStatus('Uploading…', false);
-
   for (const file of toAdd) {
     const ext = file.name.split('.').pop().toLowerCase();
     if (!ALLOWED_UPLOAD_EXTENSIONS.has(ext)) {
@@ -1354,8 +1529,9 @@ async function handleFiles(e) {
       continue;
     }
     state.files.push(file);
-    renderPreviews();
     state.uploading += 1;
+    renderPreviews();
+    setUploadStatus(`Uploading "${file.name}"...`, false, 'uploading');
 
     try {
       const path = await uploadFileToSupabase(file);
@@ -1364,7 +1540,8 @@ async function handleFiles(e) {
         continue;
       }
       state.uploadedUrls.push({ name: file.name, path });
-      setUploadStatus(`✓ ${state.files.length} file${state.files.length > 1 ? 's' : ''} uploaded successfully`, false);
+      renderPreviews();
+      setUploadStatus(getUploadedStatusText(), false, 'success');
     } catch (err) {
       console.warn('Upload error:', err.message || err);
       state.files = state.files.filter(x => x.name !== file.name);
@@ -1373,6 +1550,7 @@ async function handleFiles(e) {
       setUploadStatus(`Upload failed for "${file.name}". Try again.`, true);
     } finally {
       state.uploading = Math.max(0, state.uploading - 1);
+      updateUploadShell();
     }
   }
 
@@ -1395,26 +1573,30 @@ async function removeFile(i) {
     }
   }
 
-  if (state.files.length === 0) setUploadStatus('', false);
-  else setUploadStatus(`✓ ${state.files.length} file${state.files.length > 1 ? 's' : ''} ready`, false);
+  refreshUploadStatus();
 }
 
 function renderPreviews() {
   const previews = document.getElementById('uploadPreviews');
   previews.textContent = '';
   state.files.forEach((f, i) => {
+    const isUploaded = state.uploadedUrls.some(x => x.name === f.name);
     const chip = document.createElement('div');
-    chip.className = 'preview-chip';
+    chip.className = `preview-chip ${isUploaded ? 'is-uploaded' : 'is-uploading'}`;
     const label = document.createElement('span');
     label.textContent = `🌸 ${f.name.length > 18 ? f.name.slice(0,16)+'…' : f.name}`;
+    const uploadState = document.createElement('span');
+    uploadState.className = 'preview-state';
+    uploadState.textContent = isUploaded ? 'Uploaded' : 'Uploading';
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.setAttribute('aria-label', `Remove ${f.name}`);
     btn.textContent = '×';
     btn.addEventListener('click', () => removeFile(i));
-    chip.append(label, btn);
+    chip.append(label, uploadState, btn);
     previews.appendChild(chip);
   });
+  updateUploadShell();
 }
 
 async function removeUploadedFiles(paths) {
@@ -1563,6 +1745,7 @@ function getCurrentOrderData(unitPrice, rxExtra) {
     add_value: state.vision === 'Progressive' ? document.getElementById('add_val')?.value : null,
     files: state.files.map(f => f.name),
     uploaded_files: state.uploadedUrls.map(f => f.path),
+    uploaded_file_details: state.uploadedUrls.map(f => ({ name: f.name, path: f.path })),
     created_at: new Date().toISOString()
   };
 }
@@ -1639,10 +1822,27 @@ function cartSummary() {
   }));
 }
 
+function readableUploadedFiles(data) {
+  const details = Array.isArray(data.uploaded_file_details) ? data.uploaded_file_details : [];
+  if (details.length) {
+    return details
+      .filter(file => file?.path)
+      .map(file => `${file.name || 'Prescription file'} -> ${file.path}`)
+      .join('\n') || null;
+  }
+
+  const uploaded = Array.isArray(data.uploaded_files) ? data.uploaded_files : [];
+  const names = Array.isArray(data.files) ? data.files : [];
+  if (uploaded.length) {
+    return uploaded
+      .map((path, index) => `${names[index] || 'Prescription file'} -> ${path}`)
+      .join('\n');
+  }
+  return names.length ? names.join('\n') : null;
+}
+
 function orderRowForDb(item, customer, summary, submittedAt, checkoutId) {
   const data = item.orderData || {};
-  const uploaded = Array.isArray(data.uploaded_files) ? data.uploaded_files : [];
-  const namedFiles = Array.isArray(data.files) ? data.files : [];
   return {
     checkout_id: checkoutId,
     customer_first: customer.first,
@@ -1670,7 +1870,7 @@ function orderRowForDb(item, customer, summary, submittedAt, checkoutId) {
     pd_right: data.pd_right ?? null,
     pd_left: data.pd_left ?? null,
     add_value: data.add_value ?? null,
-    files: uploaded.length ? uploaded.join(',') : (namedFiles.length ? namedFiles.join(',') : null),
+    files: readableUploadedFiles(data),
     created_at: submittedAt
   };
 }

@@ -16,3 +16,15 @@ That is it.
 No email alerts.
 No Edge Functions.
 No Resend.
+
+## Seeing orders, contacts, and uploaded prescriptions
+
+- Orders: Supabase -> Table Editor -> `orders`
+- Contact form messages: Supabase -> Table Editor -> `contacts`
+- Prescription files/photos: Supabase -> Storage -> `prescriptions`
+
+In an order row, check the `files` column. It shows:
+
+`original-file-name -> storage-file-path`
+
+Then open Storage -> `prescriptions`, search/open that storage path, and download the file. The bucket is private on purpose so buyer prescriptions are not public.
