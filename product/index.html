@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Custom prescription lenses for Ray-Ban Meta AI Glasses. Gen 1 & Gen 2 compatible. Ultra High Index, free coatings, fast turnaround.">
+<meta name="description" content="Custom prescription lenses for Ray-Ban Meta AI Glasses. Gen 1 &amp; Gen 2 compatible. Ultra High Index, free coatings, fast turnaround.">
 <title>Prescription Lenses — Ray-Ban Meta AI Glasses | Provocateur</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/shared.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -240,6 +241,8 @@
   font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--text-muted); margin-bottom: 0.28rem;
 }
+.rx-label-row { display: flex; align-items: center; gap: 0.2rem; margin-bottom: 0.28rem; }
+.rx-label-row label { margin-bottom: 0; }
 .rx-req { color: var(--rose-deep); }
 .rx-field select {
   width: 100%; padding: 0.5rem 0.65rem;
@@ -595,7 +598,7 @@
       <div class="product-price fade-up delay-2">
         <span class="price-current" id="displayPrice">$79.99</span>
         <span class="price-original">$179.00</span>
-        <span class="price-save">Save $99</span>
+        <span class="price-save">Save $99.01</span>
       </div>
       <p class="price-note fade-up delay-2" style="margin-bottom:1rem;font-size:0.72rem;color:var(--text-muted);">* Discounted — starting price for clear single vision lenses</p>
 
@@ -611,27 +614,27 @@
       <div class="step-label"><span class="step-num">1</span> Select Model</div>
       <div class="model-grid" id="modelGrid">
         <div class="model-option selected" data-model="Wayfarer M (50-22)" onclick="selectModel(this)">
-          <img class="model-thumb" src="/pics/Wayfarer - M size (50-22).jpg" alt="Wayfarer M" onerror="this.style.display='none'">
+          <img class="model-thumb" src="/pics/Wayfarer_-_M_size_50-22.jpg" alt="Wayfarer M">
           <div><div class="model-name">Wayfarer — M</div><div class="model-size">50-22 · RW4006</div></div>
           <div class="model-radio"></div>
         </div>
         <div class="model-option" data-model="Wayfarer L (53-22)" onclick="selectModel(this)">
-          <img class="model-thumb" src="/pics/Wayfarer - L size (53-22).jpg" alt="Wayfarer L" onerror="this.style.display='none'">
+          <img class="model-thumb" src="/pics/Wayfarer_-_L_size_53-22.jpg" alt="Wayfarer L">
           <div><div class="model-name">Wayfarer — L</div><div class="model-size">53-22 · RW4008</div></div>
           <div class="model-radio"></div>
         </div>
         <div class="model-option" data-model="Skyler (52-20)" onclick="selectModel(this)">
-          <img class="model-thumb" src="/pics/Skyler - (52-20).jpg" alt="Skyler" onerror="this.style.display='none'">
+          <img class="model-thumb" src="/pics/Skyler_-_52-20.jpg" alt="Skyler">
           <div><div class="model-name">Skyler</div><div class="model-size">52-20 · RW4010</div></div>
           <div class="model-radio"></div>
         </div>
         <div class="model-option" data-model="Headliner LBF (51-23)" onclick="selectModel(this)">
-          <img class="model-thumb" src="/pics/Low Bridge Fit Headliner - (51-23).jpg" alt="LBF Headliner" onerror="this.style.display='none'">
+          <img class="model-thumb" src="/pics/Low_Bridge_Fit_Headliner_-_51-23.jpg" alt="LBF Headliner">
           <div><div class="model-name">Headliner LBF</div><div class="model-size">51-23 · RW4009F</div></div>
           <div class="model-radio"></div>
         </div>
         <div class="model-option" data-model="Headliner (50-23)" onclick="selectModel(this)">
-          <img class="model-thumb" src="/pics/Headliner - (50-23).jpg" alt="Headliner" onerror="this.style.display='none'">
+          <img class="model-thumb" src="/pics/Headliner_-_50-23.jpg" alt="Headliner">
           <div><div class="model-name">Headliner</div><div class="model-size">50-23 · RW4009</div></div>
           <div class="model-radio"></div>
         </div>
@@ -650,30 +653,30 @@
         </div>
         <div class="lens-card" data-type="Photochromic" data-price="50" onclick="selectLensType(this)">
           <div class="lens-card-header">
-            <span class="lens-card-name">
+            <div class="lens-card-name" style="display:flex;align-items:center;gap:0.25rem;">
               Photochromic
-              <button class="info-btn" onclick="event.stopPropagation(); openInfo('Photochromic Lenses', 'Photochromic lenses automatically darken when exposed to UV light outdoors and return to clear indoors. They adapt seamlessly to changing light conditions, providing comfort and UV protection without needing to swap glasses. Ideal for daily wear and driving.')">i</button>
-            </span>
+              <button type="button" class="info-btn" onclick="event.stopPropagation(); openInfo('Photochromic Lenses', 'Photochromic lenses automatically darken when exposed to UV light outdoors and return to clear indoors. They adapt seamlessly to changing light conditions, providing comfort and UV protection without needing to swap glasses. Ideal for daily wear and driving.')">i</button>
+            </div>
             <span class="lens-card-price">+$50</span>
           </div>
           <div class="lens-card-desc">Auto-darken in sunlight, clear indoors. Full UV protection.</div>
         </div>
         <div class="lens-card" data-type="Tinted" data-price="25" onclick="selectLensType(this)">
           <div class="lens-card-header">
-            <span class="lens-card-name">
+            <div class="lens-card-name" style="display:flex;align-items:center;gap:0.25rem;">
               Tinted
-              <button class="info-btn" onclick="event.stopPropagation(); openInfo('Tinted Lenses', 'Tinted lenses are permanently colored and reduce overall light transmission, cutting glare and adding a stylish aesthetic. Available in Grey, Brown, Blue, Green, Pink, and Purple. Great for fashion use and outdoor activities in consistent light conditions.')">i</button>
-            </span>
+              <button type="button" class="info-btn" onclick="event.stopPropagation(); openInfo('Tinted Lenses', 'Tinted lenses are permanently colored and reduce overall light transmission, cutting glare and adding a stylish aesthetic. Available in Grey, Brown, Blue, Green, Pink, and Purple. Great for fashion use and outdoor activities in consistent light conditions.')">i</button>
+            </div>
             <span class="lens-card-price">+$25</span>
           </div>
           <div class="lens-card-desc">Permanently colored — style meets comfort. Choose your tint below.</div>
         </div>
         <div class="lens-card" data-type="Polarised" data-price="50" onclick="selectLensType(this)">
           <div class="lens-card-header">
-            <span class="lens-card-name">
+            <div class="lens-card-name" style="display:flex;align-items:center;gap:0.25rem;">
               Polarised
-              <button class="info-btn" onclick="event.stopPropagation(); openInfo('Polarised Lenses', 'Polarised lenses contain a special filter that blocks intense reflected light (glare) from horizontal surfaces like water, roads, and snow. They dramatically improve visual comfort and clarity outdoors, and provide full UV400 protection. The gold standard for driving and water activities.')">i</button>
-            </span>
+              <button type="button" class="info-btn" onclick="event.stopPropagation(); openInfo('Polarised Lenses', 'Polarised lenses contain a special filter that blocks intense reflected light (glare) from horizontal surfaces like water, roads, and snow. They dramatically improve visual comfort and clarity outdoors, and provide full UV400 protection. The gold standard for driving and water activities.')">i</button>
+            </div>
             <span class="lens-card-price">+$50</span>
           </div>
           <div class="lens-card-desc">Eliminates glare from reflective surfaces. UV400. Choose your tint below.</div>
@@ -716,10 +719,12 @@
       <div class="step-label"><span class="step-num">3</span> Lens Vision</div>
       <div class="vision-row" id="visionGrid">
         <button class="vision-btn selected" data-vision="Single Vision" data-price="0" onclick="selectVision(this)">Single Vision</button>
-        <button class="vision-btn" data-vision="Progressive" data-price="50" onclick="selectVision(this)">
-          Progressives <span class="v-addon">+$50</span>
-          <button class="info-btn" style="pointer-events:all;" onclick="event.stopPropagation(); openInfo('Progressive Lenses', 'Progressive (no-line bifocal) lenses offer seamless vision correction for near, intermediate, and far distances in one lens — no visible line. Essential for presbyopia (difficulty reading up close). Due to their precision, these require 1–2 weeks manufacturing time.')">i</button>
-        </button>
+        <div style="display:inline-flex;align-items:center;gap:0.2rem;">
+          <button class="vision-btn" data-vision="Progressive" data-price="50" onclick="selectVision(this)">
+            Progressives <span class="v-addon">+$50</span>
+          </button>
+          <button type="button" class="info-btn" onclick="openInfo('Progressive Lenses', 'Progressive (no-line bifocal) lenses offer seamless vision correction for near, intermediate, and far distances in one lens — no visible line. Essential for presbyopia (difficulty reading up close). Due to their precision, these require 1–2 weeks manufacturing time.')">i</button>
+        </div>
         <button class="vision-btn" data-vision="Non-Prescription" data-price="-35" onclick="selectVision(this)">Non-Prescription <span class="v-addon">−$35</span></button>
       </div>
 
@@ -731,21 +736,24 @@
         <div class="rx-eye-label">Right Eye / O.D.</div>
         <div class="rx-grid">
           <div class="rx-field">
-            <label>SPH <span class="rx-req">*</span>
-              <button class="info-btn" onclick="openInfo('Sphere (SPH)','The Sphere value indicates the overall strength of your lens prescription. A (+) plus sign means you are farsighted (hyperopia). A (−) minus sign means you are nearsighted (myopia). This is the most important value on your prescription.')">i</button>
-            </label>
+            <div class="rx-label-row">
+              <label>SPH <span class="rx-req">*</span></label>
+              <button type="button" class="info-btn" onclick="openInfo('Sphere (SPH)','The Sphere value indicates the overall strength of your lens prescription. A (+) plus sign means you are farsighted (hyperopia). A (−) minus sign means you are nearsighted (myopia). This is the most important value on your prescription.')">i</button>
+            </div>
             <select id="r_sph"></select>
           </div>
           <div class="rx-field">
-            <label>CYL
-              <button class="info-btn" onclick="openInfo('Cylinder (CYL)','The Cylinder value corrects astigmatism — an irregular curvature of your eye. It can be positive (+) or negative (−). If you do not have astigmatism, this field will be blank or 0.00 on your prescription.')">i</button>
-            </label>
+            <div class="rx-label-row">
+              <label>CYL</label>
+              <button type="button" class="info-btn" onclick="openInfo('Cylinder (CYL)','The Cylinder value corrects astigmatism — an irregular curvature of your eye. It can be positive (+) or negative (−). If you do not have astigmatism, this field will be blank or 0.00 on your prescription.')">i</button>
+            </div>
             <select id="r_cyl"></select>
           </div>
           <div class="rx-field">
-            <label>AXIS
-              <button class="info-btn" onclick="openInfo('Axis','The Axis describes the orientation of the astigmatism correction, measured in degrees from 0 to 180. It is only required if your CYL value is non-zero. Leave at 0 if you have no astigmatism.')">i</button>
-            </label>
+            <div class="rx-label-row">
+              <label>AXIS</label>
+              <button type="button" class="info-btn" onclick="openInfo('Axis','The Axis describes the orientation of the astigmatism correction, measured in degrees from 0 to 180. It is only required if your CYL value is non-zero. Leave at 0 if you have no astigmatism.')">i</button>
+            </div>
             <select id="r_axis"></select>
           </div>
         </div>
@@ -959,7 +967,7 @@ const BASE = 79.99;
 const state = {
   model: 'Wayfarer M (50-22)', lensType: 'Clear', lensPrice: 0,
   color: 'Grey', vision: 'Single Vision', visionPrice: 0,
-  blueLight: 'no', qty: 1, files: [], uploadedUrls: []
+  blueLight: 'no', qty: 1, files: [], uploadedUrls: [], uploading: 0
 };
 
 /* ── INIT ── */
@@ -974,23 +982,24 @@ function range(start, end, step) {
     vals.push(parseFloat(v.toFixed(2)));
   return vals;
 }
-function populateSel(id, vals, fmt) {
+function populateSel(id, vals, fmt, placeholder) {
   const el = document.getElementById(id);
   if (!el) return;
-  el.innerHTML = vals.map(v => `<option value="${v}">${fmt ? fmt(v) : v}</option>`).join('');
+  const first = placeholder ? `<option value="">${placeholder}</option>` : '';
+  el.innerHTML = first + vals.map(v => `<option value="${v}">${fmt ? fmt(v) : v}</option>`).join('');
 }
 const fmtRx = v => (v >= 0 ? '+' : '') + parseFloat(v).toFixed(2);
 const sphRange = range(-15, 15, 0.25);
 const cylRange = range(-8, 8, 0.25);
 const axisRange = Array.from({length:181},(_,i)=>i);
-const addRange = ['N/A',...range(0.75,4,0.25).map(v => '+'+v.toFixed(2))];
+const addRange = range(0.75,4,0.25).map(v => '+'+v.toFixed(2));
 
-['r_sph','l_sph'].forEach(id => populateSel(id, sphRange, fmtRx));
+['r_sph','l_sph'].forEach(id => populateSel(id, sphRange, fmtRx, 'Select'));
 ['r_cyl','l_cyl'].forEach(id => populateSel(id, cylRange, fmtRx));
 ['r_axis','l_axis'].forEach(id => populateSel(id, axisRange));
-document.getElementById('add_val').innerHTML = addRange.map(v=>`<option>${v}</option>`).join('');
+document.getElementById('add_val').innerHTML =
+  '<option value="">Select</option>' + addRange.map(v=>`<option>${v}</option>`).join('');
 
-['r_sph','l_sph'].forEach(id => { const el=document.getElementById(id); if(el) el.value = '0'; });
 ['r_cyl','l_cyl'].forEach(id => { const el=document.getElementById(id); if(el) el.value = '0'; });
 
 // Live price update when any rx value changes
@@ -1019,7 +1028,7 @@ function selectLensType(el) {
   el.classList.add('selected');
   state.lensType = el.dataset.type;
   state.lensPrice = parseFloat(el.dataset.price);
-  const showColor = ['Tinted','Polarised','Photochromic'].includes(state.lensType);
+  const showColor = ['Tinted','Polarised'].includes(state.lensType);
   document.getElementById('colorSection').style.display = showColor ? 'block' : 'none';
   updatePrice();
 }
@@ -1125,12 +1134,7 @@ function changeQty(d) {
   updatePrice();
 }
 
-/* ── FILE UPLOAD ──────────────────────────────────────────────
-   - Files upload to Supabase Storage IMMEDIATELY on selection
-   - Uploaded URLs stored in state.uploadedUrls (used at checkout)
-   - state.files kept for display/removal tracking
-   - Works on iOS Safari, Android Chrome, and all desktop browsers
-*/
+/* ── FILE UPLOAD ────────────────────────────────────────────── */
 function setUploadStatus(msg, isError) {
   const el = document.getElementById('uploadStatus');
   if (!msg) { el.style.display = 'none'; return; }
@@ -1140,19 +1144,24 @@ function setUploadStatus(msg, isError) {
 }
 
 async function uploadFileToSupabase(file) {
-  if (!sb) return null; // no supabase configured — skip silently
+  if (!sb) throw new Error('Upload service is unavailable.');
   const ext = file.name.split('.').pop();
   const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
   const { data, error } = await sb.storage
     .from('prescriptions')
     .upload(path, file, { upsert: false });
-  if (error) { console.warn('Upload error:', error.message); return null; }
+  if (error) throw error;
   return data.path;
 }
 
 async function handleFiles(e) {
   const newFiles = Array.from(e.target.files);
   if (!newFiles.length) return;
+  if (!sb) {
+    setUploadStatus('Prescription uploads are temporarily unavailable. Please try again later.', true);
+    e.target.value = '';
+    return;
+  }
 
   // Filter out duplicates
   const toAdd = newFiles.filter(f => !state.files.find(x => x.name === f.name));
@@ -1168,18 +1177,20 @@ async function handleFiles(e) {
     }
     state.files.push(file);
     renderPreviews();
+    state.uploading += 1;
 
-    const path = await uploadFileToSupabase(file);
-    if (path) {
-      state.uploadedUrls.push(path);
+    try {
+      const path = await uploadFileToSupabase(file);
+      state.uploadedUrls.push({ name: file.name, path });
       setUploadStatus(`✓ ${state.files.length} file${state.files.length > 1 ? 's' : ''} uploaded successfully`, false);
-    } else if (!sb) {
-      // No Supabase yet — just show file as queued
-      setUploadStatus(`✓ ${state.files.length} file${state.files.length > 1 ? 's' : ''} ready`, false);
-    } else {
-      setUploadStatus(`Upload failed for "${file.name}". Try again.`, true);
+    } catch (err) {
+      console.warn('Upload error:', err.message || err);
       state.files = state.files.filter(x => x.name !== file.name);
+      state.uploadedUrls = state.uploadedUrls.filter(x => x.name !== file.name);
       renderPreviews();
+      setUploadStatus(`Upload failed for "${file.name}". Try again.`, true);
+    } finally {
+      state.uploading = Math.max(0, state.uploading - 1);
     }
   }
 
@@ -1187,22 +1198,41 @@ async function handleFiles(e) {
   e.target.value = '';
 }
 
-function removeFile(i) {
+async function removeFile(i) {
   const removed = state.files.splice(i, 1)[0];
-  // Also remove from uploadedUrls by index alignment (best effort)
-  if (state.uploadedUrls[i]) state.uploadedUrls.splice(i, 1);
+  const uploadIndex = state.uploadedUrls.findIndex(x => x.name === removed?.name);
+  const uploaded = uploadIndex >= 0 ? state.uploadedUrls.splice(uploadIndex, 1)[0] : null;
+  renderPreviews();
+
+  if (uploaded?.path && sb) {
+    const { error } = await sb.storage.from('prescriptions').remove([uploaded.path]);
+    if (error) {
+      console.warn('Upload remove error:', error.message);
+      setUploadStatus(`Removed "${removed.name}" from the order, but storage cleanup failed.`, true);
+      return;
+    }
+  }
+
   if (state.files.length === 0) setUploadStatus('', false);
   else setUploadStatus(`✓ ${state.files.length} file${state.files.length > 1 ? 's' : ''} ready`, false);
-  renderPreviews();
 }
 
 function renderPreviews() {
-  document.getElementById('uploadPreviews').innerHTML = state.files.map((f, i) =>
-    `<div class="preview-chip">
-      🌸 ${f.name.length > 18 ? f.name.slice(0,16)+'…' : f.name}
-      <button onclick="removeFile(${i})">×</button>
-    </div>`
-  ).join('');
+  const previews = document.getElementById('uploadPreviews');
+  previews.textContent = '';
+  state.files.forEach((f, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'preview-chip';
+    const label = document.createElement('span');
+    label.textContent = `🌸 ${f.name.length > 18 ? f.name.slice(0,16)+'…' : f.name}`;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.setAttribute('aria-label', `Remove ${f.name}`);
+    btn.textContent = '×';
+    btn.addEventListener('click', () => removeFile(i));
+    chip.append(label, btn);
+    previews.appendChild(chip);
+  });
 }
 
 // Desktop drag & drop (ignored gracefully on mobile)
@@ -1230,36 +1260,118 @@ function closeInfoModal(e) {
   }
 }
 
-/* ── VALIDATE PD ── */
-function validatePD() {
-  if (state.vision === 'Non-Prescription') return true;
-  const sep = document.getElementById('separatePD').checked;
-  if (sep) {
-    const r = document.getElementById('pd_right').value.trim();
-    const l = document.getElementById('pd_left').value.trim();
-    if (!r || !l) return false;
-  } else {
-    const s = document.getElementById('pd_single').value.trim();
-    if (!s) return false;
+function flashField(el) {
+  if (!el) return;
+  el.style.borderColor = 'var(--rose-deep)';
+  el.focus();
+  setTimeout(() => { el.style.borderColor = ''; }, 2500);
+}
+
+function showValidationError(title, message, el) {
+  showToast(title, message);
+  flashField(el);
+  return false;
+}
+
+function valueInRange(el) {
+  if (!el || el.value.trim() === '') return false;
+  const value = Number(el.value);
+  const min = Number(el.min);
+  const max = Number(el.max);
+  const step = el.step && el.step !== 'any' ? Number(el.step) : null;
+  if (!Number.isFinite(value)) return false;
+  if (Number.isFinite(min) && value < min) return false;
+  if (Number.isFinite(max) && value > max) return false;
+  if (Number.isFinite(step) && step > 0) {
+    const base = Number.isFinite(min) ? min : 0;
+    const steps = (value - base) / step;
+    if (Math.abs(Math.round(steps) - steps) > 1e-8) return false;
   }
   return true;
 }
 
-/* ── ADD TO CART ── */
-async function addToCart() {
-  if (state.vision === 'Progressive') {
-    if (!document.getElementById('progressiveAgree').checked) {
-      showToast('Please confirm', 'Check the progressive production time notice above.');
-      return;
+function validateRx() {
+  if (state.vision === 'Non-Prescription') return true;
+  const rightSph = document.getElementById('r_sph');
+  const leftSph = document.getElementById('l_sph');
+  if (!rightSph.value) {
+    return showValidationError('Prescription is required', 'Select the SPH value for your right eye.', rightSph);
+  }
+  if (!leftSph.value) {
+    return showValidationError('Prescription is required', 'Select the SPH value for your left eye.', leftSph);
+  }
+  return true;
+}
+
+function validatePD() {
+  if (state.vision === 'Non-Prescription') return true;
+  const sep = document.getElementById('separatePD').checked;
+  if (sep) {
+    const r = document.getElementById('pd_right');
+    const l = document.getElementById('pd_left');
+    if (!valueInRange(r)) {
+      return showValidationError('PD is required', 'Enter a valid right PD between 24 and 42 mm in 0.5 mm increments.', r);
+    }
+    if (!valueInRange(l)) {
+      return showValidationError('PD is required', 'Enter a valid left PD between 24 and 42 mm in 0.5 mm increments.', l);
+    }
+  } else {
+    const s = document.getElementById('pd_single');
+    if (!valueInRange(s)) {
+      return showValidationError('PD is required', 'Enter a valid single PD between 50 and 80 mm in 0.5 mm increments.', s);
     }
   }
-  if (!validatePD()) {
-    showToast('PD is required', 'Please enter your pupillary distance above.');
-    // Highlight PD field
-    const pdEl = document.getElementById('separatePD').checked
-      ? document.getElementById('pd_right')
-      : document.getElementById('pd_single');
-    if (pdEl) { pdEl.style.borderColor = 'var(--rose-deep)'; pdEl.focus(); setTimeout(() => pdEl.style.borderColor = '', 2500); }
+  return true;
+}
+
+function validateProgressive() {
+  if (state.vision !== 'Progressive') return true;
+  const add = document.getElementById('add_val');
+  if (!add.value) {
+    return showValidationError('ADD value required', 'Select the ADD value from your prescription.', add);
+  }
+  if (!document.getElementById('progressiveAgree').checked) {
+    return showValidationError('Please confirm', 'Check the progressive production time notice above.', document.getElementById('progressiveAgree'));
+  }
+  return true;
+}
+
+function getCurrentOrderData(unitPrice, rxExtra) {
+  const sep = document.getElementById('separatePD')?.checked;
+  const isNonRx = state.vision === 'Non-Prescription';
+  return {
+    model: state.model,
+    lens_type: state.lensType,
+    lens_color: ['Tinted','Polarised'].includes(state.lensType) ? state.color : null,
+    vision: state.vision,
+    blue_light: state.blueLight === 'yes',
+    qty: state.qty,
+    unit_price: unitPrice,
+    total_price: unitPrice * state.qty,
+    rx_surcharge: rxExtra,
+    r_sph: isNonRx ? null : document.getElementById('r_sph')?.value,
+    r_cyl: isNonRx ? null : document.getElementById('r_cyl')?.value,
+    r_axis: isNonRx ? null : document.getElementById('r_axis')?.value,
+    l_sph: isNonRx ? null : document.getElementById('l_sph')?.value,
+    l_cyl: isNonRx ? null : document.getElementById('l_cyl')?.value,
+    l_axis: isNonRx ? null : document.getElementById('l_axis')?.value,
+    pd: isNonRx || sep ? null : document.getElementById('pd_single')?.value,
+    pd_right: !isNonRx && sep ? document.getElementById('pd_right')?.value : null,
+    pd_left: !isNonRx && sep ? document.getElementById('pd_left')?.value : null,
+    add_value: state.vision === 'Progressive' ? document.getElementById('add_val')?.value : null,
+    files: state.files.map(f => f.name),
+    uploaded_files: state.uploadedUrls.map(f => f.path),
+    created_at: new Date().toISOString()
+  };
+}
+
+/* ── ADD TO CART ── */
+async function addToCart() {
+  if (state.uploading > 0) {
+    showToast('Upload in progress', 'Please wait for your prescription file to finish uploading.');
+    return;
+  }
+  if (!validateRx() || !validatePD() || !validateProgressive()) {
     return;
   }
 
@@ -1270,34 +1382,7 @@ async function addToCart() {
   const blueExtra = state.blueLight === 'yes' ? 25 : 0;
   const rxExtra   = getRxSurchargeTotal();
   const unitPrice = BASE + state.lensPrice + state.visionPrice + blueExtra + rxExtra;
-
-  const sep = document.getElementById('separatePD')?.checked;
-  const orderData = {
-    model: state.model,
-    lens_type: state.lensType,
-    lens_color: ['Tinted','Polarised','Photochromic'].includes(state.lensType) ? state.color : null,
-    vision: state.vision,
-    blue_light: state.blueLight === 'yes',
-    qty: state.qty,
-    unit_price: unitPrice,
-    total_price: unitPrice * state.qty,
-    rx_surcharge: rxExtra,
-    r_sph: document.getElementById('r_sph')?.value,
-    r_cyl: document.getElementById('r_cyl')?.value,
-    r_axis: document.getElementById('r_axis')?.value,
-    l_sph: document.getElementById('l_sph')?.value,
-    l_cyl: document.getElementById('l_cyl')?.value,
-    l_axis: document.getElementById('l_axis')?.value,
-    pd: sep ? null : document.getElementById('pd_single')?.value,
-    pd_right: sep ? document.getElementById('pd_right')?.value : null,
-    pd_left: sep ? document.getElementById('pd_left')?.value : null,
-    add_value: state.vision === 'Progressive' ? document.getElementById('add_val')?.value : null,
-    files: state.files.map(f=>f.name),
-    created_at: new Date().toISOString()
-  };
-
-  // Save pending order to be submitted on checkout
-  window._pendingOrder = orderData;
+  const orderData = getCurrentOrderData(unitPrice, rxExtra);
 
   Cart.add({
     name: 'Ray-Ban Meta Prescription Lenses',
@@ -1306,8 +1391,13 @@ async function addToCart() {
     vision: state.vision,
     price: unitPrice,
     qty: state.qty,
-    orderData
+    orderData: JSON.parse(JSON.stringify(orderData))
   });
+
+  state.files = [];
+  state.uploadedUrls = [];
+  renderPreviews();
+  setUploadStatus('', false);
 
   btn.disabled = false;
   btn.innerHTML = 'Add to Cart — <span id="btnPriceLabel">$' + (unitPrice * state.qty).toFixed(2) + '</span>';
@@ -1320,6 +1410,7 @@ function openCheckoutModal() {
   closeCart();
   document.getElementById('checkoutForm').style.display = 'block';
   document.getElementById('checkoutSuccess').style.display = 'none';
+  document.getElementById('checkoutError').style.display = 'none';
   document.getElementById('checkoutModal').classList.add('open');
 }
 function closeCheckoutModal(e) {
@@ -1328,62 +1419,109 @@ function closeCheckoutModal(e) {
   }
 }
 
+function showCheckoutError(msg) {
+  const errEl = document.getElementById('checkoutError');
+  errEl.textContent = msg;
+  errEl.style.display = 'block';
+}
+
+function cartSummary() {
+  return Cart.items.map(i => ({
+    model: i.model || null,
+    lens_type: i.lensType || null,
+    vision: i.vision || null,
+    price: Number(i.price) || 0,
+    qty: Number(i.qty) || 0,
+    order_data: i.orderData || null
+  }));
+}
+
+function orderRowForDb(item, customer, summary, submittedAt) {
+  const data = item.orderData || {};
+  const uploaded = Array.isArray(data.uploaded_files) ? data.uploaded_files : [];
+  const namedFiles = Array.isArray(data.files) ? data.files : [];
+  return {
+    customer_first: customer.first,
+    customer_last: customer.last,
+    customer_phone: customer.phone,
+    customer_email: customer.email,
+    cart_total: Cart.total(),
+    cart_items: JSON.stringify(summary),
+    model: data.model || item.model || null,
+    lens_type: data.lens_type || item.lensType || null,
+    lens_color: data.lens_color || null,
+    vision: data.vision || item.vision || null,
+    blue_light: Boolean(data.blue_light),
+    qty: Number(data.qty ?? item.qty ?? 1),
+    unit_price: Number(data.unit_price ?? item.price ?? 0),
+    total_price: Number(data.total_price ?? ((Number(item.price) || 0) * (Number(item.qty) || 0))),
+    rx_surcharge: Number(data.rx_surcharge || 0),
+    r_sph: data.r_sph ?? null,
+    r_cyl: data.r_cyl ?? null,
+    r_axis: data.r_axis ?? null,
+    l_sph: data.l_sph ?? null,
+    l_cyl: data.l_cyl ?? null,
+    l_axis: data.l_axis ?? null,
+    pd: data.pd ?? null,
+    pd_right: data.pd_right ?? null,
+    pd_left: data.pd_left ?? null,
+    add_value: data.add_value ?? null,
+    files: uploaded.length ? uploaded.join(',') : (namedFiles.length ? namedFiles.join(',') : null),
+    created_at: submittedAt
+  };
+}
+
 async function placeOrder() {
   const first = document.getElementById('co_first').value.trim();
   const last  = document.getElementById('co_last').value.trim();
   const phone = document.getElementById('co_phone').value.trim();
   const email = document.getElementById('co_email').value.trim();
-  const errEl = document.getElementById('checkoutError');
 
   if (!first || !last || !phone || !email) {
-    errEl.textContent = 'Please fill in all fields — name, phone, and email are required.';
-    errEl.style.display = 'block'; return;
+    showCheckoutError('Please fill in all fields — name, phone, and email are required.');
+    return;
   }
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   if (!emailOk) {
-    errEl.textContent = 'Please enter a valid email address.';
-    errEl.style.display = 'block'; return;
+    showCheckoutError('Please enter a valid email address.');
+    return;
   }
-  errEl.style.display = 'none';
+  if (!sb) {
+    showCheckoutError('Order submission is temporarily unavailable. Please try again in a moment.');
+    return;
+  }
+  document.getElementById('checkoutError').style.display = 'none';
 
   const btn = document.getElementById('placeOrderBtn');
   btn.disabled = true; btn.textContent = 'Placing order…';
 
-  if (sb) {
-    try {
-      // Files are already uploaded — just attach the stored paths
-      const fullOrderForDB = {
-        customer_first:  first,
-        customer_last:   last,
-        customer_phone:  phone,
-        customer_email:  email,
-        cart_total:      Cart.total(),
-        cart_items:      JSON.stringify(Cart.items.map(i => ({
-          model: i.model, lens_type: i.lensType, vision: i.vision, price: i.price, qty: i.qty
-        }))),
-        // Spread all prescription fields from pending order
-        ...(window._pendingOrder || {}),
-        // Overwrite files with real uploaded URLs
-        files: state.uploadedUrls.length ? state.uploadedUrls.join(',') : null,
-        created_at: new Date().toISOString()
-      };
-      // Remove non-DB fields
-      delete fullOrderForDB.order_details;
+  try {
+    const submittedAt = new Date().toISOString();
+    const summary = cartSummary();
+    const customer = { first, last, phone, email };
+    const rows = Cart.items.map(item => orderRowForDb(item, customer, summary, submittedAt));
+    const { error } = await sb.from('orders').insert(rows);
+    if (error) throw error;
 
-      const { error } = await sb.from('orders').insert([fullOrderForDB]);
-      if (error) console.warn('Supabase insert error:', error.message);
-    } catch(err) { console.warn('Supabase:', err); }
-  } else {
-    console.log('📦 New order (no Supabase):', { first, last, phone, email, order: window._pendingOrder, files: state.uploadedUrls });
+    Cart.items = [];
+    Cart.save();
+    btn.disabled = false;
+    btn.textContent = 'Place Order ✦';
+    document.getElementById('checkoutForm').style.display = 'none';
+    document.getElementById('checkoutSuccess').style.display = 'block';
+  } catch(err) {
+    console.warn('Supabase order error:', err.message || err);
+    showCheckoutError('We could not place your order. Your cart is still saved — please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Place Order ✦';
   }
-
-  // Clear cart
-  Cart.items = []; Cart.save();
-
-  btn.disabled = false;
-  document.getElementById('checkoutForm').style.display = 'none';
-  document.getElementById('checkoutSuccess').style.display = 'block';
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (window.location.hash === '#checkout' && Cart.items.length > 0) {
+    setTimeout(openCheckoutModal, 0);
+  }
+});
 
 updatePrice();
 </script>

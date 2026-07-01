@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact — Provocateur</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/shared.css">
 <style>
 .page-wrap { position:relative; z-index:1; max-width:900px; margin:0 auto; padding:clamp(3rem,6vh,5rem) clamp(1rem,4vw,2.5rem) 5rem; }
@@ -163,26 +164,34 @@ async function submitContact() {
   const btn = document.querySelector('.contact-form .btn-primary');
   btn.disabled = true; btn.textContent = 'Sending…';
 
-  if (sb) {
-    try {
-      const { error } = await sb.from('contacts').insert([{
-        first_name: first,
-        last_name:  last  || null,
-        email,
-        topic:      topic || null,
-        message:    msg,
-        status:     'unread',
-        created_at: new Date().toISOString()
-      }]);
-      if (error) console.warn('Supabase contact error:', error.message);
-    } catch(e) { console.warn('Supabase:', e); }
-  } else {
-    console.log('Contact form (no Supabase):', { first, last, email, topic, msg });
+  if (!sb) {
+    showToast('Message not sent', 'Contact service is temporarily unavailable. Please try again.');
+    btn.disabled = false; btn.textContent = 'Send Message ✦';
+    return;
   }
 
-  btn.disabled = false;
-  document.getElementById('contactFormBody').style.display = 'none';
-  document.getElementById('formSuccess').style.display = 'block';
+  try {
+    const { error } = await sb.from('contacts').insert([{
+      first_name: first,
+      last_name:  last  || null,
+      email,
+      topic:      topic || null,
+      message:    msg,
+      status:     'unread',
+      created_at: new Date().toISOString()
+    }]);
+    if (error) throw error;
+
+    btn.disabled = false;
+    btn.textContent = 'Send Message ✦';
+    document.getElementById('contactFormBody').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  } catch(e) {
+    console.warn('Supabase contact error:', e.message || e);
+    showToast('Message not sent', 'Please try again. Your message is still here.');
+    btn.disabled = false;
+    btn.textContent = 'Send Message ✦';
+  }
 }
 </script>
 </body>

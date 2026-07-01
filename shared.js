@@ -16,21 +16,22 @@ const Cart = {
   },
 
   add(item) {
-    this.items.push({ ...item, id: Date.now() });
+    const id = `${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    this.items.push({ ...item, id });
     this.save();
   },
 
   remove(id) {
-    this.items = this.items.filter(i => i.id !== id);
+    this.items = this.items.filter(i => String(i.id) !== String(id));
     this.save();
   },
 
   total() {
-    return this.items.reduce((sum, i) => sum + (i.price * i.qty), 0);
+    return this.items.reduce((sum, i) => sum + ((Number(i.price) || 0) * (Number(i.qty) || 0)), 0);
   },
 
   count() {
-    return this.items.reduce((sum, i) => sum + i.qty, 0);
+    return this.items.reduce((sum, i) => sum + (Number(i.qty) || 0), 0);
   },
 
   updateBadge() {
@@ -58,6 +59,7 @@ function initMobileNav() {
   document.addEventListener('click', e => {
     if (!btn.contains(e.target) && !menu.contains(e.target)) {
       menu.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
     }
   });
 }
@@ -65,49 +67,114 @@ function initMobileNav() {
 // Cart sidebar open/close
 function openCart() {
   const sidebar = document.getElementById('cartSidebar');
+  const overlay = document.getElementById('cartOverlay');
   if (sidebar) {
     renderCartSidebar();
     sidebar.classList.add('open');
+    if (overlay) overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
 }
 function closeCart() {
   const sidebar = document.getElementById('cartSidebar');
+  const overlay = document.getElementById('cartOverlay');
   if (sidebar) {
     sidebar.classList.remove('open');
+    if (overlay) overlay.classList.remove('open');
     document.body.style.overflow = '';
   }
+}
+
+function startCheckout() {
+  if (typeof openCheckoutModal === 'function') {
+    openCheckoutModal();
+    return;
+  }
+  window.location.href = '/product/#checkout';
+}
+
+function ensureCheckoutAction(footer) {
+  let action = footer.querySelector('[data-cart-checkout-action], button[onclick*="openCheckoutModal"]');
+  if (!action) {
+    action = document.createElement('button');
+    action.className = 'btn-primary';
+    action.style.marginBottom = '0.75rem';
+    const note = footer.querySelector('.cart-checkout-note');
+    footer.insertBefore(action, note || null);
+  }
+  action.type = 'button';
+  action.dataset.cartCheckoutAction = 'true';
+  action.textContent = 'Proceed to Checkout ✦';
+  action.onclick = startCheckout;
 }
 
 function renderCartSidebar() {
   const body = document.getElementById('cartBody');
   const footer = document.getElementById('cartFooter');
   if (!body) return;
+  body.textContent = '';
 
   if (Cart.items.length === 0) {
-    body.innerHTML = `<div class="cart-empty">
-      <div style="font-size:2.5rem;margin-bottom:1rem;">🌸</div>
-      <p>Your cart is empty</p>
-      <a href="/product/" style="color:var(--rose-deep);font-size:0.8rem;">Browse our lenses →</a>
-    </div>`;
+    const empty = document.createElement('div');
+    empty.className = 'cart-empty';
+    const icon = document.createElement('div');
+    icon.style.cssText = 'font-size:2.5rem;margin-bottom:1rem;';
+    icon.textContent = '🌸';
+    const text = document.createElement('p');
+    text.textContent = 'Your cart is empty';
+    const link = document.createElement('a');
+    link.href = '/product/';
+    link.style.cssText = 'color:var(--rose-deep);font-size:0.8rem;';
+    link.textContent = 'Browse our lenses →';
+    empty.append(icon, text, link);
+    body.appendChild(empty);
     if (footer) footer.style.display = 'none';
     return;
   }
 
-  body.innerHTML = Cart.items.map(item => `
-    <div class="cart-item" data-id="${item.id}">
-      <div class="cart-item-img">🕶️</div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-meta">${item.model} · ${item.lensType} · ${item.vision}</div>
-        <div class="cart-item-price">$${(item.price * item.qty).toFixed(2)}</div>
-      </div>
-      <button class="cart-item-remove" onclick="Cart.remove(${item.id}); renderCartSidebar();">×</button>
-    </div>
-  `).join('');
+  Cart.items.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'cart-item';
+    row.dataset.id = item.id;
+
+    const icon = document.createElement('div');
+    icon.className = 'cart-item-img';
+    icon.textContent = '🕶️';
+
+    const info = document.createElement('div');
+    info.className = 'cart-item-info';
+
+    const name = document.createElement('div');
+    name.className = 'cart-item-name';
+    name.textContent = item.name || 'Custom lenses';
+
+    const meta = document.createElement('div');
+    meta.className = 'cart-item-meta';
+    meta.textContent = [item.model, item.lensType, item.vision].filter(Boolean).join(' · ');
+
+    const price = document.createElement('div');
+    price.className = 'cart-item-price';
+    price.textContent = '$' + (((Number(item.price) || 0) * (Number(item.qty) || 0)).toFixed(2));
+
+    info.append(name, meta, price);
+
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'cart-item-remove';
+    remove.setAttribute('aria-label', `Remove ${item.name || 'item'} from cart`);
+    remove.textContent = '×';
+    remove.addEventListener('click', () => {
+      Cart.remove(item.id);
+      renderCartSidebar();
+    });
+
+    row.append(icon, info, remove);
+    body.appendChild(row);
+  });
 
   if (footer) {
     footer.style.display = 'block';
+    ensureCheckoutAction(footer);
     const totalEl = document.getElementById('cartTotal');
     if (totalEl) totalEl.textContent = '$' + Cart.total().toFixed(2);
   }
@@ -132,4 +199,7 @@ function showToast(msg, sub) {
 document.addEventListener('DOMContentLoaded', () => {
   Cart.load();
   initMobileNav();
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeCart();
+  });
 });
