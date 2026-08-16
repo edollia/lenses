@@ -128,62 +128,49 @@
 .hero-img-wrap {
   border-radius: 24px; overflow: hidden;
   box-shadow: 0 16px 60px var(--shadow-md);
-  aspect-ratio: 1/1; background: var(--white);
+  background: var(--white);
   position: relative;
 }
-.hero-img-link { position:absolute; inset:0; display:block; }
+.hero-img-link {
+  position:relative; display:block; width:100%; aspect-ratio:1/1;
+  overflow:hidden; border-radius:24px 24px 0 0;
+}
 .hero-img-wrap img {
   width: 100%; height: 100%; object-fit: cover; display: block;
   transition: opacity 0.42s ease, transform 0.55s ease;
 }
 .hero-img-wrap img.is-changing { opacity:0; transform:scale(1.015); }
 .hero-img-badge {
-  position: absolute; bottom: 20px; left: 20px;
-  width:300px; max-width:calc(100% - 40px);
-  background:linear-gradient(135deg,rgba(255,250,253,0.8),rgba(247,197,216,0.54));
+  position:relative; z-index:4;
+  width:calc(100% - 40px); margin:-38px auto 16px;
+  background:linear-gradient(145deg,rgba(255,252,254,0.9),rgba(247,197,216,0.58));
   -webkit-backdrop-filter:blur(18px) saturate(150%); backdrop-filter:blur(18px) saturate(150%);
   border:1px solid rgba(255,255,255,0.72);
-  border-radius: 14px; padding: 0.9rem 1.2rem;
+  border-radius:18px; padding:0.78rem 0.9rem;
   box-shadow:0 8px 28px rgba(106,53,75,0.2),inset 0 1px 0 rgba(255,255,255,0.76);
 }
-.hero-img-badge-product {
-  min-height:1.85em; margin-bottom:0.22rem;
-  font-size:0.68rem; line-height:1.35; letter-spacing:0.08em;
-  text-transform:uppercase; color:var(--text-soft); font-weight:600;
+.hero-img-badge-row {
+  display:grid; grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center; gap:clamp(0.55rem,2vw,1rem);
 }
-.hero-img-badge-row { display:flex; align-items:flex-end; justify-content:space-between; gap:0.75rem; }
+.hero-img-badge-price-wrap { display:contents; }
 .hero-img-badge-price {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem; font-weight: 500; color:var(--rose-deep);
-  display: flex; align-items: baseline; gap: 0.4rem;
+  font-size:1.55rem; line-height:1; font-weight:500; color:var(--rose-deep);
+  display:flex; align-items:baseline; gap:0.32rem; white-space:nowrap;
 }
-.hero-img-badge-orig { font-size: 0.85rem; color:var(--text-muted); text-decoration: line-through; }
-.hero-img-badge-label { font-size: 0.72rem; color:var(--text-soft); margin-top: 0.15rem; }
+.hero-img-badge-orig { font-size:0.8rem; color:var(--text-muted); text-decoration:line-through; }
+.hero-img-badge-label { font-size:0.7rem; line-height:1.3; color:var(--text-soft); text-align:center; white-space:nowrap; }
 .hero-img-badge-action {
   display:inline-flex; align-items:center; justify-content:center; gap:0.3rem;
-  flex:0 0 auto; padding:0.52rem 0.7rem; border-radius:100px;
+  flex:0 0 auto; padding:0.58rem 0.75rem; border-radius:100px;
   background:var(--rose-deep); color:white; text-decoration:none;
-  font-size:0.63rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  font-size:0.65rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
   box-shadow:0 5px 16px rgba(196,104,127,0.28); transition:transform 0.2s,background 0.2s;
 }
 .hero-img-badge-action:hover { background:#b05570; transform:translateY(-1px); }
 .hero-img-badge-action:focus-visible { outline:2px solid var(--rose-deep); outline-offset:2px; }
 .hero-img-badge-action [data-icon] { width:0.75rem; height:0.75rem; }
-.hero-carousel-controls {
-  position:absolute; right:20px; bottom:20px; z-index:3;
-  display:flex; align-items:center; gap:0.4rem;
-  padding:0.55rem 0.65rem; border:1px solid rgba(255,255,255,0.72);
-  border-radius:100px; background:linear-gradient(135deg,rgba(255,250,253,0.7),rgba(247,197,216,0.3));
-  -webkit-backdrop-filter:blur(18px) saturate(150%); backdrop-filter:blur(18px) saturate(150%);
-  box-shadow:0 8px 24px rgba(106,53,75,0.16),inset 0 1px 0 rgba(255,255,255,0.78);
-}
-.hero-carousel-dot {
-  width:8px; height:8px; padding:0; border:0; border-radius:50%;
-  background:var(--rose-light); cursor:pointer; transition:width 0.25s, background 0.25s;
-}
-.hero-carousel-dot[aria-current="true"] { width:22px; border-radius:100px; background:var(--rose-deep); }
-.hero-carousel-dot:focus-visible { outline:2px solid var(--rose-deep); outline-offset:3px; }
-
 /* Floating dots decoration */
 .hero-dot {
   position: absolute; border-radius: 50%;
@@ -368,14 +355,25 @@
 }
 @media (max-width: 520px) {
   .nonrx-bubble { align-items:flex-start; bottom:1rem; font-size:0.74rem; padding:0.9rem 2.75rem 0.9rem 0.9rem; }
-  .hero-carousel-controls { top:16px; right:16px; bottom:auto; }
-  .hero-img-badge { right:auto; bottom:16px; left:16px; width:288px; max-width:calc(100% - 32px); padding:0.75rem 0.9rem; }
-  .hero-img-badge-product { max-width:none; }
+  .hero-img-badge { width:calc(100% - 24px); margin:-34px auto 12px; padding:0.7rem 0.75rem; border-radius:16px; }
+  .hero-img-badge-row { gap:0.48rem; }
+  .hero-img-badge-price { font-size:1.35rem; gap:0.25rem; }
+  .hero-img-badge-orig { font-size:0.7rem; }
+  .hero-img-badge-label { font-size:0.68rem; }
+  .hero-img-badge-action { padding:0.52rem 0.62rem; font-size:0.64rem; }
   .stats-inner { gap: 1.5rem; }
   .steps-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
   .lens-cards-grid { grid-template-columns: 1fr 1fr; }
   .cta-inner { text-align: center; flex-direction: column; align-items: center; }
   .cta-text p { margin: 0 auto; }
+}
+@media (max-width: 360px) {
+  .hero-img-badge { width:calc(100% - 16px); padding:0.64rem 0.58rem; }
+  .hero-img-badge-row { gap:0.34rem; }
+  .hero-img-badge-price { font-size:1.2rem; gap:0.2rem; }
+  .hero-img-badge-orig { font-size:0.62rem; }
+  .hero-img-badge-label { font-size:0.58rem; }
+  .hero-img-badge-action { padding:0.48rem 0.52rem; font-size:0.56rem; letter-spacing:0.06em; }
 }
 </style>
 </head>
@@ -470,21 +468,13 @@
           <img id="heroProductImage" src="/pics/Starfire%20Kylie%20Edition%20AI%20Glasses.jpg" alt="Replacement lenses for Meta Starfire Kylie Edition AI Glasses" loading="eager" decoding="async">
         </a>
         <div class="hero-img-badge">
-          <div class="hero-img-badge-product" id="heroProductName">Meta Starfire Kylie Edition</div>
           <div class="hero-img-badge-row">
-            <div>
+            <div class="hero-img-badge-price-wrap">
               <div class="hero-img-badge-price">$79.99 <span class="hero-img-badge-orig">$179</span></div>
               <div class="hero-img-badge-label">Non-Rx from $44.99</div>
             </div>
             <a class="hero-img-badge-action" id="heroBadgeShopLink" href="/product/?style=kylie">Shop Now <span data-icon="arrow"></span></a>
           </div>
-        </div>
-        <div class="hero-carousel-controls" aria-label="Featured lens products">
-          <button class="hero-carousel-dot" type="button" aria-label="Show Meta Starfire Kylie Edition" aria-current="true"></button>
-          <button class="hero-carousel-dot" type="button" aria-label="Show Oakley Meta HSTN" aria-current="false"></button>
-          <button class="hero-carousel-dot" type="button" aria-label="Show Meta Fury" aria-current="false"></button>
-          <button class="hero-carousel-dot" type="button" aria-label="Show Meta Adventurer" aria-current="false"></button>
-          <button class="hero-carousel-dot" type="button" aria-label="Show Ray-Ban Meta" aria-current="false"></button>
         </div>
       </div>
     </div>
@@ -720,8 +710,6 @@ function initHeroCarousel() {
   const image = document.getElementById('heroProductImage');
   const link = document.getElementById('heroProductLink');
   const badgeLink = document.getElementById('heroBadgeShopLink');
-  const name = document.getElementById('heroProductName');
-  const dots = [...document.querySelectorAll('.hero-carousel-dot')];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let current = 0;
   let intervalId = null;
@@ -740,8 +728,6 @@ function initHeroCarousel() {
     badgeLink.href = product.url;
     link.setAttribute('aria-label', `Shop ${product.alt.toLowerCase()}`);
     badgeLink.setAttribute('aria-label', `Shop ${product.name} replacement lenses`);
-    name.textContent = product.name;
-    dots.forEach((dot, dotIndex) => dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false'));
     requestAnimationFrame(() => image.classList.remove('is-changing'));
   }
 
@@ -768,10 +754,6 @@ function initHeroCarousel() {
     }
   }
 
-  dots.forEach((dot, index) => dot.addEventListener('click', () => {
-    show(index);
-    start();
-  }));
   carousel.addEventListener('mouseenter', stop);
   carousel.addEventListener('mouseleave', start);
   carousel.addEventListener('focusin', stop);
