@@ -1,3 +1,35 @@
+// ─── SHARED ICON SYSTEM ───────────────────────────────────
+const SITE_ICONS = {
+  glasses: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12.5h3m13 0h3M8.8 9.7l3.2 2.8 3.2-2.8"/><circle cx="6.5" cy="13.5" r="4"/><circle cx="17.5" cy="13.5" r="4"/></svg>',
+  clipboard: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5H6.5A1.5 1.5 0 0 0 5 6.5v13A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 17.5 5H15"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M8.5 12h7M8.5 16h5"/></svg>',
+  message: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15a3 3 0 0 1-3 3H9l-5 3v-6a3 3 0 0 1-1-2.2V7a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3v8Z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>',
+  package: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.5 7 8.5 4.5L20.5 7M12 21V11.5"/><path d="m4 7 8-4 8 4v10l-8 4-8-4V7Z"/></svg>',
+  target: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 2v3M22 12h-3"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  shield: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>',
+  leaf: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 4.5C12 4.5 6 8.5 6 14c0 2.8 2 5 4.8 5 5.5 0 8.7-6.7 8.7-14.5Z"/><path d="M4 21c2.5-5.5 6-8.5 11-11"/></svg>',
+  card: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg>',
+  upload: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><path d="M5 14v5h14v-5"/></svg>',
+  check: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>',
+  moon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>'
+};
+
+function siteIcon(name, className = 'site-icon') {
+  return `<span class="${className}">${SITE_ICONS[name] || SITE_ICONS.glasses}</span>`;
+}
+
+function initInlineIcons(root = document) {
+  root.querySelectorAll('[data-icon]').forEach(el => {
+    el.innerHTML = SITE_ICONS[el.dataset.icon] || SITE_ICONS.glasses;
+    el.classList.add('site-icon');
+  });
+}
+
+function roundMoney(value) {
+  return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+}
+
 // ─── SHARED CART SYSTEM ───────────────────────────────────
 const Cart = {
   items: [],
@@ -31,7 +63,7 @@ const Cart = {
   },
 
   total() {
-    return this.items.reduce((sum, i) => sum + ((Number(i.price) || 0) * (Number(i.qty) || 0)), 0);
+    return roundMoney(this.items.reduce((sum, i) => sum + ((Number(i.price) || 0) * (Number(i.qty) || 0)), 0));
   },
 
   count() {
@@ -108,7 +140,7 @@ function ensureCheckoutAction(footer) {
   }
   action.type = 'button';
   action.dataset.cartCheckoutAction = 'true';
-  action.textContent = 'Proceed to Checkout ✦';
+  action.innerHTML = `Proceed to Checkout ${siteIcon('arrow', 'button-icon')}`;
   action.onclick = startCheckout;
 }
 
@@ -133,12 +165,12 @@ function renderCartSidebar() {
     const empty = document.createElement('div');
     empty.className = 'cart-empty';
     const icon = document.createElement('div');
-    icon.style.cssText = 'font-size:2.5rem;margin-bottom:1rem;';
-    icon.textContent = '🌸';
+    icon.className = 'cart-empty-icon';
+    icon.innerHTML = SITE_ICONS.glasses;
     const text = document.createElement('p');
     text.textContent = 'Your cart is empty';
     const link = document.createElement('a');
-    link.href = '/product/';
+    link.href = '/shop/';
     link.style.cssText = 'color:var(--rose-deep);font-size:0.8rem;';
     link.textContent = 'Browse our lenses →';
     empty.append(icon, text, link);
@@ -154,7 +186,7 @@ function renderCartSidebar() {
 
     const icon = document.createElement('div');
     icon.className = 'cart-item-img';
-    icon.textContent = '🕶️';
+    icon.innerHTML = SITE_ICONS.glasses;
 
     const info = document.createElement('div');
     info.className = 'cart-item-info';
@@ -170,9 +202,11 @@ function renderCartSidebar() {
     const files = cartPrescriptionFiles(item);
     const fileMeta = document.createElement('div');
     fileMeta.className = 'cart-item-files';
-    fileMeta.textContent = files.length
-      ? `Prescription attached: ${files.join(', ')}`
-      : 'No prescription file attached';
+    fileMeta.textContent = item.vision === 'Non-Prescription'
+      ? 'No prescription needed'
+      : files.length
+        ? `Prescription attached: ${files.join(', ')}`
+        : 'No prescription file attached';
 
     const price = document.createElement('div');
     price.className = 'cart-item-price';
@@ -241,7 +275,7 @@ function showToast(msg, sub, options = {}) {
     toast = document.createElement('div');
     toast.id = 'globalToast';
     toast.className = 'toast';
-    toast.innerHTML = `<span class="toast-icon">🌸</span><div class="toast-text"><strong id="toastMsg"></strong><span id="toastSub"></span></div>`;
+    toast.innerHTML = `${siteIcon('check', 'toast-icon')}<div class="toast-text"><strong id="toastMsg"></strong><span id="toastSub"></span></div>`;
     document.body.appendChild(toast);
   }
   document.getElementById('toastMsg').textContent = msg;
@@ -253,6 +287,7 @@ function showToast(msg, sub, options = {}) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  initInlineIcons();
   Cart.load();
   initMobileNav();
   initButtonDefaults();

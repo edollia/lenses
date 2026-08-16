@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Learn about Provocateur, a custom lens studio making prescription lenses for Ray-Ban Meta AI Glasses with premium materials and precise frame compatibility.">
+<meta name="description" content="Learn about Provocateur, a custom lens studio making prescription and non-prescription replacement lenses for Ray-Ban Meta, Meta, Oakley Meta, and Kylie Edition AI glasses.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://provocateur.us/about/">
 <meta property="og:site_name" content="Provocateur">
 <meta property="og:type" content="website">
 <meta property="og:title" content="About Provocateur | Custom Prescription Lenses">
-<meta property="og:description" content="Provocateur makes custom prescription lenses for Ray-Ban Meta AI Glasses with premium materials, precise fit, and free coatings.">
+<meta property="og:description" content="Provocateur makes custom replacement lenses for multiple Meta AI glasses frame families with premium materials, precise fit, and free coatings.">
 <meta property="og:url" content="https://provocateur.us/about/">
 <meta property="og:image" content="https://provocateur.us/pics/main.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="About Provocateur | Custom Prescription Lenses">
-<meta name="twitter:description" content="Custom prescription lenses for Ray-Ban Meta AI Glasses, crafted for fit, clarity, and smart eyewear compatibility.">
+<meta name="twitter:description" content="Prescription and non-prescription replacement lenses crafted for fit, clarity, and smart eyewear compatibility.">
 <meta name="twitter:image" content="https://provocateur.us/pics/main.jpg">
 <title>About Provocateur | Custom Prescription Lenses</title>
 <link rel="icon" href="/favicon.png" type="image/png" sizes="1254x1254">
@@ -34,7 +34,7 @@
 .about-text p { font-size:0.85rem; color:var(--text-soft); line-height:1.8; margin-bottom:1rem; }
 .values-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
 .value-card { padding:1.5rem; background:var(--white); border:1px solid var(--border); border-radius:16px; text-align:center; }
-.value-icon { font-size:1.75rem; margin-bottom:0.75rem; }
+.value-icon { width:1.75rem; height:1.75rem; color:var(--rose-deep); margin:0 auto 0.75rem; }
 .value-card h4 { font-size:0.85rem; font-weight:600; color:var(--text); margin-bottom:0.4rem; }
 .value-card p { font-size:0.76rem; color:var(--text-muted); line-height:1.6; }
 @media(max-width:768px){ .about-grid{grid-template-columns:1fr;} .values-grid{grid-template-columns:1fr 1fr;} }
@@ -60,7 +60,7 @@
 <div class="mobile-menu" id="mobileMenu"><a href="/">Home</a><a href="/shop/">Shop</a><a href="/about/">About</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a></div>
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
-  <div class="cart-header"><h3>Your Cart 🌸</h3><button type="button" class="cart-close" onclick="closeCart()" aria-label="Close cart">×</button></div>
+  <div class="cart-header"><h3>Your Cart</h3><button type="button" class="cart-close" onclick="closeCart()" aria-label="Close cart">×</button></div>
   <div id="cartBody"></div>
   <div id="cartFooter"><div class="cart-total-row"><span class="cart-total-label">Total</span><span class="cart-total-val" id="cartTotal">$0.00</span></div><div class="cart-checkout-note">Payment via<br><strong>CashApp · Venmo · Zelle · PayPal</strong></div></div>
 </div>
@@ -68,30 +68,31 @@
 <div class="page-wrap">
   <div class="about-hero">
     <h1>About <em>Provocateur</em></h1>
-    <p>We make prescription lenses for smart glasses — so you never have to choose between seeing clearly and staying connected.</p>
+    <p>We specialize in prescription lenses for smart glasses, with non-prescription options for anyone who wants a different lens without vision correction.</p>
   </div>
   <div class="about-grid">
     <div class="about-img"><img src="/pics/main.jpg" alt="Provocateur lenses" loading="lazy"></div>
     <div class="about-text">
       <h2>Our <em>Mission</em></h2>
       <p>Smart glasses are changing the way we interact with the world. But for millions of people who wear prescription glasses, using them comfortably has been a challenge — until now.</p>
-      <p>At Provocateur, we craft custom prescription lenses specifically designed to fit Ray-Ban Meta AI Glasses, preserving every feature of your frames while giving you the crystal-clear vision you need.</p>
-      <p>Every lens is made to your exact prescription with Ultra High Index materials, shipped with premium coatings at no extra cost, and backed by our commitment to precision and quality.</p>
-      <a href="/product/" class="btn-outline" style="display:inline-flex;margin-top:0.5rem;">Order Your Lenses →</a>
+      <p>At Provocateur, we craft custom replacement lenses specifically designed for Ray-Ban Meta, Meta Adventurer, Meta Fury, Oakley Meta HSTN, and Meta Starfire Kylie Edition AI Glasses, preserving every feature of your frames while giving you the crystal-clear vision you need.</p>
+      <p>Prescription wearers are at the heart of what we do. We also make frame-specific clear, photochromic, tinted, polarised, and blue-light replacement lenses for customers who do not need vision correction.</p>
+      <p>Every lens is crafted with Ultra High Index materials, shipped with premium coatings at no extra cost, and backed by our commitment to precision and quality.</p>
+      <a href="/shop/" class="btn-outline" style="display:inline-flex;margin-top:0.5rem;">Choose Your Frame →</a>
     </div>
   </div>
   <div class="values-grid">
-    <div class="value-card"><div class="value-icon">🎯</div><h4>Precision</h4><p>Every lens is crafted to your exact prescription values — SPH, CYL, AXIS, and PD — with Ultra High Index materials.</p></div>
-    <div class="value-card"><div class="value-icon">⚡</div><h4>Speed</h4><p>Single vision lenses ship within 1–4 business days. We move fast because your vision matters.</p></div>
-    <div class="value-card"><div class="value-icon">💎</div><h4>Quality</h4><p>Premium anti-glare, scratch-resistant, and UV400 coatings are included on every single order — no hidden costs.</p></div>
+    <div class="value-card"><div class="value-icon" data-icon="target"></div><h4>Precision</h4><p>Choose exact Rx values or a non-prescription lens, always shaped precisely for your selected frame.</p></div>
+    <div class="value-card"><div class="value-icon" data-icon="clock"></div><h4>Speed</h4><p>Single vision lenses ship within 1–4 business days. We move fast because your vision matters.</p></div>
+    <div class="value-card"><div class="value-icon" data-icon="shield"></div><h4>Quality</h4><p>Premium anti-glare, scratch-resistant, and UV400 coatings are included on every single order — no hidden costs.</p></div>
   </div>
 </div>
 
 <footer>
   <div class="footer-inner">
-    <div class="footer-brand"><a href="/" class="nav-logo">pro<span style="color:var(--rose-light);font-style:italic;">vocateur</span></a><p>Custom prescription lenses for smart eyewear.</p></div>
-    <div class="footer-col"><h5>Shop</h5><a href="/product/">Ray-Ban Meta Lenses</a></div>
-    <div class="footer-col"><h5>Info</h5><a href="/about/">About</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a></div>
+    <div class="footer-brand"><a href="/" class="nav-logo">pro<span style="color:var(--rose-light);font-style:italic;">vocateur</span></a><p>Custom prescription and non-prescription replacement lenses for smart eyewear.</p></div>
+    <div class="footer-col"><h5>Shop</h5><a href="/shop/">All Products</a><a href="/product/">Ray-Ban Meta Lenses</a></div>
+    <div class="footer-col"><h5>Info</h5><a href="/about/">About</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a><a href="mailto:support@provocateur.us">support@provocateur.us</a></div>
     <div class="footer-col"><h5>Payment</h5><span style="font-size:0.78rem;color:rgba(255,255,255,0.5);">CashApp · Venmo · Zelle · PayPal</span></div>
   </div>
   <div class="footer-bottom"><span>© 2026 Provocateur.</span></div>

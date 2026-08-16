@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Provocateur makes custom prescription lenses for Ray-Ban Meta AI Glasses, including clear, photochromic, tinted, polarised, progressive, and blue light options.">
+<meta name="description" content="Shop custom prescription and non-prescription replacement lenses for Ray-Ban Meta, Meta Adventurer, Meta Fury, Oakley Meta HSTN, and Meta Starfire Kylie Edition AI Glasses.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://provocateur.us/">
 <meta property="og:site_name" content="Provocateur">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Custom Prescription Lenses for Ray-Ban Meta AI Glasses | Provocateur">
-<meta property="og:description" content="Custom prescription lenses for Ray-Ban Meta AI Glasses with ultra high index materials, fast production, free coatings, and multiple lens options.">
+<meta property="og:title" content="Custom Replacement Lenses for Meta AI Glasses | Provocateur">
+<meta property="og:description" content="Prescription-first replacement lenses, plus non-prescription clear, photochromic, tinted, and polarised options for Meta AI glasses.">
 <meta property="og:url" content="https://provocateur.us/">
-<meta property="og:image" content="https://provocateur.us/pics/main.jpg">
+<meta property="og:image" content="https://provocateur.us/pics/Starfire%20Kylie%20Edition%20AI%20Glasses.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Custom Prescription Lenses for Ray-Ban Meta AI Glasses | Provocateur">
-<meta name="twitter:description" content="Custom prescription lenses for Ray-Ban Meta AI Glasses, including clear, photochromic, tinted, polarised, progressive, and blue light options.">
-<meta name="twitter:image" content="https://provocateur.us/pics/main.jpg">
-<title>Custom Prescription Lenses for Ray-Ban Meta AI Glasses | Provocateur</title>
+<meta name="twitter:title" content="Custom Replacement Lenses for Meta AI Glasses | Provocateur">
+<meta name="twitter:description" content="Custom replacement lenses for five Meta AI glasses frame families, with prescription and non-prescription options.">
+<meta name="twitter:image" content="https://provocateur.us/pics/Starfire%20Kylie%20Edition%20AI%20Glasses.jpg">
+<title>Custom Replacement Lenses for Meta AI Glasses | Provocateur</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="1254x1254">
 <link rel="apple-touch-icon" href="/favicon.png">
@@ -31,7 +31,7 @@
       "name": "Provocateur",
       "url": "https://provocateur.us/",
       "logo": "https://provocateur.us/favicon.png",
-      "description": "Custom prescription lenses for Ray-Ban Meta AI Glasses."
+      "description": "Custom prescription and non-prescription replacement lenses for Meta AI glasses."
     },
     {
       "@type": "WebSite",
@@ -65,7 +65,9 @@
   border: 1px solid rgba(196,104,127,0.25);
   padding: 0.35rem 0.9rem; border-radius: 100px;
 }
-.hero-eyebrow::before { content:'✦'; font-size:0.55rem; }
+.hero-eyebrow::before {
+  content:''; width:18px; height:1px; background:var(--rose-deep);
+}
 
 .hero-title {
   font-family: 'Cormorant Garamond', serif;
@@ -77,8 +79,16 @@
 
 .hero-sub {
   font-size: clamp(0.9rem, 1.8vw, 1.05rem); color: var(--text-soft);
-  line-height: 1.75; margin-bottom: 2.5rem; max-width: 480px;
+  line-height: 1.75; margin-bottom: 1rem; max-width: 480px;
 }
+.hero-nonrx {
+  display:flex; align-items:flex-start; gap:0.65rem; max-width:480px;
+  padding:0.8rem 0.95rem; margin-bottom:1.5rem; border-radius:12px;
+  background:rgba(196,104,127,0.07); border:1px solid rgba(196,104,127,0.2);
+  color:var(--text-soft); font-size:0.78rem; line-height:1.55;
+}
+.hero-nonrx [data-icon] { width:1.05rem; height:1.05rem; color:var(--rose-deep); flex:0 0 auto; margin-top:0.08rem; }
+.hero-nonrx strong { color:var(--text); }
 
 .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
 .hero-cta-primary {
@@ -118,7 +128,12 @@
   aspect-ratio: 1/1; background: var(--white);
   position: relative;
 }
-.hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-img-link { position:absolute; inset:0; display:block; }
+.hero-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: opacity 0.42s ease, transform 0.55s ease;
+}
+.hero-img-wrap img.is-changing { opacity:0; transform:scale(1.015); }
 .hero-img-badge {
   position: absolute; bottom: 20px; left: 20px;
   background: rgba(255,250,253,0.92);
@@ -127,6 +142,11 @@
   border-radius: 14px; padding: 0.9rem 1.2rem;
   box-shadow: 0 4px 20px var(--shadow);
 }
+.hero-img-badge-product {
+  max-width: 250px; margin-bottom:0.22rem;
+  font-size:0.68rem; line-height:1.35; letter-spacing:0.08em;
+  text-transform:uppercase; color:var(--text-soft); font-weight:600;
+}
 .hero-img-badge-price {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.5rem; font-weight: 500; color: var(--rose-deep);
@@ -134,6 +154,19 @@
 }
 .hero-img-badge-orig { font-size: 0.85rem; color: var(--text-muted); text-decoration: line-through; }
 .hero-img-badge-label { font-size: 0.72rem; color: var(--text-soft); margin-top: 0.15rem; }
+.hero-carousel-controls {
+  position:absolute; right:20px; bottom:20px; z-index:3;
+  display:flex; align-items:center; gap:0.4rem;
+  padding:0.55rem 0.65rem; border:1px solid var(--border);
+  border-radius:100px; background:rgba(255,250,253,0.92);
+  backdrop-filter:blur(12px); box-shadow:0 4px 20px var(--shadow);
+}
+.hero-carousel-dot {
+  width:8px; height:8px; padding:0; border:0; border-radius:50%;
+  background:var(--rose-light); cursor:pointer; transition:width 0.25s, background 0.25s;
+}
+.hero-carousel-dot[aria-current="true"] { width:22px; border-radius:100px; background:var(--rose-deep); }
+.hero-carousel-dot:focus-visible { outline:2px solid var(--rose-deep); outline-offset:3px; }
 
 /* Floating dots decoration */
 .hero-dot {
@@ -195,7 +228,10 @@
   display: flex; align-items: center; gap: 0.6rem;
   font-size: 0.82rem; color: var(--text-soft);
 }
-.feature-list li::before { content:'✦'; color: var(--rose-deep); font-size: 0.55rem; flex-shrink: 0; }
+.feature-list li::before {
+  content:''; width:10px; height:10px; flex-shrink:0;
+  background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c4687f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 4 4L19 6'/%3E%3C/svg%3E");
+}
 
 /* HOW IT WORKS */
 .hiw {
@@ -305,7 +341,9 @@
 /* RESPONSIVE */
 @media (max-width: 860px) {
   .hero { flex-direction: column; text-align: center; min-height: auto; padding-top: 3rem; }
+  .hero-visual { width:100%; max-width:560px; flex:none; }
   .hero-sub { margin-left: auto; margin-right: auto; }
+  .hero-nonrx { margin-left:auto; margin-right:auto; text-align:left; }
   .hero-ctas { justify-content: center; }
   .hero-trust { justify-content: center; }
   .product-feature { grid-template-columns: 1fr; }
@@ -314,6 +352,9 @@
   .lens-cards-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 520px) {
+  .hero-carousel-controls { top:16px; right:16px; bottom:auto; }
+  .hero-img-badge { right:16px; bottom:16px; left:16px; }
+  .hero-img-badge-product { max-width:none; }
   .stats-inner { gap: 1.5rem; }
   .steps-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
   .lens-cards-grid { grid-template-columns: 1fr 1fr; }
@@ -360,7 +401,7 @@
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
   <div class="cart-header">
-    <h3>Your Cart 🌸</h3>
+    <h3>Your Cart</h3>
     <button type="button" class="cart-close" onclick="closeCart()" aria-label="Close cart">×</button>
   </div>
   <div id="cartBody"></div>
@@ -381,33 +422,47 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-text">
-      <div class="hero-eyebrow">Ray-Ban Meta AI Glasses</div>
+      <div class="hero-eyebrow">Replacement Lenses for Meta AI Glasses</div>
       <h1 class="hero-title">
         See Clearly,
         <em>Stay Connected.</em>
       </h1>
       <p class="hero-sub">
-        Custom prescription lenses crafted for your Ray-Ban Meta AI Glasses. Ultra High Index, free coatings, fast production — without compromising the smart glasses you love.
+        Custom replacement lenses crafted for Ray-Ban Meta, Meta, Oakley Meta, and Starfire Kylie Edition AI glasses. Ultra High Index, free coatings, and fast production — frames are never included.
       </p>
+      <div class="hero-nonrx">
+        <span data-icon="glasses"></span>
+        <span><strong>Don't need prescription lenses?</strong> You can still order clear, photochromic, tinted, polarised, or blue-light replacement lenses. No prescription details are required.</span>
+      </div>
       <div class="hero-ctas">
-        <a href="/product/" class="hero-cta-primary">Shop Now — from $79.99 ✦</a>
+        <a href="/shop/" class="hero-cta-primary">Shop Prescription &amp; Non-Rx <span data-icon="arrow"></span></a>
         <a href="/faq/" class="hero-cta-secondary">How It Works</a>
       </div>
       <div class="hero-trust">
-        <div class="hero-trust-item">✦ <strong>Gen 1 &amp; Gen 2</strong> Compatible</div>
-        <div class="hero-trust-item">✦ <strong>1–4 Day</strong> Production</div>
-        <div class="hero-trust-item">✦ <strong>Free</strong> Coatings</div>
+        <div class="hero-trust-item"><span data-icon="glasses"></span> <strong>5 Frame Families</strong></div>
+        <div class="hero-trust-item"><span data-icon="clock"></span> <strong>1–4 Day</strong> Production</div>
+        <div class="hero-trust-item"><span data-icon="shield"></span> <strong>Free</strong> Coatings</div>
       </div>
     </div>
 
     <div class="hero-visual">
-      <div class="hero-img-wrap">
-        <img src="/pics/main.jpg" alt="Ray-Ban Meta prescription lenses" loading="eager">
+      <div class="hero-img-wrap" id="heroCarousel">
+        <a id="heroProductLink" class="hero-img-link" href="/product/?style=kylie" aria-label="Shop replacement lenses for Meta Starfire Kylie Edition AI Glasses">
+          <img id="heroProductImage" src="/pics/Starfire%20Kylie%20Edition%20AI%20Glasses.jpg" alt="Replacement lenses for Meta Starfire Kylie Edition AI Glasses" loading="eager" decoding="async">
+        </a>
         <div class="hero-img-badge">
+          <div class="hero-img-badge-product" id="heroProductName">Meta Starfire Kylie Edition</div>
           <div class="hero-img-badge-price">
             $79.99 <span class="hero-img-badge-orig">$179</span>
           </div>
-          <div class="hero-img-badge-label">Starting price · Clear single vision</div>
+          <div class="hero-img-badge-label">Prescription from $79.99 · Non-Rx from $44.99</div>
+        </div>
+        <div class="hero-carousel-controls" aria-label="Featured lens products">
+          <button class="hero-carousel-dot" type="button" aria-label="Show Meta Starfire Kylie Edition" aria-current="true"></button>
+          <button class="hero-carousel-dot" type="button" aria-label="Show Oakley Meta HSTN" aria-current="false"></button>
+          <button class="hero-carousel-dot" type="button" aria-label="Show Meta Fury" aria-current="false"></button>
+          <button class="hero-carousel-dot" type="button" aria-label="Show Meta Adventurer" aria-current="false"></button>
+          <button class="hero-carousel-dot" type="button" aria-label="Show Ray-Ban Meta" aria-current="false"></button>
         </div>
       </div>
     </div>
@@ -418,7 +473,7 @@
     <div class="stats-inner">
       <div class="stat-item">
         <div class="stat-num">5</div>
-        <div class="stat-label">Frame Models</div>
+        <div class="stat-label">Product Families</div>
       </div>
       <div class="stat-item">
         <div class="stat-num">4</div>
@@ -429,8 +484,8 @@
         <div class="stat-label">Day Production</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">100%</div>
-        <div class="stat-label">Custom to You</div>
+        <div class="stat-num">Rx +</div>
+        <div class="stat-label">Non-Rx Options</div>
       </div>
     </div>
   </div>
@@ -444,15 +499,16 @@
       <div class="feature-tag">Precision Crafted</div>
       <h2 class="feature-heading">Ultra High Index <em>Lenses</em></h2>
       <p class="feature-body">
-        Your Ray-Ban Meta glasses deserve lenses built to the same standard as the frames. Our Ultra High Index lenses are slimmer and lighter than standard lenses, maintaining the sleek profile of your smart glasses while delivering crystal-clear vision at your exact prescription.
+        Your smart glasses deserve lenses built to the same standard as the frames. Our Ultra High Index lenses are slimmer and lighter than standard lenses, maintaining the profile of your eyewear while delivering crystal-clear vision with your prescription — or without vision correction.
       </p>
       <ul class="feature-list">
         <li>Tailored to your exact SPH, CYL, AXIS &amp; PD values</li>
+        <li>Available with or without vision correction</li>
         <li>Ultra High Index included as standard — no upgrade fee</li>
         <li>Anti-glare, scratch-resistant &amp; UV400 coatings free</li>
-        <li>Compatible with Gen 1 &amp; Gen 2 Ray-Ban Meta frames</li>
+        <li>Available for Ray-Ban Meta, Meta, Oakley Meta, and Kylie Edition frames</li>
       </ul>
-      <a href="/product/" class="btn-outline" style="display:inline-flex;">Order Your Lenses →</a>
+      <a href="/shop/" class="btn-outline" style="display:inline-flex;">Choose Your Frame →</a>
     </div>
   </section>
 
@@ -464,7 +520,7 @@
       <div class="feature-tag">4 Lens Types Available</div>
       <h2 class="feature-heading">Tinted, Polarised &amp; <em>More</em></h2>
       <p class="feature-body">
-        Beyond clear lenses, choose from photochromic lenses that adapt to light, tinted lenses in 6 vibrant colors, or polarised lenses with the highest glare reduction. Every type is available with your prescription.
+        Beyond clear lenses, choose from photochromic lenses that adapt to light, tinted lenses in 6 vibrant colors, or polarised lenses with the highest glare reduction. Every type is available with a prescription or as a non-prescription lens.
       </p>
       <ul class="feature-list">
         <li>Clear — maximum indoor clarity</li>
@@ -483,25 +539,25 @@
       <h2 class="section-title">How It <em>Works</em></h2>
       <div class="steps-grid">
         <div class="step-card">
-          <div class="step-icon">👓</div>
+          <div class="step-icon" data-icon="glasses"></div>
           <div class="step-num-badge">1</div>
           <h4>Choose Your Options</h4>
           <p>Select your frame model, lens type, vision correction type, and any add-ons.</p>
         </div>
         <div class="step-card">
-          <div class="step-icon">📋</div>
+          <div class="step-icon" data-icon="clipboard"></div>
           <div class="step-num-badge">2</div>
-          <h4>Enter Your Prescription</h4>
-          <p>Input your SPH, CYL, AXIS, and PD values. Upload your prescription file optionally.</p>
+          <h4>Add Your Prescription</h4>
+          <p>Enter your Rx values, or choose Non-Prescription and skip them entirely.</p>
         </div>
         <div class="step-card">
-          <div class="step-icon">💬</div>
+          <div class="step-icon" data-icon="message"></div>
           <div class="step-num-badge">3</div>
           <h4>We Confirm &amp; You Pay</h4>
           <p>We reach out to confirm your order details. Payment via CashApp, Venmo, Zelle, or PayPal.</p>
         </div>
         <div class="step-card">
-          <div class="step-icon">📦</div>
+          <div class="step-icon" data-icon="package"></div>
           <div class="step-num-badge">4</div>
           <h4>Receive Your Lenses</h4>
           <p>Your custom lenses ship within 1–4 business days with a case and microfiber cloth.</p>
@@ -559,10 +615,10 @@
   <div class="cta-banner">
     <div class="cta-inner">
       <div class="cta-text">
-        <h2>Ready to see clearly <em>again?</em></h2>
-        <p>Custom prescription lenses for your Ray-Ban Meta AI Glasses. Starting from $79.99 — currently on sale from $179.</p>
+        <h2>Your vision, your <em>lenses.</em></h2>
+        <p>Prescription lenses start at $79.99. No correction needed? Non-prescription options start at $44.99.</p>
       </div>
-      <a href="/product/" class="cta-btn">Order Your Lenses ✦</a>
+      <a href="/shop/" class="cta-btn">Choose Your Frame <span data-icon="arrow"></span></a>
     </div>
   </div>
 
@@ -573,7 +629,7 @@
   <div class="footer-inner">
     <div class="footer-brand">
       <a href="/" class="nav-logo">pro<span style="color:var(--rose-light);font-style:italic;">vocateur</span></a>
-      <p>Custom prescription lenses for the future of smart eyewear. Precision-crafted for Ray-Ban Meta AI Glasses.</p>
+      <p>Custom prescription and non-prescription replacement lenses for smart eyewear.</p>
     </div>
     <div class="footer-col">
       <h5>Shop</h5>
@@ -585,6 +641,7 @@
       <a href="/about/">About Us</a>
       <a href="/faq/">FAQ</a>
       <a href="/contact/">Contact</a>
+      <a href="mailto:support@provocateur.us">support@provocateur.us</a>
     </div>
     <div class="footer-col">
       <h5>Payment</h5>
@@ -601,6 +658,109 @@
 <!-- (everything above unchanged) -->
 
 <script src="/shared.js"></script>
+
+<script>
+const HERO_PRODUCTS = [
+  {
+    name: 'Meta Starfire Kylie Edition',
+    image: '/pics/Starfire%20Kylie%20Edition%20AI%20Glasses.jpg',
+    alt: 'Replacement lenses for Meta Starfire Kylie Edition AI Glasses',
+    url: '/product/?style=kylie'
+  },
+  {
+    name: 'Oakley Meta HSTN',
+    image: '/pics/Oakley%20Meta%20HSTN%20AI%20Glasses.jpg',
+    alt: 'Replacement lenses for Oakley Meta HSTN AI Glasses',
+    url: '/product/?style=oakley-hstn'
+  },
+  {
+    name: 'Meta Fury',
+    image: '/pics/Meta%20Fury%20AI%20Glasses.jpg',
+    alt: 'Replacement lenses for Meta Fury AI Glasses',
+    url: '/product/?style=meta-fury'
+  },
+  {
+    name: 'Meta Adventurer',
+    image: '/pics/Custom%20Prescription%20Lenses%20For%20Meta%20Adventurer%20AI%20Glasses.jpg',
+    alt: 'Replacement lenses for Meta Adventurer AI Glasses',
+    url: '/product/?style=meta-adventurer'
+  },
+  {
+    name: 'Ray-Ban Meta',
+    image: '/pics/main.jpg',
+    alt: 'Replacement lenses for Ray-Ban Meta AI Glasses',
+    url: '/product/'
+  }
+];
+
+function initHeroCarousel() {
+  const carousel = document.getElementById('heroCarousel');
+  const image = document.getElementById('heroProductImage');
+  const link = document.getElementById('heroProductLink');
+  const name = document.getElementById('heroProductName');
+  const dots = [...document.querySelectorAll('.hero-carousel-dot')];
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let current = 0;
+  let intervalId = null;
+  let transitionId = null;
+
+  HERO_PRODUCTS.slice(1).forEach(product => {
+    const preload = new Image();
+    preload.src = product.image;
+  });
+
+  function commit(index) {
+    const product = HERO_PRODUCTS[index];
+    image.src = product.image;
+    image.alt = product.alt;
+    link.href = product.url;
+    link.setAttribute('aria-label', `Shop ${product.alt.toLowerCase()}`);
+    name.textContent = product.name;
+    dots.forEach((dot, dotIndex) => dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false'));
+    requestAnimationFrame(() => image.classList.remove('is-changing'));
+  }
+
+  function show(index, immediate = false) {
+    current = (index + HERO_PRODUCTS.length) % HERO_PRODUCTS.length;
+    window.clearTimeout(transitionId);
+    if (immediate || reduceMotion) {
+      commit(current);
+      return;
+    }
+    image.classList.add('is-changing');
+    transitionId = window.setTimeout(() => commit(current), 220);
+  }
+
+  function stop() {
+    window.clearInterval(intervalId);
+    intervalId = null;
+  }
+
+  function start() {
+    stop();
+    if (!reduceMotion && !document.hidden) {
+      intervalId = window.setInterval(() => show(current + 1), 3000);
+    }
+  }
+
+  dots.forEach((dot, index) => dot.addEventListener('click', () => {
+    show(index);
+    start();
+  }));
+  carousel.addEventListener('mouseenter', stop);
+  carousel.addEventListener('mouseleave', start);
+  carousel.addEventListener('focusin', stop);
+  carousel.addEventListener('focusout', start);
+  document.addEventListener('visibilitychange', start);
+  start();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initHeroCarousel);
+} else {
+  initHeroCarousel();
+}
+</script>
 
 <script data-goatcounter="https://provocateur.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>

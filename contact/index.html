@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Contact Provocateur for help ordering custom prescription lenses for Ray-Ban Meta AI Glasses, prescription questions, compatibility, payment, and support.">
+<meta name="description" content="Contact Provocateur at support@provocateur.us for prescription or non-prescription replacement lens orders, smart-glasses compatibility, payment, and support.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://provocateur.us/contact/">
 <meta property="og:site_name" content="Provocateur">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Contact Provocateur | Custom Prescription Lens Help">
-<meta property="og:description" content="Get help with custom prescription lenses for Ray-Ban Meta AI Glasses, prescription values, PD, compatibility, and orders.">
+<meta property="og:description" content="Get help with custom replacement lenses, prescription values, PD, frame compatibility, and orders.">
 <meta property="og:url" content="https://provocateur.us/contact/">
 <meta property="og:image" content="https://provocateur.us/pics/main.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Contact Provocateur | Custom Prescription Lens Help">
-<meta name="twitter:description" content="Questions about custom prescription lenses for Ray-Ban Meta AI Glasses? Contact Provocateur.">
+<meta name="twitter:description" content="Questions about custom replacement lenses for Meta AI glasses? Contact Provocateur.">
 <meta name="twitter:image" content="https://provocateur.us/pics/main.jpg">
 <title>Contact Provocateur | Custom Prescription Lens Help</title>
 <link rel="icon" href="/favicon.png" type="image/png" sizes="1254x1254">
@@ -26,6 +26,7 @@
 .contact-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.5rem,6vw,4rem); font-weight:400; color:var(--text); margin-bottom:0.75rem; }
 .contact-hero h1 em { color:var(--rose-deep); font-style:italic; }
 .contact-hero p { font-size:0.9rem; color:var(--text-soft); max-width:440px; margin:0 auto; line-height:1.7; }
+.contact-hero a { color:var(--rose-deep); font-weight:600; text-decoration:none; }
 .contact-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:clamp(2rem,5vw,3.5rem); }
 .contact-info { display:flex; flex-direction:column; gap:1rem; }
 .contact-card { padding:1.4rem; background:var(--white); border:1px solid var(--border); border-radius:16px; }
@@ -50,7 +51,9 @@
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline:none; border-color:var(--rose); }
 .form-group input::placeholder, .form-group textarea::placeholder { color:var(--text-muted); }
 .form-success { display:none; text-align:center; padding:2rem; }
-.form-success .success-icon { font-size:2.5rem; margin-bottom:0.75rem; }
+.contact-card h4 { display:flex; align-items:center; gap:0.45rem; }
+.contact-card h4 .site-icon { color:var(--rose-deep); }
+.form-success .success-icon { width:2.5rem; height:2.5rem; color:var(--rose-deep); margin:0 auto 0.75rem; }
 .form-success h4 { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:400; color:var(--text); margin-bottom:0.5rem; }
 .form-success p { font-size:0.82rem; color:var(--text-muted); }
 @media(max-width:700px){ .contact-grid{grid-template-columns:1fr;} .form-row{grid-template-columns:1fr;} }
@@ -76,7 +79,7 @@
 <div class="mobile-menu" id="mobileMenu"><a href="/">Home</a><a href="/shop/">Shop</a><a href="/about/">About</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a></div>
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
-  <div class="cart-header"><h3>Your Cart 🌸</h3><button type="button" class="cart-close" onclick="closeCart()" aria-label="Close cart">×</button></div>
+  <div class="cart-header"><h3>Your Cart</h3><button type="button" class="cart-close" onclick="closeCart()" aria-label="Close cart">×</button></div>
   <div id="cartBody"></div>
   <div id="cartFooter"><div class="cart-total-row"><span class="cart-total-label">Total</span><span class="cart-total-val" id="cartTotal">$0.00</span></div><div class="cart-checkout-note">Payment via<br><strong>CashApp · Venmo · Zelle · PayPal</strong></div></div>
 </div>
@@ -84,21 +87,21 @@
 <div class="page-wrap">
   <div class="contact-hero">
     <h1>Get in <em>Touch</em></h1>
-    <p>Questions about your order, prescription, or compatibility? We're here to help.</p>
+    <p>Questions about your order, prescription or non-prescription options, or compatibility? Email <a href="mailto:support@provocateur.us">support@provocateur.us</a> or use the form below.</p>
   </div>
 
   <div class="contact-grid">
     <div class="contact-info">
       <div class="contact-card">
-        <h4>📦 Order Questions</h4>
-        <p>After submitting your order, we'll reach out to confirm details. Have a question before ordering? Use the form.</p>
+        <h4><span data-icon="package"></span> Order Questions</h4>
+        <p>After submitting your order, we'll reach out to confirm details. Have a question before ordering? Use the form or email <a href="mailto:support@provocateur.us">support@provocateur.us</a>.</p>
       </div>
       <div class="contact-card">
-        <h4>👓 Prescription Help</h4>
+        <h4><span data-icon="glasses"></span> Prescription Help</h4>
         <p>Can't find your PD or unsure how to read your prescription? We'll walk you through it. Check our <a href="/faq/">FAQ</a> or message us.</p>
       </div>
       <div class="contact-card">
-        <h4>💳 Payment Methods</h4>
+        <h4><span data-icon="card"></span> Payment Methods</h4>
         <p>We accept payment after order confirmation via:</p>
         <div class="pay-methods">
           <span class="pay-m">CashApp</span>
@@ -108,7 +111,7 @@
         </div>
       </div>
       <div class="contact-card">
-        <h4>⏱ Response Time</h4>
+        <h4><span data-icon="clock"></span> Response Time</h4>
         <p>We typically respond within a few hours during business hours. For urgent order questions, note it in your message.</p>
       </div>
     </div>
@@ -127,16 +130,17 @@
             <option value="">Select a topic…</option>
             <option>Order question</option>
             <option>Prescription help</option>
+            <option>Non-prescription lens question</option>
             <option>Compatibility question</option>
             <option>Payment</option>
             <option>Something else</option>
           </select>
         </div>
         <div class="form-group"><label for="cf_msg">Message</label><textarea id="cf_msg" name="message" rows="5" required placeholder="Tell us how we can help…"></textarea></div>
-        <button type="submit" class="btn-primary">Send Message ✦</button>
+        <button type="submit" class="btn-primary">Send Message <span data-icon="arrow"></span></button>
       </form>
       <div class="form-success" id="formSuccess">
-        <div class="success-icon">🌸</div>
+        <div class="success-icon" data-icon="check"></div>
         <h4>Message Sent!</h4>
         <p>Thank you for reaching out. We'll get back to you as soon as possible.</p>
       </div>
@@ -146,9 +150,9 @@
 
 <footer>
   <div class="footer-inner">
-    <div class="footer-brand"><a href="/" class="nav-logo">pro<span style="color:var(--rose-light);font-style:italic;">vocateur</span></a><p>Custom prescription lenses for smart eyewear.</p></div>
-    <div class="footer-col"><h5>Shop</h5><a href="/product/">Ray-Ban Meta Lenses</a></div>
-    <div class="footer-col"><h5>Info</h5><a href="/about/">About</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a></div>
+    <div class="footer-brand"><a href="/" class="nav-logo">pro<span style="color:var(--rose-light);font-style:italic;">vocateur</span></a><p>Custom prescription and non-prescription replacement lenses for smart eyewear.</p></div>
+    <div class="footer-col"><h5>Shop</h5><a href="/shop/">All Products</a><a href="/product/">Ray-Ban Meta Lenses</a></div>
+    <div class="footer-col"><h5>Info</h5><a href="/about/">About</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a><a href="mailto:support@provocateur.us">support@provocateur.us</a></div>
     <div class="footer-col"><h5>Payment</h5><span style="font-size:0.78rem;color:rgba(255,255,255,0.5);">CashApp · Venmo · Zelle · PayPal</span></div>
   </div>
   <div class="footer-bottom"><span>© 2026 Provocateur.</span></div>
@@ -181,7 +185,7 @@ async function submitContact(e) {
 
   if (!sb) {
     showToast('Message not sent', 'Contact service is temporarily unavailable. Please try again.');
-    btn.disabled = false; btn.textContent = 'Send Message ✦';
+    btn.disabled = false; btn.innerHTML = `Send Message ${siteIcon('arrow', 'button-icon')}`;
     return;
   }
 
@@ -198,14 +202,14 @@ async function submitContact(e) {
     if (error) throw error;
 
     btn.disabled = false;
-    btn.textContent = 'Send Message ✦';
+    btn.innerHTML = `Send Message ${siteIcon('arrow', 'button-icon')}`;
     document.getElementById('contactFormBody').style.display = 'none';
     document.getElementById('formSuccess').style.display = 'block';
   } catch(e) {
     console.warn('Supabase contact error:', e.message || e);
     showToast('Message not sent', 'Please try again. Your message is still here.');
     btn.disabled = false;
-    btn.textContent = 'Send Message ✦';
+    btn.innerHTML = `Send Message ${siteIcon('arrow', 'button-icon')}`;
   }
 }
 

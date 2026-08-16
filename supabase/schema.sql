@@ -17,6 +17,8 @@ create table if not exists public.orders (
   cart_total numeric(10,2) not null default 0,
   cart_items text,
 
+  product_key text,
+  product text,
   model text,
   lens_type text,
   lens_color text,
@@ -54,10 +56,18 @@ create table if not exists public.orders (
   created_at timestamptz not null default now()
 );
 
+-- Safe upgrade for an existing Provocateur database. CREATE TABLE IF NOT EXISTS
+-- does not add new columns to a table that already exists, so these statements
+-- make the same full script work for both new and existing projects. Existing
+-- rows and order data are preserved.
+alter table public.orders add column if not exists product_key text;
+alter table public.orders add column if not exists product text;
+
 create index if not exists orders_checkout_id_idx on public.orders (checkout_id);
 create index if not exists orders_created_at_idx on public.orders (created_at desc);
 create index if not exists orders_status_idx on public.orders (status);
 create index if not exists orders_customer_email_idx on public.orders (customer_email);
+create index if not exists orders_product_key_idx on public.orders (product_key);
 
 create table if not exists public.contacts (
   id uuid primary key default gen_random_uuid(),
