@@ -1,5 +1,6 @@
 -- Provocateur Supabase setup
--- Paste this whole file into the Supabase SQL Editor for the new project.
+-- Paste this whole file into the Supabase SQL Editor for a new or existing project.
+-- The script is idempotent and preserves existing orders, contacts, and uploads.
 
 begin;
 
@@ -99,7 +100,8 @@ end $$;
 
 drop function if exists public.enqueue_order_notification();
 drop function if exists public.enqueue_contact_notification();
-drop table if exists public.notification_events;
+-- Keep any legacy notification_events table so rerunning this setup never
+-- deletes historical data. The obsolete triggers above are disabled.
 
 alter table public.orders enable row level security;
 alter table public.contacts enable row level security;

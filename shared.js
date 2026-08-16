@@ -155,6 +155,28 @@ function cartPrescriptionFiles(item) {
   return [];
 }
 
+const CART_PRODUCT_IMAGES = {
+  rayban: '/pics/main.jpg',
+  'meta-adventurer': '/pics/Custom%20Prescription%20Lenses%20For%20Meta%20Adventurer%20AI%20Glasses.jpg',
+  'meta-fury': '/pics/Meta%20Fury%20AI%20Glasses.jpg',
+  'oakley-hstn': '/pics/Oakley%20Meta%20HSTN%20AI%20Glasses.jpg',
+  kylie: '/pics/Starfire%20Kylie%20Edition%20AI%20Glasses.jpg'
+};
+
+function cartProductImage(item) {
+  const data = item?.orderData || {};
+  const key = item?.productKey || data.product_key;
+  if (key && CART_PRODUCT_IMAGES[key]) return CART_PRODUCT_IMAGES[key];
+  if (typeof item?.image === 'string' && item.image.startsWith('/pics/')) return item.image;
+
+  const label = [item?.name, item?.model, data.product].filter(Boolean).join(' ').toLowerCase();
+  if (label.includes('kylie') || label.includes('starfire')) return CART_PRODUCT_IMAGES.kylie;
+  if (label.includes('oakley') || label.includes('hstn')) return CART_PRODUCT_IMAGES['oakley-hstn'];
+  if (label.includes('fury')) return CART_PRODUCT_IMAGES['meta-fury'];
+  if (label.includes('adventurer')) return CART_PRODUCT_IMAGES['meta-adventurer'];
+  return CART_PRODUCT_IMAGES.rayban;
+}
+
 function renderCartSidebar() {
   const body = document.getElementById('cartBody');
   const footer = document.getElementById('cartFooter');
@@ -184,9 +206,14 @@ function renderCartSidebar() {
     row.className = 'cart-item';
     row.dataset.id = item.id;
 
-    const icon = document.createElement('div');
-    icon.className = 'cart-item-img';
-    icon.innerHTML = SITE_ICONS.glasses;
+    const thumbnail = document.createElement('img');
+    thumbnail.className = 'cart-item-img';
+    thumbnail.src = cartProductImage(item);
+    thumbnail.alt = `${item.name || 'Replacement lenses'} thumbnail`;
+    thumbnail.loading = 'lazy';
+    thumbnail.addEventListener('error', () => {
+      thumbnail.src = CART_PRODUCT_IMAGES.rayban;
+    }, { once: true });
 
     const info = document.createElement('div');
     info.className = 'cart-item-info';
@@ -224,7 +251,7 @@ function renderCartSidebar() {
       renderCartSidebar();
     });
 
-    row.append(icon, info, remove);
+    row.append(thumbnail, info, remove);
     body.appendChild(row);
   });
 
@@ -267,6 +294,11 @@ function closeOpenModals() {
 }
 
 let toastTimer = null;
+
+function hideToast() {
+  clearTimeout(toastTimer);
+  document.getElementById('globalToast')?.classList.remove('show');
+}
 
 // Toast notification
 function showToast(msg, sub, options = {}) {

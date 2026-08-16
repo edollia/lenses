@@ -57,18 +57,6 @@
   gap: clamp(2rem,6vw,5rem);
 }
 .hero-text { flex: 1; min-width: 0; }
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--rose-deep); font-weight: 600; margin-bottom: 1.25rem;
-  background: rgba(196,104,127,0.08);
-  border: 1px solid rgba(196,104,127,0.25);
-  padding: 0.35rem 0.9rem; border-radius: 100px;
-}
-.hero-eyebrow::before {
-  content:''; width:18px; height:1px; background:var(--rose-deep);
-}
-
 .hero-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2.8rem, 7vw, 5.5rem);
@@ -79,16 +67,31 @@
 
 .hero-sub {
   font-size: clamp(0.9rem, 1.8vw, 1.05rem); color: var(--text-soft);
-  line-height: 1.75; margin-bottom: 1rem; max-width: 480px;
+  line-height: 1.75; margin-bottom: 2.5rem; max-width: 480px;
 }
-.hero-nonrx {
-  display:flex; align-items:flex-start; gap:0.65rem; max-width:480px;
-  padding:0.8rem 0.95rem; margin-bottom:1.5rem; border-radius:12px;
-  background:rgba(196,104,127,0.07); border:1px solid rgba(196,104,127,0.2);
-  color:var(--text-soft); font-size:0.78rem; line-height:1.55;
+
+.nonrx-bubble {
+  position:fixed; left:50%; bottom:clamp(1rem,3vw,2rem); z-index:250;
+  width:min(620px,calc(100% - 2rem)); display:flex; align-items:flex-start; gap:0.75rem;
+  padding:1rem 3rem 1rem 1rem; border:1px solid rgba(196,104,127,0.3);
+  border-radius:16px; background:linear-gradient(135deg,rgba(255,250,253,0.84),rgba(247,197,216,0.48));
+  box-shadow:0 12px 42px rgba(106,53,75,0.2),inset 0 1px 0 rgba(255,255,255,0.75);
+  -webkit-backdrop-filter:blur(18px) saturate(145%); backdrop-filter:blur(18px) saturate(145%);
+  color:var(--text-soft); font-size:0.78rem; line-height:1.6;
+  opacity:0; pointer-events:none; transform:translate(-50%,calc(100% + 3rem));
+  transition:opacity 0.35s ease,transform 0.35s ease;
 }
-.hero-nonrx [data-icon] { width:1.05rem; height:1.05rem; color:var(--rose-deep); flex:0 0 auto; margin-top:0.08rem; }
-.hero-nonrx strong { color:var(--text); }
+.nonrx-bubble.is-visible { opacity:1; pointer-events:auto; transform:translate(-50%,0); }
+.nonrx-bubble [data-icon] { width:1.15rem; height:1.15rem; color:var(--rose-deep); flex:0 0 auto; margin-top:0.08rem; }
+.nonrx-bubble strong { color:var(--text); }
+.nonrx-bubble-close {
+  position:absolute; top:0.65rem; right:0.65rem; width:1.8rem; height:1.8rem;
+  display:flex; align-items:center; justify-content:center; border:0; border-radius:50%;
+  background:rgba(196,104,127,0.09); color:var(--rose-deep); cursor:pointer;
+}
+.nonrx-bubble-close:hover { background:rgba(196,104,127,0.17); }
+.nonrx-bubble-close:focus-visible { outline:2px solid var(--rose-deep); outline-offset:2px; }
+.nonrx-bubble-close svg { width:0.85rem; height:0.85rem; }
 
 .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
 .hero-cta-primary {
@@ -136,30 +139,43 @@
 .hero-img-wrap img.is-changing { opacity:0; transform:scale(1.015); }
 .hero-img-badge {
   position: absolute; bottom: 20px; left: 20px;
-  background: rgba(255,250,253,0.92);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
+  width:300px; max-width:calc(100% - 40px);
+  background:linear-gradient(135deg,rgba(255,250,253,0.8),rgba(247,197,216,0.54));
+  -webkit-backdrop-filter:blur(18px) saturate(150%); backdrop-filter:blur(18px) saturate(150%);
+  border:1px solid rgba(255,255,255,0.72);
   border-radius: 14px; padding: 0.9rem 1.2rem;
-  box-shadow: 0 4px 20px var(--shadow);
+  box-shadow:0 8px 28px rgba(106,53,75,0.2),inset 0 1px 0 rgba(255,255,255,0.76);
 }
 .hero-img-badge-product {
-  max-width: 250px; margin-bottom:0.22rem;
+  min-height:1.85em; margin-bottom:0.22rem;
   font-size:0.68rem; line-height:1.35; letter-spacing:0.08em;
   text-transform:uppercase; color:var(--text-soft); font-weight:600;
 }
+.hero-img-badge-row { display:flex; align-items:flex-end; justify-content:space-between; gap:0.75rem; }
 .hero-img-badge-price {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem; font-weight: 500; color: var(--rose-deep);
+  font-size: 1.5rem; font-weight: 500; color:var(--rose-deep);
   display: flex; align-items: baseline; gap: 0.4rem;
 }
-.hero-img-badge-orig { font-size: 0.85rem; color: var(--text-muted); text-decoration: line-through; }
-.hero-img-badge-label { font-size: 0.72rem; color: var(--text-soft); margin-top: 0.15rem; }
+.hero-img-badge-orig { font-size: 0.85rem; color:var(--text-muted); text-decoration: line-through; }
+.hero-img-badge-label { font-size: 0.72rem; color:var(--text-soft); margin-top: 0.15rem; }
+.hero-img-badge-action {
+  display:inline-flex; align-items:center; justify-content:center; gap:0.3rem;
+  flex:0 0 auto; padding:0.52rem 0.7rem; border-radius:100px;
+  background:var(--rose-deep); color:white; text-decoration:none;
+  font-size:0.63rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  box-shadow:0 5px 16px rgba(196,104,127,0.28); transition:transform 0.2s,background 0.2s;
+}
+.hero-img-badge-action:hover { background:#b05570; transform:translateY(-1px); }
+.hero-img-badge-action:focus-visible { outline:2px solid var(--rose-deep); outline-offset:2px; }
+.hero-img-badge-action [data-icon] { width:0.75rem; height:0.75rem; }
 .hero-carousel-controls {
   position:absolute; right:20px; bottom:20px; z-index:3;
   display:flex; align-items:center; gap:0.4rem;
-  padding:0.55rem 0.65rem; border:1px solid var(--border);
-  border-radius:100px; background:rgba(255,250,253,0.92);
-  backdrop-filter:blur(12px); box-shadow:0 4px 20px var(--shadow);
+  padding:0.55rem 0.65rem; border:1px solid rgba(255,255,255,0.72);
+  border-radius:100px; background:linear-gradient(135deg,rgba(255,250,253,0.7),rgba(247,197,216,0.3));
+  -webkit-backdrop-filter:blur(18px) saturate(150%); backdrop-filter:blur(18px) saturate(150%);
+  box-shadow:0 8px 24px rgba(106,53,75,0.16),inset 0 1px 0 rgba(255,255,255,0.78);
 }
 .hero-carousel-dot {
   width:8px; height:8px; padding:0; border:0; border-radius:50%;
@@ -343,7 +359,6 @@
   .hero { flex-direction: column; text-align: center; min-height: auto; padding-top: 3rem; }
   .hero-visual { width:100%; max-width:560px; flex:none; }
   .hero-sub { margin-left: auto; margin-right: auto; }
-  .hero-nonrx { margin-left:auto; margin-right:auto; text-align:left; }
   .hero-ctas { justify-content: center; }
   .hero-trust { justify-content: center; }
   .product-feature { grid-template-columns: 1fr; }
@@ -352,8 +367,9 @@
   .lens-cards-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 520px) {
+  .nonrx-bubble { align-items:flex-start; bottom:1rem; font-size:0.74rem; padding:0.9rem 2.75rem 0.9rem 0.9rem; }
   .hero-carousel-controls { top:16px; right:16px; bottom:auto; }
-  .hero-img-badge { right:16px; bottom:16px; left:16px; }
+  .hero-img-badge { right:auto; bottom:16px; left:16px; width:288px; max-width:calc(100% - 32px); padding:0.75rem 0.9rem; }
   .hero-img-badge-product { max-width:none; }
   .stats-inner { gap: 1.5rem; }
   .steps-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
@@ -417,12 +433,19 @@
   </div>
 </div>
 
+<aside class="nonrx-bubble" id="nonRxBubble" role="status" aria-live="polite" aria-label="Non-prescription lens availability">
+  <span data-icon="glasses"></span>
+  <span><strong>Don't need prescription lenses?</strong> You can still order clear, photochromic, tinted, polarised, or blue-light replacement lenses. No prescription details are required.</span>
+  <button type="button" class="nonrx-bubble-close" id="nonRxBubbleClose" aria-label="Dismiss message">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</aside>
+
 <div class="page-wrap">
 
   <!-- HERO -->
   <section class="hero">
     <div class="hero-text">
-      <div class="hero-eyebrow">Replacement Lenses for Meta AI Glasses</div>
       <h1 class="hero-title">
         See Clearly,
         <em>Stay Connected.</em>
@@ -430,10 +453,6 @@
       <p class="hero-sub">
         Custom replacement lenses crafted for Ray-Ban Meta, Meta, Oakley Meta, and Starfire Kylie Edition AI glasses. Ultra High Index, free coatings, and fast production — frames are never included.
       </p>
-      <div class="hero-nonrx">
-        <span data-icon="glasses"></span>
-        <span><strong>Don't need prescription lenses?</strong> You can still order clear, photochromic, tinted, polarised, or blue-light replacement lenses. No prescription details are required.</span>
-      </div>
       <div class="hero-ctas">
         <a href="/shop/" class="hero-cta-primary">Shop Prescription &amp; Non-Rx <span data-icon="arrow"></span></a>
         <a href="/faq/" class="hero-cta-secondary">How It Works</a>
@@ -452,10 +471,13 @@
         </a>
         <div class="hero-img-badge">
           <div class="hero-img-badge-product" id="heroProductName">Meta Starfire Kylie Edition</div>
-          <div class="hero-img-badge-price">
-            $79.99 <span class="hero-img-badge-orig">$179</span>
+          <div class="hero-img-badge-row">
+            <div>
+              <div class="hero-img-badge-price">$79.99 <span class="hero-img-badge-orig">$179</span></div>
+              <div class="hero-img-badge-label">Non-Rx from $44.99</div>
+            </div>
+            <a class="hero-img-badge-action" id="heroBadgeShopLink" href="/product/?style=kylie">Shop Now <span data-icon="arrow"></span></a>
           </div>
-          <div class="hero-img-badge-label">Prescription from $79.99 · Non-Rx from $44.99</div>
         </div>
         <div class="hero-carousel-controls" aria-label="Featured lens products">
           <button class="hero-carousel-dot" type="button" aria-label="Show Meta Starfire Kylie Edition" aria-current="true"></button>
@@ -697,6 +719,7 @@ function initHeroCarousel() {
   const carousel = document.getElementById('heroCarousel');
   const image = document.getElementById('heroProductImage');
   const link = document.getElementById('heroProductLink');
+  const badgeLink = document.getElementById('heroBadgeShopLink');
   const name = document.getElementById('heroProductName');
   const dots = [...document.querySelectorAll('.hero-carousel-dot')];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -714,7 +737,9 @@ function initHeroCarousel() {
     image.src = product.image;
     image.alt = product.alt;
     link.href = product.url;
+    badgeLink.href = product.url;
     link.setAttribute('aria-label', `Shop ${product.alt.toLowerCase()}`);
+    badgeLink.setAttribute('aria-label', `Shop ${product.name} replacement lenses`);
     name.textContent = product.name;
     dots.forEach((dot, dotIndex) => dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false'));
     requestAnimationFrame(() => image.classList.remove('is-changing'));
@@ -755,10 +780,40 @@ function initHeroCarousel() {
   start();
 }
 
+function initNonRxBubble() {
+  const bubble = document.getElementById('nonRxBubble');
+  const closeButton = document.getElementById('nonRxBubbleClose');
+  if (!bubble || !closeButton) return;
+
+  let hideTimer = null;
+  const hide = () => {
+    window.clearTimeout(hideTimer);
+    bubble.classList.remove('is-visible');
+  };
+
+  closeButton.addEventListener('click', hide);
+  const showAfterPageLoad = () => {
+    window.setTimeout(() => {
+      bubble.classList.add('is-visible');
+      hideTimer = window.setTimeout(hide, 10000);
+    }, 3000);
+  };
+
+  if (document.readyState === 'complete') {
+    showAfterPageLoad();
+  } else {
+    window.addEventListener('load', showAfterPageLoad, { once: true });
+  }
+}
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initHeroCarousel);
+  document.addEventListener('DOMContentLoaded', () => {
+    initHeroCarousel();
+    initNonRxBubble();
+  });
 } else {
   initHeroCarousel();
+  initNonRxBubble();
 }
 </script>
 
