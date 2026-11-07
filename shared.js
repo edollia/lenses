@@ -30,6 +30,47 @@ function roundMoney(value) {
   return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
 }
 
+// Supabase's publishable key is safe to use in browser code; access is governed
+// by the project's database and storage policies.
+const SUPABASE_URL = 'https://dkrrbzlgtarvtqkbtbwb.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_6l0KTTayihM5Vv-1nVG-tQ_eSZ4c2tq';
+let cartStorageClientPromise;
+
+function cartStorageClient() {
+  if (!cartStorageClientPromise) {
+    cartStorageClientPromise = (async () => {
+      if (!window.supabase) {
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+          script.onload = resolve;
+          script.onerror = () => reject(new Error('Could not load the storage client'));
+          document.head.appendChild(script);
+        });
+      }
+      return window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth: { persistSession: false, autoRefreshToken: false }
+      });
+    })().catch(error => {
+      cartStorageClientPromise = null;
+      throw error;
+    });
+  }
+  return cartStorageClientPromise;
+}
+
+window.addEventListener('cart:item-remove', async event => {
+  const paths = event.detail?.item?.orderData?.uploaded_files;
+  if (!Array.isArray(paths) || paths.length === 0) return;
+  try {
+    const client = await cartStorageClient();
+    const { error } = await client.storage.from('prescriptions').remove(paths);
+    if (error) throw error;
+  } catch (error) {
+    console.warn('Cart upload cleanup error:', error.message || error);
+  }
+});
+
 // ─── SHARED CART SYSTEM ───────────────────────────────────
 const Cart = {
   items: [],
@@ -224,7 +265,7 @@ function renderCartSidebar() {
 
     const meta = document.createElement('div');
     meta.className = 'cart-item-meta';
-    meta.textContent = [item.model, item.lensType, item.vision].filter(Boolean).join(' · ');
+    meta.textContent = [item.model, item.lensType, item.vision, `Qty: ${item.qty}`].filter(Boolean).join(' · ');
 
     const files = cartPrescriptionFiles(item);
     const fileMeta = document.createElement('div');
@@ -281,7 +322,7 @@ function initKeyboardActivators() {
     el.setAttribute('role', 'button');
     el.setAttribute('tabindex', '0');
     el.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
+      if (e.target === el && (e.key === 'Enter' || e.key === ' ')) {
         e.preventDefault();
         el.click();
       }

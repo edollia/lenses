@@ -874,7 +874,7 @@
 
       <div class="trust-row fade-up delay-3">
         <div class="trust-item"><span data-icon="check"></span> <span id="compatibilityTrust">Gen 1 &amp; Gen 2</span></div>
-        <div class="trust-item"><span data-icon="clock"></span> 1–4 Day Production</div>
+        <div class="trust-item"><span data-icon="clock"></span> Production varies by lens type</div>
         <div class="trust-item"><span data-icon="leaf"></span> Ultra High Index</div>
         <div class="trust-item"><span data-icon="shield"></span> Free Coatings</div>
         <div class="trust-item"><span data-icon="glasses"></span> Prescription &amp; Non-Rx</div>
@@ -1025,7 +1025,7 @@
           <div class="rx-field">
             <div class="rx-label-row">
               <label for="r_axis">AXIS</label>
-              <button type="button" class="info-btn" onclick="openInfo('Axis','The Axis describes the orientation of the astigmatism correction, measured in degrees from 0 to 180. It is only required if your CYL value is non-zero. Leave at 0 if you have no astigmatism.')">i</button>
+              <button type="button" class="info-btn" onclick="openInfo('Axis','The Axis describes the orientation of the astigmatism correction, measured in degrees from 0 to 180. It is only required if your CYL value is non-zero.')">i</button>
             </div>
             <select id="r_axis"></select>
           </div>
@@ -1142,7 +1142,7 @@
   <div class="how-to-read" id="prescriptionGuide">
     <h3>How to Read Your <em>Prescription</em></h3>
     <div class="how-to-img-wrap">
-      <img src="/pics/how-to-read.png" alt="How to read your eye prescription guide" loading="eager" decoding="async">
+      <img src="/pics/how-to-read.png" alt="How to read your eye prescription guide" loading="lazy" decoding="async">
     </div>
   </div>
 
@@ -1150,7 +1150,7 @@
   <div class="features-strip">
     <div class="feature-item"><span data-icon="leaf"></span> <span><strong>Ultra High Index</strong> — slimmer, lighter</span></div>
     <div class="feature-item"><span data-icon="shield"></span> <span><strong>Free coatings</strong> included on every lens</span></div>
-    <div class="feature-item"><span data-icon="clock"></span> <span><strong>1–4 day</strong> production time</span></div>
+    <div class="feature-item"><span data-icon="clock"></span> <span>Production time varies by lens type</span></div>
     <div class="feature-item"><span data-icon="package"></span> <span>Case &amp; <strong>microfiber cloth</strong> included</span></div>
   </div>
 
@@ -1180,7 +1180,7 @@
       </div>
       <div class="feat-card">
         <h4><span data-icon="clock"></span> Fast Turnaround</h4>
-        <p>Single vision, tinted, and polarised lenses are ready in 1–4 business days. Progressive lenses take 1–2 weeks due to the precision craftsmanship required.</p>
+        <p>Clear, tinted, and polarised single vision lenses take 1–4 business days to produce. Photochromic lenses take 3–5 business days, and progressive lenses take 1–2 weeks. Shipping time is additional.</p>
       </div>
     </div>
   </div>
@@ -1218,11 +1218,9 @@
   </div>
 </footer>
 
-<script src="/shared.js"></script>
+<script src="/shared.js?v=2"></script>
 <script>
 /* ── SUPABASE ── */
-const SUPABASE_URL = 'https://dkrrbzlgtarvtqkbtbwb.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_6l0KTTayihM5Vv-1nVG-tQ_eSZ4c2tq';
 let sb = null;
 try { sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch(e){ console.warn('Supabase init failed:', e); }
 
@@ -1411,7 +1409,7 @@ const addRange = range(0.75,4,0.25).map(v => '+'+v.toFixed(2));
 
 ['r_sph','l_sph'].forEach(id => populateSel(id, sphRange, fmtRx, 'Select'));
 ['r_cyl','l_cyl'].forEach(id => populateSel(id, cylRange, fmtRx));
-['r_axis','l_axis'].forEach(id => populateSel(id, axisRange));
+['r_axis','l_axis'].forEach(id => populateSel(id, axisRange, null, 'Select'));
 document.getElementById('add_val').innerHTML =
   '<option value="">Select</option>' + addRange.map(v=>`<option>${v}</option>`).join('');
 
@@ -1584,6 +1582,9 @@ function updatePrice() {
   const btnPriceLabel = document.getElementById('btnPriceLabel');
   if (btnPriceLabel) btnPriceLabel.textContent = '$' + totalPrice.toFixed(2);
   document.getElementById('displayPrice').textContent  = '$' + unitPrice.toFixed(2);
+  // The crossed-out price compares the base prescription price only.
+  document.querySelector('.price-original').hidden = unitPrice !== BASE;
+  document.querySelector('.price-save').hidden = unitPrice !== BASE;
 
   // Show a subtle rx surcharge note if applicable
   let note = document.getElementById('rxSurchargeNote');
@@ -1594,7 +1595,7 @@ function updatePrice() {
     document.getElementById('priceTotal').parentNode.after(note);
   }
   if (rxExtra > 0) {
-    note.textContent = `Includes $${rxExtra.toFixed(2)} high-prescription surcharge`;
+    note.textContent = `Includes $${rxExtra.toFixed(2)} high-prescription surcharge per pair`;
   } else {
     note.textContent = '';
   }
@@ -1806,17 +1807,6 @@ function renderPreviews() {
   updateUploadShell();
 }
 
-async function removeUploadedFiles(paths) {
-  if (!sb || !Array.isArray(paths) || paths.length === 0) return;
-  const { error } = await sb.storage.from('prescriptions').remove(paths);
-  if (error) console.warn('Cart upload cleanup error:', error.message);
-}
-
-window.addEventListener('cart:item-remove', event => {
-  const paths = event.detail?.item?.orderData?.uploaded_files;
-  removeUploadedFiles(paths);
-});
-
 // Desktop drag & drop (ignored gracefully on mobile)
 const zone = document.getElementById('uploadZone');
 zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
@@ -1891,6 +1881,13 @@ function validateRx() {
   if (!leftSph.value) {
     return showValidationError('Prescription is required', 'Select the SPH value for your left eye.', leftSph);
   }
+  for (const [side, label] of [['r', 'right'], ['l', 'left']]) {
+    const cyl = document.getElementById(`${side}_cyl`);
+    const axis = document.getElementById(`${side}_axis`);
+    if (Number(cyl.value) !== 0 && axis.value === '') {
+      return showValidationError('Axis is required', `Select the AXIS value for your ${label} eye.`, axis);
+    }
+  }
   return true;
 }
 
@@ -1944,10 +1941,10 @@ function getCurrentOrderData(unitPrice, rxExtra) {
     rx_surcharge: rxExtra,
     r_sph: isNonRx ? null : document.getElementById('r_sph')?.value,
     r_cyl: isNonRx ? null : document.getElementById('r_cyl')?.value,
-    r_axis: isNonRx ? null : document.getElementById('r_axis')?.value,
+    r_axis: isNonRx || Number(document.getElementById('r_cyl').value) === 0 ? null : document.getElementById('r_axis')?.value,
     l_sph: isNonRx ? null : document.getElementById('l_sph')?.value,
     l_cyl: isNonRx ? null : document.getElementById('l_cyl')?.value,
-    l_axis: isNonRx ? null : document.getElementById('l_axis')?.value,
+    l_axis: isNonRx || Number(document.getElementById('l_cyl').value) === 0 ? null : document.getElementById('l_axis')?.value,
     pd: isNonRx || sep ? null : document.getElementById('pd_single')?.value,
     pd_right: !isNonRx && sep ? document.getElementById('pd_right')?.value : null,
     pd_left: !isNonRx && sep ? document.getElementById('pd_left')?.value : null,
@@ -1963,6 +1960,10 @@ function getCurrentOrderData(unitPrice, rxExtra) {
 async function addToCart() {
   if (state.uploading > 0) {
     showToast('Upload in progress', 'Please wait for your prescription file to finish uploading.');
+    return;
+  }
+  if (state.vision === 'Non-Prescription' && state.files.length > 0) {
+    showValidationError('Prescription file attached', 'Remove the uploaded prescription before adding a non-prescription order.', document.getElementById('uploadZone'));
     return;
   }
   if (!validateRx() || !validatePD() || !validateProgressive()) {
@@ -2117,6 +2118,18 @@ function orderRowForDb(item, customer, summary, submittedAt, checkoutId) {
   };
 }
 
+function createCheckoutId() {
+  const cryptoApi = window.crypto;
+  if (cryptoApi?.randomUUID) return cryptoApi.randomUUID();
+  const bytes = new Uint8Array(16);
+  if (cryptoApi?.getRandomValues) cryptoApi.getRandomValues(bytes);
+  else for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
+
 async function placeOrder(e) {
   if (e) e.preventDefault();
   const first = document.getElementById('co_first').value.trim();
@@ -2144,7 +2157,7 @@ async function placeOrder(e) {
 
   try {
     const submittedAt = new Date().toISOString();
-    const checkoutId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const checkoutId = createCheckoutId();
     const summary = cartSummary();
     const customer = { first, last, phone, email };
     const rows = Cart.items.map(item => orderRowForDb(item, customer, summary, submittedAt, checkoutId));
@@ -2174,6 +2187,15 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 syncInitialSelectionState();
+const initialOptions = new URLSearchParams(window.location.search);
+if (initialOptions.get('lens') === 'tinted') {
+  const color = ['Grey', 'Brown', 'Blue', 'Green', 'Pink', 'Purple']
+    .find(value => value.toLowerCase() === initialOptions.get('color')?.toLowerCase());
+  if (color) {
+    selectLensType(document.querySelector('.lens-card[data-type="Tinted"]'));
+    selectColor(document.querySelector(`.color-swatch[data-color="${color}"]`));
+  }
+}
 updatePrice();
 </script>
 </body>

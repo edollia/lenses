@@ -157,11 +157,9 @@
   </div>
   <div class="footer-bottom"><span>© 2026 Provocateur.</span></div>
 </footer>
-<script src="/shared.js"></script>
+<script src="/shared.js?v=2"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL     = 'https://dkrrbzlgtarvtqkbtbwb.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_6l0KTTayihM5Vv-1nVG-tQ_eSZ4c2tq';
 let sb = null;
 try { sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch(e){ console.warn('Supabase init:', e); }
 
@@ -212,17 +210,6 @@ async function submitContact(e) {
     btn.innerHTML = `Send Message ${siteIcon('arrow', 'button-icon')}`;
   }
 }
-
-async function removeUploadedFiles(paths) {
-  if (!sb || !Array.isArray(paths) || paths.length === 0) return;
-  const { error } = await sb.storage.from('prescriptions').remove(paths);
-  if (error) console.warn('Cart upload cleanup error:', error.message);
-}
-
-window.addEventListener('cart:item-remove', event => {
-  const paths = event.detail?.item?.orderData?.uploaded_files;
-  removeUploadedFiles(paths);
-});
 
 function initContactPrefill() {
   const params = new URLSearchParams(window.location.search);
